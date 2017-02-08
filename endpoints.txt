@@ -1,0 +1,6 @@
+v1 API endpoints
+
+GET		/users			- get a collection of all users
+POST	/users 			- create new user
+
+GET 	/users/{id}		- get
