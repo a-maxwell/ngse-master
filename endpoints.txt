@@ -1,6 +1,19 @@
 v1 API endpoints
 
-GET		/users			- get a collection of all users
-POST	/users 			- create new user
+base /api/v1
 
-GET 	/users/{id}		- get
+GET		/users											- get collection of (10) users
+GET 	/users?limit={x}&offset={y}						- get collection of (x) users from offset (y)
+POST	/users 											- create new user
+
+GET 	/users/{uid}										- get info of user
+POST 	/users/{uid}										- update info of user
+POST	/users/{uid}/delete								- delete user and anything it links to
+
+GET 	/users/{uid}/recommenders							- get collection of recommenders for user
+POST 	/users/{uid}/recommenders							- create new recommender linked to user
+
+GET 	/users/{uid}/recommenders/{oid}					- get info of recommender
+POST 	/users/{uid}/recommenders/{oid}					- update info of recommender
+POST 	/users/{uid}/recommenders/{oid}/delete			- delete recommender and anything it links to
+
