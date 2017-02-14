@@ -91,7 +91,7 @@ CREATE TABLE answers(
 
 CREATE TABLE recommenders(
   recommender_id INTEGER NOT NULL,
-  priority INTEGER NOT NULL,
+  rank INTEGER NOT NULL,
   email VARCHAR(50) NOT NULL,
   password_salt VARCHAR(250) NOT NULL,
   password_hash VARCHAR(250) NOT NULL,
