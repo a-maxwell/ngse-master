@@ -2,8 +2,10 @@
 """
 from cornice import Service
 
+v1_base = '/api/v1'
 
-hello = Service(name='hello', path='/', description="Simplest app")
+
+hello = Service(name='hello', path=v1_base, description="Simplest app")
 
 
 @hello.get()
