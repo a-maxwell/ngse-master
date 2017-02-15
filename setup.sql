@@ -4,6 +4,9 @@
 --
 -- example:
 -- \i '/home/user/Desktop/NGSE/setup.sql'
+-- then edit the file 'load_data.sql' found in the same folder
+-- after that run
+-- \i '<path to load_data.sql>'
 
 \c postgres
 
