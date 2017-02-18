@@ -1,6 +1,5 @@
 from cornice import Service
 import logging
-# from util import create_resource, encapsulate, URI
 
 log = logging.getLogger(__name__)
 
@@ -204,7 +203,7 @@ def update_category(request):
 	log.debug('{}'.format(request.params))
 	return {'hello': 'yes'}
 
-''' question views '''
+''' Question views '''
 
 @question_collection.get()
 def get_questions(request):
