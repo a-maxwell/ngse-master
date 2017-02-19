@@ -89,7 +89,7 @@ ENV/
 .ropeproject
 
 # OSX stuff
-.DS_STORE
+.DS_Store
 
 # differs from system to system
 load_data.sql
