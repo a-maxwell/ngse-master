@@ -28,78 +28,64 @@ DROP TABLE answers;
 */
 
 CREATE TABLE form_types(
-  form_type_id INTEGER NOT NULL,
-  name VARCHAR(50) NOT NULL,
-  PRIMARY KEY(form_type_id)
+  form_type_id SERIAL PRIMARY KEY,
+  form_type VARCHAR(50) NOT NULL
 );
 
-CREATE TABLE version(
-  ver_id INTEGER NOT NULL,
-  form_type_id INTEGER NOT NULL,
-  date_created TIMESTAMP NOT NULL,
-  created_by INTEGER NOT NULL,
-  PRIMARY KEY (ver_id)
-);
-
-CREATE TABLE lifetime_of_forms(
-  date_started TIMESTAMP NOT NULL,
-  date_ended TIMESTAMP NOT NULL,
-  ver_id INTEGER NOT NULL,
-  date_created TIMESTAMP NOT NULL,
-  created_by INTEGER NOT NULL, /* ID of admin/dept head (?) */
-  PRIMARY KEY (date_started, date_ended, ver_id)
+CREATE TABLE cycles(
+  cycle_id SERIAL PRIMARY KEY,
+  date_created TIMESTAMP NOT NULL DEFAULT NOW(),
+  last_modified TIMESTAMP NOT NULL DEFAULT NOW(),
+  date_start TIMESTAMP NOT NULL,
+  date_end TIMESTAMP NOT NULL,
+  form_type_id INTEGER NOT NULL
 );
 
 CREATE TABLE categories(
-  category_id INTEGER NOT NULL,
-  category TEXT NOT NULL,
-  date_created TIMESTAMP NOT NULL,
-  created_by INTEGER NOT NULL,
-  PRIMARY KEY (category_id)
+  category_id SERIAL PRIMARY KEY,
+  category TEXT UNIQUE NOT NULL,
+  date_created TIMESTAMP NOT NULL DEFAULT NOW(),
+  last_modified TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
 CREATE TABLE questions(
-  question_id INTEGER NOT NULL,
-  question TEXT NOT NULL,
+  question_id SERIAL PRIMARY KEY,
+  question TEXT UNIQUE NOT NULL,
+  date_created TIMESTAMP NOT NULL DEFAULT NOW(),
+  last_modified TIMESTAMP NOT NULL DEFAULT NOW(),
   form_type_id INTEGER NOT NULL,
-  date_created TIMESTAMP NOT NULL,
-  ver_id INTEGER, /* temporary null */
-  category_id INTEGER NOT NULL,
+  -- cycle_id INTEGER, /* temporary null */
+  category_id INTEGER NOT NULL
   /*input_type TEXT*/
-  PRIMARY KEY (question_id)
-);
-
-CREATE TABLE user_types(
-  user_type_id INTEGER NOT NULL,
-  type VARCHAR(50) NOT NULL,
-  PRIMARY KEY (user_type_id)
-);
-
-CREATE TABLE users(
-  user_id INTEGER NOT NULL,
-  email VARCHAR(50),
-  password_salt VARCHAR(250),
-  password_hash VARCHAR(250) NOT NULL,
-  user_type_id INTEGER NOT NULL,
-  PRIMARY KEY (user_id, user_type_id)
 );
 
 CREATE TABLE answers(
-  answer_id INTEGER NOT NULL,
+  answer_id SERIAL PRIMARY KEY,
+  answer TEXT,
   question_id INTEGER NOT NULL,
   user_id INTEGER NOT NULL,
-  answer TEXT,
-  PRIMARY KEY (answer_id)
+  date_created TIMESTAMP NOT NULL DEFAULT NOW(),
+  last_modified TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
-CREATE TABLE recommenders(
-  recommender_id INTEGER NOT NULL,
-  rank INTEGER NOT NULL,
-  email VARCHAR(50) NOT NULL,
-  password_salt VARCHAR(250) NOT NULL,
+CREATE TABLE user_types(
+  user_type_id SERIAL PRIMARY KEY,
+  user_type VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE users(
+  user_id SERIAL PRIMARY KEY,
+  email VARCHAR(50) UNIQUE,
+  /*password_salt VARCHAR(250),*/
   password_hash VARCHAR(250) NOT NULL,
-  user_id INTEGER NOT NULL, /* ID of the applicant he/she recommends */
-  PRIMARY KEY (recommender_id, user_id)
+  user_type_id INTEGER NOT NULL,
+  owner_id INTEGER,
+  rank INTEGER,
+  date_created TIMESTAMP NOT NULL DEFAULT NOW(),
+  last_modified TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
-INSERT INTO users (user_id, email, password_hash, user_type_id) VALUES (1, 'admin@admin.com', 'password', 1);
+INSERT INTO user_types (user_type) VALUES ('Staff'), ('Representative'), ('Applicant'), ('Recommender');
+INSERT INTO form_types (form_type) VALUES ('Application Form'), ('Recommendation Letter');
+
+INSERT INTO users (email, password_hash, date_created, last_modified, user_type_id) VALUES ('ngse@engg.upd.edu.ph', 'password', '02/19/17 01:00', '02/19/17 01:00', 1);
