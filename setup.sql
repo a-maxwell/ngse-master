@@ -34,11 +34,11 @@ CREATE TABLE form_types(
 
 CREATE TABLE cycles(
   cycle_id SERIAL PRIMARY KEY,
-  date_created TIMESTAMP NOT NULL DEFAULT NOW(),
-  last_modified TIMESTAMP NOT NULL DEFAULT NOW(),
   date_start TIMESTAMP NOT NULL,
   date_end TIMESTAMP NOT NULL,
-  form_type_id INTEGER NOT NULL
+  form_type_id INTEGER NOT NULL,
+  date_created TIMESTAMP NOT NULL DEFAULT NOW(),
+  last_modified TIMESTAMP NOT NULL DEFAULT NOW(),
 );
 
 CREATE TABLE categories(
@@ -51,12 +51,12 @@ CREATE TABLE categories(
 CREATE TABLE questions(
   question_id SERIAL PRIMARY KEY,
   question TEXT UNIQUE NOT NULL,
-  date_created TIMESTAMP NOT NULL DEFAULT NOW(),
-  last_modified TIMESTAMP NOT NULL DEFAULT NOW(),
+  category_id INTEGER NOT NULL,
   form_type_id INTEGER NOT NULL,
   -- cycle_id INTEGER, /* temporary null */
-  category_id INTEGER NOT NULL
   /*input_type TEXT*/
+  date_created TIMESTAMP NOT NULL DEFAULT NOW(),
+  last_modified TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
 CREATE TABLE answers(
