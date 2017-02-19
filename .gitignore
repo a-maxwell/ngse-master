@@ -87,3 +87,9 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+# OSX stuff
+.DS_STORE
+
+# differs from system to system
+load_data.sql
