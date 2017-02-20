@@ -1,3 +1,4 @@
 pyramid==1.8.1
 cornice==2.4.0
 SQLAlchemy==1.1.5
+psycopg2==2.6.2

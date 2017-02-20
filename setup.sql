@@ -12,49 +12,40 @@
 
 DROP DATABASE IF EXISTS ngsewebsite;
 CREATE DATABASE ngsewebsite;
+CREATE USER ngse WITH PASSWORD 'ngse';
+GRANT ALL PRIVILEGES ON DATABASE ngsewebsite TO ngse;
 
 \c ngsewebsite;
 
-/*
-DROP TABLE form_types;
-DROP TABLE versions;
-DROP TABLE lifetime_of_forms;
-DROP TABLE categories;
-DROP TABLE questions;
-DROP TABLE user_types;
-DROP TABLE users;
-DROP TABLE recommenders;
-DROP TABLE answers;
-*/
-
 CREATE TABLE form_types(
   form_type_id SERIAL PRIMARY KEY,
-  form_type VARCHAR(50) NOT NULL
+  form_type TEXT NOT NULL
 );
 
-CREATE TABLE cycles(
-  cycle_id SERIAL PRIMARY KEY,
+CREATE TABLE forms(
+  form_id SERIAL PRIMARY KEY,
   date_start TIMESTAMP NOT NULL,
   date_end TIMESTAMP NOT NULL,
   form_type_id INTEGER NOT NULL,
+  page_sequence INTEGER[] NOT NULL,
   date_created TIMESTAMP NOT NULL DEFAULT NOW(),
-  last_modified TIMESTAMP NOT NULL DEFAULT NOW(),
+  last_modified TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
 CREATE TABLE categories(
   category_id SERIAL PRIMARY KEY,
-  category TEXT UNIQUE NOT NULL,
+  category TEXT NOT NULL,
+  form_type_id INTEGER NOT NULL,
   date_created TIMESTAMP NOT NULL DEFAULT NOW(),
   last_modified TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
 CREATE TABLE questions(
   question_id SERIAL PRIMARY KEY,
-  question TEXT UNIQUE NOT NULL,
+  question TEXT NOT NULL,
   category_id INTEGER NOT NULL,
-  form_type_id INTEGER NOT NULL,
-  -- cycle_id INTEGER, /* temporary null */
-  /*input_type TEXT*/
+  -- form_type_id INTEGER NOT NULL,
+  metadata JSONB,
   date_created TIMESTAMP NOT NULL DEFAULT NOW(),
   last_modified TIMESTAMP NOT NULL DEFAULT NOW()
 );
@@ -70,22 +61,35 @@ CREATE TABLE answers(
 
 CREATE TABLE user_types(
   user_type_id SERIAL PRIMARY KEY,
-  user_type VARCHAR(50) NOT NULL
+  user_type TEXT NOT NULL
 );
 
 CREATE TABLE users(
   user_id SERIAL PRIMARY KEY,
-  email VARCHAR(50) UNIQUE,
+  given_name TEXT NOT NULL,
+  email TEXT UNIQUE NOT NULL,
   /*password_salt VARCHAR(250),*/
-  password_hash VARCHAR(250) NOT NULL,
+  password_hash TEXT NOT NULL,
   user_type_id INTEGER NOT NULL,
-  owner_id INTEGER,
-  rank INTEGER,
   date_created TIMESTAMP NOT NULL DEFAULT NOW(),
   last_modified TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
-INSERT INTO user_types (user_type) VALUES ('Staff'), ('Representative'), ('Applicant'), ('Recommender');
-INSERT INTO form_types (form_type) VALUES ('Application Form'), ('Recommendation Letter');
+CREATE TABLE applicant_attrs(
+  attr_id SERIAL PRIMARY KEY,
+  erdt_status BOOLEAN NOT NULL DEFAULT FALSE,
+  applicant_status INTEGER NOT NULL DEFAULT 0,
+  validation_status TEXT NOT NULL DEFAULT 'incomplete',
+  recommender_A INTEGER,
+  recommender_B INTEGER,
+  recommender_C INTEGER,
+  applicant_id INTEGER UNIQUE NOT NULL,
+  date_created TIMESTAMP NOT NULL DEFAULT NOW(),
+  last_modified TIMESTAMP NOT NULL DEFAULT NOW(),
+  constraint u_constraint UNIQUE (recommender_A, recommender_B, recommender_C)
+);
 
-INSERT INTO users (email, password_hash, date_created, last_modified, user_type_id) VALUES ('ngse@engg.upd.edu.ph', 'password', '02/19/17 01:00', '02/19/17 01:00', 1);
+INSERT INTO user_types (user_type) VALUES ('Staff'), ('Representative'), ('Applicant'), ('Recommender');
+INSERT INTO form_types (form_type) VALUES ('Application Form'), ('Recommendation Letter'), ('Registration Form');
+
+INSERT INTO users (given_name, email, password_hash, date_created, last_modified, user_type_id) VALUES ('Admin', 'ngse@engg.upd.edu.ph', 'password', '02/19/17 01:00', '02/19/17 01:00', 1);

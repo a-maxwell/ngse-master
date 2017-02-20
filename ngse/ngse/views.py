@@ -140,8 +140,16 @@ session = SessionFactory()
 
 @user_collection.get()
 def get_users(request):
-	log.debug('{}'.format(request.params))
-	return {'hello': 'yes'}
+	d = []
+	for instance in session.query(User):
+		d.append({
+			'id': int(instance.id),
+			'name': instance.name,
+			'email': instance.email,
+			'date_created': str(instance.date_created),
+			'last_modified': str(instance.last_modified)
+		})
+	return d
 
 @user_authorize.post()
 def authorize_user(request):
@@ -170,14 +178,14 @@ def show_user(request):
 
 @user_types.get()
 def list_user_types(request):
-	log.debug('{}'.format(request.params))
-	d = {}
+	d = []
 	for instance in session.query(UserType):
-		string[instance.id] = {
+		d.append({
+			'id': int(instance.id),
 			'name': instance.name,
-			'date_created': instance.date_created,
-			'last_modified': instance.last_modified
-		}
+			'date_created': str(instance.date_created),
+			'last_modified': str(instance.last_modified)
+		})
 	return d
 
 @user_update.post()
