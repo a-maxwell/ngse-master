@@ -1,7 +1,46 @@
 from cornice import Service
+import json
+import sqlalchemy
+from sqlalchemy.orm import sessionmaker
 import logging
+from models import (
+	Base,
+	FormType,
+	Form,
+	Category,
+	Question,
+	Answer,
+	UserType,
+	User,
+	# ApplicantAttribute
+)
 
 log = logging.getLogger(__name__)
+
+# def connect(user, password, db, host='localhost', port=5432):
+# 	'''Returns a connection and a metadata object'''
+# 	# We connect with the help of the PostgreSQL URL
+# 	# postgresql://federer:grandestslam@localhost:5432/tennis
+# 	url = 'postgresql://{}:{}@{}:{}/{}'
+# 	url = url.format(user, password, host, port, db)
+
+# 	# The return value of create_engine() is our connection object
+# 	con = sqlalchemy.create_engine(url, client_encoding='utf8')
+
+# 	# We then bind the connection to MetaData()
+# 	meta = sqlalchemy.MetaData(bind=con, reflect=True)
+
+# 	return con, meta
+
+def connect(user, password, db, host='localhost', port=5432):
+	url = 'postgresql://{}:{}@{}:{}/{}'
+	url = url.format(user, password, host, port, db)
+
+	db = sqlalchemy.create_engine(url, client_encoding='utf8')
+	engine = db.connect()
+	meta = sqlalchemy.MetaData(bind=engine, reflect=True)
+
+	return db, engine, meta
 
 URI = {
 	# resources
@@ -16,6 +55,7 @@ URI = {
 	'delete': '/delete',
 	'search': '/search',
 	'show': '/show',
+	'types': '/types',
 	'update': '/update',
 	'validate': '/validate'
 }
@@ -37,6 +77,7 @@ def create_resource(resource, primary, secondary=''):
 user = create_resource("user", URI['users'])
 user['actions']['authorize'] = Service(name='authorize user', path=encapsulate(URI['users'], URI['authorize']), description="Return JWT upon successful authorization")
 user['actions']['search'] = Service(name='search user', path=encapsulate(URI['users'], URI['search']), description="Search for set of users")
+user['actions']['types'] = Service(name='list user types', path=encapsulate(URI['users'], URI['types']), description="List all types of users")
 user['actions']['validate'] = Service(name='validate user', path=encapsulate(URI['users'], URI['validate']), description="Validate the status of the user")
 
 user_collection = user['collection']
@@ -45,6 +86,7 @@ user_create = user['actions']['create']
 user_delete = user['actions']['delete']
 user_search = user['actions']['search']
 user_show = user['actions']['show']
+user_types = user['actions']['types']
 user_update = user['actions']['update']
 user_validate = user['actions']['validate']
 
@@ -80,6 +122,20 @@ question_delete = question['actions']['delete']
 question_show = question['actions']['show']
 question_update = question['actions']['update']
 
+''' Database setup '''
+
+db, engine, meta = connect('ngse', 'ngse', 'ngsewebsite')
+Base.metadata.create_all(engine)
+SessionFactory = sessionmaker(engine)
+session = SessionFactory()
+# u = User(
+# 	name="Test",
+# 	email="test@test.com",
+# 	password="test",
+# 	user_type_id=1)
+# session.add(u)
+# session.commit()
+
 ''' User views '''
 
 @user_collection.get()
@@ -111,6 +167,18 @@ def search_user(request):
 def show_user(request):
 	log.debug('{}'.format(request.params))
 	return {'hello': 'yes'}
+
+@user_types.get()
+def list_user_types(request):
+	log.debug('{}'.format(request.params))
+	d = {}
+	for instance in session.query(UserType):
+		string[instance.id] = {
+			'name': instance.name,
+			'date_created': instance.date_created,
+			'last_modified': instance.last_modified
+		}
+	return d
 
 @user_update.post()
 def update_user(request):
