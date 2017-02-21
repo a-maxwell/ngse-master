@@ -105,7 +105,7 @@ class User(Base):
 	email = Column(Text, unique=True, nullable=False)
 	password = Column(Text, nullable=False)
 
-	user_type_id = Column(Integer, ForeignKey('user_types.id'))
+	user_type_id = Column(Integer, ForeignKey('user_types.id'), default=4)
 	user_type = relationship("UserType", back_populates='user')
 
 	# applicant_attr = relationship("ApplicantAttribute", uselist=False, back_populates='users')

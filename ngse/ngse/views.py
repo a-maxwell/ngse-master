@@ -1,5 +1,6 @@
 from cornice import Service
 import json
+import jwt
 import sqlalchemy
 from sqlalchemy.orm import sessionmaker
 import logging
@@ -17,24 +18,8 @@ from models import (
 
 log = logging.getLogger(__name__)
 
-# def connect(user, password, db, host='localhost', port=5432):
-# 	'''Returns a connection and a metadata object'''
-# 	# We connect with the help of the PostgreSQL URL
-# 	# postgresql://federer:grandestslam@localhost:5432/tennis
-# 	url = 'postgresql://{}:{}@{}:{}/{}'
-# 	url = url.format(user, password, host, port, db)
-
-# 	# The return value of create_engine() is our connection object
-# 	con = sqlalchemy.create_engine(url, client_encoding='utf8')
-
-# 	# We then bind the connection to MetaData()
-# 	meta = sqlalchemy.MetaData(bind=con, reflect=True)
-
-# 	return con, meta
-
 def connect(user, password, db, host='localhost', port=5432):
-	url = 'postgresql://{}:{}@{}:{}/{}'
-	url = url.format(user, password, host, port, db)
+	url = 'postgresql://{}:{}@{}:{}/{}'.format(user, password, host, port, db)
 
 	db = sqlalchemy.create_engine(url, client_encoding='utf8')
 	engine = db.connect()
@@ -141,29 +126,83 @@ session = SessionFactory()
 @user_collection.get()
 def get_users(request):
 	d = []
-	for instance in session.query(User):
+	for u in session.query(User):
 		d.append({
-			'id': int(instance.id),
-			'name': instance.name,
-			'email': instance.email,
-			'date_created': str(instance.date_created),
-			'last_modified': str(instance.last_modified)
+			'id': int(u.id),
+			'name': u.name,
+			'email': u.email,
+			'user_type': u.user_type.name,
+			'date_created': str(u.date_created),
+			'last_modified': str(u.last_modified)
 		})
 	return d
 
 @user_authorize.post()
 def authorize_user(request):
-	log.debug('email: {}, password: {}'.format(request.params['email'], request.params['password']))
-	return {'hello': 'yes'}
+	# check for required params, return error if incomplete
+
+	email = request.params['email']
+	password = request.params['password'] # hash this??? huhu di ko pa alam
+
+	# check if email is linked to an account
+	try:
+		u = session.query(User).filter(User.email == email).one()
+	except:
+		return {'msg' : 'email not linked to an account', 'success': False}
+
+	# check if user entered correct password
+	auth = (u.password == password)
+
+	if not auth:
+		# return error message, wrong passcode
+		return {'msg': 'invalid email password combination', 'success': False}
+
+	# fetch user type for payload
+	user_type = u.user_type.name
+
+	# get jwt and return jwt
+
+	return {
+		'auth': auth, 'success': True
+	}
+
+	# fetch and return token
+	# token = encode()
+	# return {'token': token}
 
 @user_create.post()
 def create_user(request):
-	log.debug('{}'.format(request.params))
-	return {'hello': 'yes'}
+	# check for required params, return error if incomplete
+
+	email = request.params['email']
+	name = request.params['name']
+
+	user_type_applicant = session.query(UserType).filter(UserType.name == "Applicant").one().id
+	user_type_id = int(request.params.get('user_type_id',user_type_applicant))
+
+	# check if email is linked to an account
+	try:
+		u = session.query(User).filter(User.email == email).one()
+		return {'msg': 'email is in use', 'success': False}
+	except:
+		# generate password
+		password = 'password'
+
+	try:
+		u = User(name=name, email=email, password=password)
+		session.add(u)
+		session.commit()
+	except:
+		return {'msg': 'an error occured', 'success': False}
+
+	return {'success': True}
 
 @user_delete.post()
 def delete_user(request):
-	log.debug('{}'.format(request.params))
+	'''
+	if admin: proceed
+	else: forbidden
+	'''
 	return {'hello': 'yes'}
 
 @user_search.get()
@@ -173,7 +212,14 @@ def search_user(request):
 
 @user_show.get()
 def show_user(request):
-	log.debug('{}'.format(request.params))
+	'''
+	if admin: proceed
+	else:
+		if param user id and token user id are the same:
+			proceed
+		else:
+			not authorized
+	'''
 	return {'hello': 'yes'}
 
 @user_types.get()
