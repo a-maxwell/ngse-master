@@ -225,13 +225,8 @@ def show_user(request):
 @user_types.get()
 def list_user_types(request):
 	d = []
-	for instance in session.query(UserType):
-		d.append({
-			'id': int(instance.id),
-			'name': instance.name,
-			'date_created': str(instance.date_created),
-			'last_modified': str(instance.last_modified)
-		})
+	for ut in session.query(UserType):
+		d.append(ut.as_dict())
 	return d
 
 @user_update.post()

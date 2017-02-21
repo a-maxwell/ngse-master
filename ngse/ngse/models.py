@@ -24,6 +24,9 @@ class FormType(Base):
 	forms = relationship("Form", back_populates="form_type") # child relationship
 	categories = relationship("Category", back_populates="form_type") # child relationship
 
+	def as_dict(self):
+		return {c.name: str(getattr(self, c.name)) for c in self.__table__.columns}
+
 class Form(Base):
 	__tablename__ = 'forms'
 	
@@ -39,6 +42,9 @@ class Form(Base):
 	form_type_id = Column(Integer, ForeignKey('form_types.id')) # parent
 	form_type = relationship("FormType", back_populates="forms") # parent relationship
 
+	def as_dict(self):
+		return {c.name: str(getattr(self, c.name)) for c in self.__table__.columns}
+
 class Category(Base):
 	__tablename__ = 'categories'
 	
@@ -51,6 +57,9 @@ class Category(Base):
 	form_type = relationship("FormType", back_populates="categories") # parent relationship
 
 	questions = relationship("Question", back_populates="category")
+
+	def as_dict(self):
+		return {c.name: str(getattr(self, c.name)) for c in self.__table__.columns}
 
 class Question(Base):
 	__tablename__ = 'questions'
@@ -70,6 +79,9 @@ class Question(Base):
 
 	answers = relationship("Answer", back_populates="question")
 
+	def as_dict(self):
+		return {c.name: str(getattr(self, c.name)) for c in self.__table__.columns}
+
 class Answer(Base):
 	__tablename__ = 'answers'
 	
@@ -84,6 +96,9 @@ class Answer(Base):
 	user_id = Column(Integer, ForeignKey('users.id')) # parent
 	user = relationship("User", back_populates='answers') # parent relationship
 
+	def as_dict(self):
+		return {c.name: str(getattr(self, c.name)) for c in self.__table__.columns}
+
 class UserType(Base):
 	__tablename__ = 'user_types'
 	
@@ -93,6 +108,9 @@ class UserType(Base):
 	last_modified = Column(DateTime, nullable=False, server_default=func.now(), onupdate=func.now())
 
 	user = relationship("User", back_populates='user_type')
+
+	def as_dict(self):
+		return {c.name: str(getattr(self, c.name)) for c in self.__table__.columns}
 
 class User(Base):
 	__tablename__ = 'users'
@@ -110,6 +128,9 @@ class User(Base):
 
 	# applicant_attr = relationship("ApplicantAttribute", uselist=False, back_populates='users')
 	answers = relationship("Answer", back_populates="user")
+
+	def as_dict(self):
+		return {c.name: str(getattr(self, c.name)) for c in self.__table__.columns}
 
 # class ApplicantAttribute(Base):
 # 	__tablename__ = 'applicant_attrs'
