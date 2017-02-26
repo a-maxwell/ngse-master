@@ -29,6 +29,10 @@ def setup(session):
 			session.add(user_type)
 			session.commit()
 
+	admin = User(name="admin", email="ngse@coe.upd.edu.ph", password="ngse", user_type_id=1)
+	session.add(admin)
+	session.commit()
+
 	form_types = open('{}/initial/form_types.txt'.format(dir_path), 'r').read().splitlines()
 
 	for form_type_name in form_types:
