@@ -3,6 +3,7 @@ import json
 import jwt
 import sqlalchemy
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm.exc import NoResultFound
 import logging
 from models import (
 	Base,
@@ -15,6 +16,7 @@ from models import (
 	User,
 	# ApplicantAttribute
 )
+from setup import setup
 
 log = logging.getLogger(__name__)
 
@@ -113,13 +115,7 @@ db, engine, meta = connect('ngse', 'ngse', 'ngsewebsite')
 Base.metadata.create_all(engine)
 SessionFactory = sessionmaker(engine)
 session = SessionFactory()
-# u = User(
-# 	name="Test",
-# 	email="test@test.com",
-# 	password="test",
-# 	user_type_id=1)
-# session.add(u)
-# session.commit()
+setup(session)
 
 ''' User views '''
 
