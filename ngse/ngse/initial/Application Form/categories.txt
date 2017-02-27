@@ -1,10 +1,10 @@
-Basic Information,1
-Program of Study,1
-Personal Information,1
-Employment Information,1
-English Proficiency,1
-Programming Proficiency,1
-Projects/Applications,1
-Admission Essay,1
-References,1
-Applicant Registration,3
+Basic Information
+Program of Study
+Personal Information
+Employment Information
+English Proficiency
+Programming Proficiency
+Projects/Applications
+Admission Essay
+References
+Applicant Registration
