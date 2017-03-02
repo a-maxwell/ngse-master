@@ -31,6 +31,8 @@ def setup(session):
 
 	admin = User(name="admin", email="ngse@coe.upd.edu.ph", password="ngse", user_type_id=1)
 	session.add(admin)
+	user1 = User(name="user1", email="user@upd.edu.ph", password="ngse", user_type_id=2)
+	session.add(user1)
 	session.commit()
 
 	form_types = open('{}/initial/form_types.txt'.format(dir_path), 'r').read().splitlines()
@@ -66,7 +68,7 @@ def setup(session):
 			questions = open('{}/initial/{}/{}/questions.txt'.format(dir_path, form_type_name, category_name), 'r').read().splitlines()
 
 			for question_name in questions:
-				fields = question_name.split(', ')			
+				fields = question_name.split(', ')
 
 				name = fields[0]
 				meta = {}
@@ -85,4 +87,21 @@ def setup(session):
 				except NoResultFound as e:
 					question = Question(name=name, category_id=category.id, meta=meta)
 					session.add(question)
+					session.commit()
+
+			answers = open('{}/initial/{}/{}/answers.txt'.format(dir_path, form_type_name, category_name), 'r').read().splitlines()
+
+			for answer_name in answers:
+				fields = answer_name.split(', ')
+				name = fields[0]
+				question_id = fields[1]
+				user_id = fields[2]
+
+				try:
+					answer = session.query(Answer)\
+					.filter(Answer.name == answer_name)\
+					.one()
+				except NoResultFound as e:
+					answer = Answer(name = name, question_id= question_id, user_id = 2)
+					session.add(answer)
 					session.commit()
