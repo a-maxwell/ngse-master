@@ -3,3 +3,4 @@ cornice==2.4.0
 SQLAlchemy==1.1.5
 psycopg2==2.6.2
 pyjwt==1.4.2
+pytest==3.0.6
