@@ -1,6 +1,6 @@
 from cornice import Service
 import json
-import jwt
+# import jwt
 import sqlalchemy
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.exc import NoResultFound
@@ -193,13 +193,18 @@ def create_user(request):
 
 	return {'success': True}
 
-@user_delete.post()
+@user_delete.get()
 def delete_user(request):
 	'''
 	if admin: proceed
 	else: forbidden
 	'''
-	return {'hello': 'yes'}
+	#assuming  muna na admin yung logged in
+	user_id = request.params['id']
+	user = session.query(User).filter(User.id == user_id).one()
+	session.delete(user)
+	session.commit()
+	return {'msg':'user deleted', 'success': True}
 
 @user_search.get()
 def search_user(request):
@@ -239,8 +244,19 @@ def validate_user(request):
 
 @recommender_collection.get()
 def get_recommenders(request):
-	log.debug('{}'.format(request.params))
-	return {'hello': 'yes'}
+	# log.debug('{}'.format(request.params))
+	# return {'hello': 'yes'}
+	r = []
+	for user in session.query(User).filter(User.user_type_id == 4):
+		r.append({
+			'id': int(user.id),
+			'name': user.name,
+			'email': user.email,
+			'user_type': user.user_type.name,
+			'date_created': str(user.date_created),
+			'last_modified': str(user.last_modified)
+		})
+	return r
 
 @recommender_create.post()
 def create_recommender(request):
@@ -293,8 +309,18 @@ def update_form(request):
 
 @category_collection.get()
 def get_categories(request):
-	log.debug('{}'.format(request.params))
-	return {'hello': 'yes'}
+	# log.debug('{}'.format(request.params))
+	# return {'hello': 'yes'}
+	c = []
+	for item in session.query(Category).all():
+		c.append({
+			'id': int(item.id),
+			'name': item.name,
+			'date_created': str(item.date_created),
+			'last_modified': str(item.last_modified),
+			'form_type_id': item.form_type_id
+	})
+	return c
 
 @category_create.post()
 def create_category(request):
@@ -320,8 +346,18 @@ def update_category(request):
 
 @question_collection.get()
 def get_questions(request):
-	log.debug('{}'.format(request.params))
-	return {'hello': 'yes'}
+	# log.debug('{}'.format(request.params))
+	# return {'hello': 'yes'}
+	q = []
+	for item in session.query(Question).all():
+		q.append({
+			'id': int(item.id),
+			'name': item.name,
+			'date_created': str(item.date_created),
+			'last_modified': str(item.last_modified),
+			'category_id': item.category_id
+	})
+	return q
 
 @question_create.post()
 def create_question(request):
