@@ -1,10 +1,11 @@
 from cornice import Service
 import json
-# import jwt
 import sqlalchemy
+
+import jwt
+import os
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.exc import NoResultFound
-import logging
 from models import (
 	Base,
 	FormType,
@@ -16,42 +17,12 @@ from models import (
 	User,
 	# ApplicantAttribute
 )
+from utils import connect, encapsulate, URI, log, error
 from setup import setup
 
-log = logging.getLogger(__name__)
 
-def connect(user, password, db, host='localhost', port=5432):
-	url = 'postgresql://{}:{}@{}:{}/{}'.format(user, password, host, port, db)
-
-	db = sqlalchemy.create_engine(url, client_encoding='utf8')
-	engine = db.connect()
-	meta = sqlalchemy.MetaData(bind=engine, reflect=True)
-
-	return db, engine, meta
-
-URI = {
-	# resources
-	'users': '/users',
-	'recommenders': '/recommenders',
-	'forms': '/forms',
-	'categories': '/categories',
-	'questions': '/questions',
-	# actions
-	'authorize': '/authorize',
-	'create': '/create',
-	'delete': '/delete',
-	'search': '/search',
-	'show': '/show',
-	'types': '/types',
-	'update': '/update',
-	'validate': '/validate'
-}
-
-def encapsulate(primary, secondary='', action='', base='/v1'):
-	return base+primary+secondary+action
-
-def create_resource(resource, primary, secondary=''):
-	return {
+def create_resource(resource, primary, secondary='', extra=[]):
+	d = {
 		'collection': Service(name=resource, path=encapsulate(primary, secondary), renderer='json', description="Fetch list of {}".format(resource)),
 		'actions': {
 			'create': Service(name='create {}'.format(resource), path=encapsulate(primary, secondary, URI['create']), renderer='json', description="Create {}".format(resource)),
@@ -61,11 +32,41 @@ def create_resource(resource, primary, secondary=''):
 		}
 	}
 
-user = create_resource("user", URI['users'])
-user['actions']['authorize'] = Service(name='authorize user', path=encapsulate(URI['users'], URI['authorize']), description="Return JWT upon successful authorization")
-user['actions']['search'] = Service(name='search user', path=encapsulate(URI['users'], URI['search']), description="Search for set of users")
-user['actions']['types'] = Service(name='list user types', path=encapsulate(URI['users'], URI['types']), description="List all types of users")
-user['actions']['validate'] = Service(name='validate user', path=encapsulate(URI['users'], URI['validate']), description="Validate the status of the user")
+	for item in extra:
+		key = item['key']
+		name = item['name']
+		desc = item['description']
+		d['actions'][key] = Service(name=name, path=encapsulate(primary, secondary, URI[key]), renderer='json', description=desc)
+
+	return d
+
+user = create_resource("user", URI['users'],
+	extra=[
+		{
+			'key': 'authorize',
+			'name': 'authorize user',
+			'description': 'Return JWT upon successful authorization'
+		},
+		{
+			'key': 'search',
+			'name': 'search user',
+			'description': 'Search for set of users'
+		},
+		{
+			'key': 'types',
+			'name': 'list user types',
+			'description': 'List all types of users'
+		},
+		{
+			'key': 'validate',
+			'name': 'validate user',
+			'description': 'Validate the status of the user'
+		}
+	])
+# user['actions']['authorize'] = Service(name='authorize user', path=encapsulate(URI['users'], URI['authorize']), description="Return JWT upon successful authorization")
+# user['actions']['search'] = Service(name='search user', path=encapsulate(URI['users'], URI['search']), description="Search for set of users")
+# user['actions']['types'] = Service(name='list user types', path=encapsulate(URI['users'], URI['types']), description="List all types of users")
+# user['actions']['validate'] = Service(name='validate user', path=encapsulate(URI['users'], URI['validate']), description="Validate the status of the user")
 
 user_collection = user['collection']
 user_authorize = user['actions']['authorize']
@@ -111,7 +112,10 @@ question_update = question['actions']['update']
 
 ''' Database setup '''
 
-db, engine, meta = connect('ngse', 'ngse', 'ngsewebsite')
+if 'TRAVIS' in  os.environ:
+	db, engine, meta = connect('postgres', '', 'ngsewebsite')
+else:
+	db, engine, meta = connect('ngse', 'ngse', 'ngsewebsite')
 Base.metadata.create_all(engine)
 SessionFactory = sessionmaker(engine)
 session = SessionFactory()
@@ -170,11 +174,13 @@ def authorize_user(request):
 def create_user(request):
 	# check for required params, return error if incomplete
 
-	email = request.params['email']
-	name = request.params['name']
+	email = request.params.get('email', None)
+	name = request.params.get('name', None)
+	# user_type_id = int(request.params.get('user_type_id', session.query(UserType).filter(UserType.name == 'Applicant').one().id))
+	user_type_id = int(request.params.get('user_type_id', 3))
 
-	user_type_applicant = session.query(UserType).filter(UserType.name == "Applicant").one().id
-	user_type_id = int(request.params.get('user_type_id',user_type_applicant))
+	if email is None or name is None:
+		return error(1)
 
 	# check if email is linked to an account
 	try:
