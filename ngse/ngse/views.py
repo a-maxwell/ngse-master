@@ -2,6 +2,16 @@ from cornice import Service
 import json
 import sqlalchemy
 
+from pyramid.httpexceptions import HTTPFound
+from pyramid.security import remember, forget
+from pyramid.security import authenticated_userid
+from pyramid.security import unauthenticated_userid
+from pyramid.security import (
+    Authenticated,
+    Everyone,
+	Allow
+)
+
 import jwt
 import os
 from sqlalchemy.orm import sessionmaker
@@ -17,7 +27,7 @@ from models import (
 	User,
 	# ApplicantAttribute
 )
-from utils import connect, encapsulate, URI, log, error
+from utils import connect, encapsulate, URI, log #, error #wat error
 from setup import setup
 
 
@@ -116,12 +126,82 @@ if 'TRAVIS' in  os.environ:
 	db, engine, meta = connect('postgres', '', 'ngsewebsite')
 else:
 	db, engine, meta = connect('ngse', 'ngse', 'ngsewebsite')
-Base.metadata.create_all(engine)
+# Base.metadata.create_all(engine)
 SessionFactory = sessionmaker(engine)
 session = SessionFactory()
-setup(session)
+# setup(session)
 
 ''' User views '''
+login_url = '/v1/login'
+logout_url = '/v1/logout'
+answers_url = '/v1/users/answers'
+user_login = Service(name='user_login', path=login_url, description="logging in")
+user_logout = Service(name='user_logout', path=logout_url, description="logging out")
+view_answers = Service(name='view_answers', path=answers_url, description="view answers")
+
+# __acl__ = 	[(Allow, Everyone, 'view'),
+#  		# 	 (Allow, Authenticated, 'auth')
+#             ]
+
+def is_authenticated(request):
+	#returns null if not logged in
+	#else returns id of loged in user
+	return authenticated_userid(request)
+
+@user_login.get()
+def login(request):
+	email = request.params['email']
+	password = request.params['password']
+	user = session.query(User).filter(User.email == email).first()
+
+	if (user and password == user.password):
+		# return{'id': password}
+		header = remember(request, user.id, user_email = user.email)
+
+		message = 'success'
+        return {'message' : message, 'headers' :header, 'success': True}
+
+		# return {'message':message, 'headers':header, 'success':True} #returns empty header array. will check later
+		# return HTTPFound(location='home.html')
+	message = 'Please check your username or password'
+	return {'message': message, 'success': False}
+# @user_login.get()
+# def login(request):
+#     email = request.params['email']
+#     password = request.params['password']
+#     user = session.query(User).filter(User.email == email).first()
+#
+#     if (user and password == user.password):
+#         header = 'Authentication'
+#         token = request.headers.get(header)
+#         if token is None:
+#             request.errors.add('headers', header, "Missing token")
+#             request.error.status = 401
+#             message = 'success'
+#             return {'message': message, 'success': False}
+#         return{'token', token}
+
+
+@user_logout.get()
+def logout(request):
+	headers = forget(request) #this should work
+	# return to login page dapat
+	return{'message': 'logged out'}
+
+@view_answers.get()
+def view_answer(request):
+	user_id = request.params['user_id'] #if succesful auth, this should be authenticated_userid(request)
+	# form = request.params['form_type']
+	ques_array=[]
+	for item in session.query(Category.id).filter(Category.form_type_id == 1).all():
+		for q in session.query(Question).filter(Question.category_id == item).all():
+			answer = session.query(Answer.name).filter(Answer.question_id == q.id).filter(Answer.user_id == user_id).first()
+			if(answer!=None): answer=answer.name
+			ques_array.append({
+				'question' : q.name,
+				'answer' : answer
+			})
+	return ques_array
 
 @user_collection.get()
 def get_users(request):

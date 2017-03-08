@@ -1,4 +1,4 @@
-from sqlalchemy.ext.declarative import declarative_base  
+from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.postgresql import ARRAY, JSON, JSONB
 from sqlalchemy import (
@@ -15,7 +15,7 @@ Base = declarative_base()
 
 class FormType(Base):
 	__tablename__ = 'form_types'
-	
+
 	id = Column(Integer, primary_key=True)
 	name = Column(Text, nullable=False)
 	date_created = Column(DateTime, nullable=False, server_default=func.now())
@@ -29,7 +29,7 @@ class FormType(Base):
 
 class Form(Base):
 	__tablename__ = 'forms'
-	
+
 	id = Column(Integer, primary_key=True)
 	name = Column(Text, nullable=False)
 	date_created = Column(DateTime, nullable=False, server_default=func.now())
@@ -47,12 +47,12 @@ class Form(Base):
 
 class Category(Base):
 	__tablename__ = 'categories'
-	
+
 	id = Column(Integer, primary_key=True)
 	name = Column(Text, nullable=False)
 	date_created = Column(DateTime, nullable=False, server_default=func.now())
 	last_modified = Column(DateTime, nullable=False, server_default=func.now(), onupdate=func.now())
-	
+
 	form_type_id = Column(Integer, ForeignKey('form_types.id')) # parent
 	form_type = relationship("FormType", back_populates="categories") # parent relationship
 
@@ -63,7 +63,7 @@ class Category(Base):
 
 class Question(Base):
 	__tablename__ = 'questions'
-	
+
 	id = Column(Integer, primary_key=True)
 	name = Column(Text, nullable=False)
 	date_created = Column(DateTime, nullable=False, server_default=func.now())
@@ -84,7 +84,7 @@ class Question(Base):
 
 class Answer(Base):
 	__tablename__ = 'answers'
-	
+
 	id = Column(Integer, primary_key=True)
 	name = Column(Text, nullable=False)
 	date_created = Column(DateTime, nullable=False, server_default=func.now())
@@ -101,7 +101,7 @@ class Answer(Base):
 
 class UserType(Base):
 	__tablename__ = 'user_types'
-	
+
 	id = Column(Integer, primary_key=True)
 	name = Column(Text, nullable=False)
 	date_created = Column(DateTime, nullable=False, server_default=func.now())
@@ -123,6 +123,9 @@ class User(Base):
 	email = Column(Text, unique=True, nullable=False)
 	password = Column(Text, nullable=False)
 
+	# status = Column(Text, nullable=False, default='onprocess')
+	# meta = Column(JSONB) #status can be submitted, on process, accepted, rejected
+
 	user_type_id = Column(Integer, ForeignKey('user_types.id'), default=4)
 	user_type = relationship("UserType", back_populates='user')
 
@@ -143,7 +146,7 @@ class User(Base):
 # 	applicant_status = Column(Integer, nullable=False, default=0)
 # 	validation_status = Column(Text, nullable=False, default='incomplete')
 
-# 	recommender_A = Column(Integer, ForeignKey('user_types.id'))	
+# 	recommender_A = Column(Integer, ForeignKey('user_types.id'))
 # 	recommender_B = Column(Integer, ForeignKey('user_types.id'))
 # 	recommender_C = Column(Integer, ForeignKey('user_types.id'))
 

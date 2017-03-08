@@ -8,4 +8,3 @@ def main(global_config, **settings):
     config.include("cornice")
     config.scan("ngse.views")
     return config.make_wsgi_app()
-
