@@ -11,7 +11,7 @@ from pyramid.security import (
     Everyone,
 	Allow
 )
-
+import bcrypt
 import jwt
 import os
 from sqlalchemy.orm import sessionmaker
@@ -126,19 +126,19 @@ if 'TRAVIS' in  os.environ:
 	db, engine, meta = connect('postgres', '', 'ngsewebsite')
 else:
 	db, engine, meta = connect('ngse', 'ngse', 'ngsewebsite')
-# Base.metadata.create_all(engine)
+Base.metadata.create_all(engine)
 SessionFactory = sessionmaker(engine)
 session = SessionFactory()
-# setup(session)
+setup(session)
 
 ''' User views '''
 login_url = '/v1/login'
-logout_url = '/v1/logout'
 answers_url = '/v1/users/answers'
+update_answer_url = 'v1/users/update_answer'
 user_login = Service(name='user_login', path=login_url, description="logging in")
-user_logout = Service(name='user_logout', path=logout_url, description="logging out")
+# user_logout = Service(name='user_logout', path=logout_url, description="logging out")
 view_answers = Service(name='view_answers', path=answers_url, description="view answers")
-
+update_answer = Service(name='update_answer', path=update_answer_url, description="update answer")
 # __acl__ = 	[(Allow, Everyone, 'view'),
 #  		# 	 (Allow, Authenticated, 'auth')
 #             ]
@@ -152,56 +152,84 @@ def is_authenticated(request):
 def login(request):
 	email = request.params['email']
 	password = request.params['password']
-	user = session.query(User).filter(User.email == email).first()
 
-	if (user and password == user.password):
-		# return{'id': password}
-		header = remember(request, user.id, user_email = user.email)
+	user = session.query(User).filter(User.email == email).all()
 
-		message = 'success'
-        return {'message' : message, 'headers' :header, 'success': True}
-
-		# return {'message':message, 'headers':header, 'success':True} #returns empty header array. will check later
-		# return HTTPFound(location='home.html')
-	message = 'Please check your username or password'
-	return {'message': message, 'success': False}
-# @user_login.get()
-# def login(request):
-#     email = request.params['email']
-#     password = request.params['password']
-#     user = session.query(User).filter(User.email == email).first()
-#
-#     if (user and password == user.password):
-#         header = 'Authentication'
-#         token = request.headers.get(header)
-#         if token is None:
-#             request.errors.add('headers', header, "Missing token")
-#             request.error.status = 401
-#             message = 'success'
-#             return {'message': message, 'success': False}
-#         return{'token', token}
+	if (user == []):
+		return {'message': 'Please check your username or password', 'success': False}
+	else:
+		user = session.query(User).filter(User.email == email).first()
+		pwd = bcrypt.hashpw(password.encode('UTF_8'), user.password.encode('UTF_8'))
+		if(pwd == user.password):
+			return {'message' : 'Welcome', 'success': True}
+		else:
+			return {'message': 'Please check your username or password', 'success': False}
 
 
-@user_logout.get()
-def logout(request):
-	headers = forget(request) #this should work
-	# return to login page dapat
-	return{'message': 'logged out'}
+@update_answer.get()
+def answer_update(request):
+	user_id = request.params['user_id']
+	q_id = request.params['question_id']
+	curr_ans = request.params['answer']
+
+	db_ans = session.query(Answer)\
+			.filter(Answer.question_id == q_id)\
+			.filter(Answer.user_id == user_id)\
+			.all()
+
+	if(db_ans == []):
+		try:
+			answer = Answer(name=curr_ans, question_id=q_id, user_id=user_id)
+			session.add(answer)
+			session.commit()
+			# return{'message': 'Answer saved', 'success':True}
+		except:
+			return{'message': 'Smth went wrong', 'success': False}
+	else:
+		try:
+			# update lang here
+			answer = session.query(Answer)\
+					.filter(Answer.question_id == q_id)\
+					.filter(Answer.user_id == user_id)\
+					.first()
+			answer.name = curr_ans
+			session.commit()
+			# return{'message': 'Answer saved', 'success':True}
+		except:
+			return{'message': 'Smth went wrong', 'success':False}
+	return{'message': 'Answer saved', 'success':True}
+
+
 
 @view_answers.get()
 def view_answer(request):
 	user_id = request.params['user_id'] #if succesful auth, this should be authenticated_userid(request)
 	# form = request.params['form_type']
-	ques_array=[]
-	for item in session.query(Category.id).filter(Category.form_type_id == 1).all():
-		for q in session.query(Question).filter(Question.category_id == item).all():
+	categ=[]
+	for item in session.query(Category).filter(Category.form_type_id == 1).all():
+		ques_array=[]
+		for q in session.query(Question).filter(Question.category_id == item.id).all():
 			answer = session.query(Answer.name).filter(Answer.question_id == q.id).filter(Answer.user_id == user_id).first()
 			if(answer!=None): answer=answer.name
 			ques_array.append({
+                # 'category' : item.name,
 				'question' : q.name,
 				'answer' : answer
 			})
-	return ques_array
+		categ.append({
+			'name' : item.name,
+			'data' : ques_array
+			})
+		# categ[item.name] = ques_array
+	return categ
+
+'''
+@view_status.get()
+def user_status(request):
+	user_id = request.params['user_id']
+	u = session.query(User).filter(User.id == user_id).first()
+	return{'name': u.name, 'Application status': u.status}
+'''
 
 @user_collection.get()
 def get_users(request):
