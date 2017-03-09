@@ -1,4 +1,5 @@
 from sqlalchemy.orm.exc import NoResultFound
+import bcrypt
 from models import (
 	Base,
 	FormType,
@@ -28,10 +29,10 @@ def setup(session):
 			user_type = UserType(name=user_type_name)
 			session.add(user_type)
 			session.commit()
-
-	admin = User(name="admin", email="ngse@coe.upd.edu.ph", password="ngse", user_type_id=1)
+	
+	admin = User(name="admin", email="ngse@coe.upd.edu.ph", password=bcrypt.hashpw('ngse', bcrypt.gensalt()),user_type_id=1)
 	session.add(admin)
-	user1 = User(name="user1", email="user@upd.edu.ph", password="ngse", user_type_id=2)
+	user1 = User(name="user1", email="user@upd.edu.ph", password=bcrypt.hashpw('ngse',bcrypt.gensalt()),user_type_id=2)
 	session.add(user1)
 	session.commit()
 

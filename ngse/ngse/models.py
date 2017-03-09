@@ -10,6 +10,7 @@ from sqlalchemy import (
 	ForeignKey,
 	func
 )
+import bcrypt
 
 Base = declarative_base()
 
@@ -122,7 +123,7 @@ class User(Base):
 
 	email = Column(Text, unique=True, nullable=False)
 	password = Column(Text, nullable=False)
-
+	
 	# status = Column(Text, nullable=False, default='onprocess')
 	# meta = Column(JSONB) #status can be submitted, on process, accepted, rejected
 
@@ -132,8 +133,6 @@ class User(Base):
 	# applicant_attr = relationship("ApplicantAttribute", uselist=False, back_populates='users')
 	answers = relationship("Answer", back_populates="user")
 
-	def as_dict(self):
-		return {c.name: str(getattr(self, c.name)) for c in self.__table__.columns}
 
 # class ApplicantAttribute(Base):
 # 	__tablename__ = 'applicant_attrs'
