@@ -1,6 +1,6 @@
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
-from sqlalchemy.dialects.postgresql import ARRAY, JSON, JSONB
+from sqlalchemy.dialects.postgresql import ARRAY, JSON
 from sqlalchemy import (
 	Column,
 	Integer,
@@ -76,7 +76,7 @@ class Question(Base):
 	# form_type_id = Column(Integer, ForeignKey('form_types.id')) # parent
 	# form_type = relationship("FormType", back_populates="questions") # parent relationship
 
-	meta = Column(JSONB)
+	meta = Column(JSON)
 
 	answers = relationship("Answer", back_populates="question")
 
@@ -125,7 +125,7 @@ class User(Base):
 	password = Column(Text, nullable=False)
 	
 	# status = Column(Text, nullable=False, default='onprocess')
-	# meta = Column(JSONB) #status can be submitted, on process, accepted, rejected
+	# meta = Column(JSON) #status can be submitted, on process, accepted, rejected
 
 	user_type_id = Column(Integer, ForeignKey('user_types.id'), default=4)
 	user_type = relationship("UserType", back_populates='user')

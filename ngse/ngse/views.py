@@ -14,6 +14,7 @@ from pyramid.security import (
 import bcrypt
 import jwt
 import os
+import time
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.exc import NoResultFound
 from models import (
@@ -29,6 +30,8 @@ from models import (
 )
 from utils import connect, encapsulate, URI, log #, error #wat error
 from setup import setup
+
+JWT_SECRET = "NationalGraduateSchoolOfEng'g"
 
 
 def create_resource(resource, primary, secondary='', extra=[]):
@@ -126,10 +129,10 @@ if 'TRAVIS' in  os.environ:
 	db, engine, meta = connect('postgres', '', 'ngsewebsite')
 else:
 	db, engine, meta = connect('ngse', 'ngse', 'ngsewebsite')
-Base.metadata.create_all(engine)
+# Base.metadata.create_all(engine)
 SessionFactory = sessionmaker(engine)
 session = SessionFactory()
-setup(session)
+# setup(session)
 
 ''' User views '''
 login_url = '/v1/login'
@@ -155,15 +158,27 @@ def login(request):
 
 	user = session.query(User).filter(User.email == email).all()
 
+	error = {
+		'message': 'Please check your username or password',
+		'success': False
+	}
+
 	if (user == []):
-		return {'message': 'Please check your username or password', 'success': False}
+		return error
 	else:
 		user = session.query(User).filter(User.email == email).first()
 		pwd = bcrypt.hashpw(password.encode('UTF_8'), user.password.encode('UTF_8'))
 		if(pwd == user.password):
-			return {'message' : 'Welcome', 'success': True}
+			payload = {
+				'sub': user.name,
+				'exp': int(time.time()) + 60*120,
+				'iat': int(time.time()),
+				'utype_id': user.user_type_id
+			}
+			token = jwt.encode(payload, JWT_SECRET, algorithm='HS256')
+			return {'message' : 'Welcome {}'.format(user.name), 'success': True, 'token': token}
 		else:
-			return {'message': 'Please check your username or password', 'success': False}
+			return error
 
 
 @update_answer.get()
