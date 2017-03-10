@@ -1,15 +1,7 @@
 import logging
-import sqlalchemy
 log = logging.getLogger(__name__)
 
-def connect(user, password, db, host='localhost', port=5432):
-	url = 'postgresql://{}:{}@{}:{}/{}'.format(user, password, host, port, db)
-
-	db = sqlalchemy.create_engine(url, client_encoding='utf8')
-	engine = db.connect()
-	meta = sqlalchemy.MetaData(bind=engine, reflect=True)
-
-	return db, engine, meta
+JWT_SECRET = "NationalGraduateSchoolOfEng'g"
 
 URI = {
 	# resources

@@ -28,10 +28,9 @@ from models import (
 	User,
 	# ApplicantAttribute
 )
-from utils import connect, encapsulate, URI, log #, error #wat error
+from utils import encapsulate, URI, log
 from setup import setup
-
-JWT_SECRET = "NationalGraduateSchoolOfEng'g"
+from database import session
 
 
 def create_resource(resource, primary, secondary='', extra=[]):
@@ -76,10 +75,6 @@ user = create_resource("user", URI['users'],
 			'description': 'Validate the status of the user'
 		}
 	])
-# user['actions']['authorize'] = Service(name='authorize user', path=encapsulate(URI['users'], URI['authorize']), description="Return JWT upon successful authorization")
-# user['actions']['search'] = Service(name='search user', path=encapsulate(URI['users'], URI['search']), description="Search for set of users")
-# user['actions']['types'] = Service(name='list user types', path=encapsulate(URI['users'], URI['types']), description="List all types of users")
-# user['actions']['validate'] = Service(name='validate user', path=encapsulate(URI['users'], URI['validate']), description="Validate the status of the user")
 
 user_collection = user['collection']
 user_authorize = user['actions']['authorize']
@@ -123,16 +118,6 @@ question_delete = question['actions']['delete']
 question_show = question['actions']['show']
 question_update = question['actions']['update']
 
-''' Database setup '''
-
-if 'TRAVIS' in  os.environ:
-	db, engine, meta = connect('postgres', '', 'ngsewebsite')
-else:
-	db, engine, meta = connect('ngse', 'ngse', 'ngsewebsite')
-# Base.metadata.create_all(engine)
-SessionFactory = sessionmaker(engine)
-session = SessionFactory()
-# setup(session)
 
 ''' User views '''
 login_url = '/v1/login'
@@ -146,39 +131,16 @@ update_answer = Service(name='update_answer', path=update_answer_url, descriptio
 #  		# 	 (Allow, Authenticated, 'auth')
 #             ]
 
+
+import endpoint
+
 def is_authenticated(request):
 	#returns null if not logged in
 	#else returns id of loged in user
 	return authenticated_userid(request)
 
-@user_login.get()
-def login(request):
-	email = request.params['email']
-	password = request.params['password']
-
-	user = session.query(User).filter(User.email == email).all()
-
-	error = {
-		'message': 'Please check your username or password',
-		'success': False
-	}
-
-	if (user == []):
-		return error
-	else:
-		user = session.query(User).filter(User.email == email).first()
-		pwd = bcrypt.hashpw(password.encode('UTF_8'), user.password.encode('UTF_8'))
-		if(pwd == user.password):
-			payload = {
-				'sub': user.name,
-				'exp': int(time.time()) + 60*120,
-				'iat': int(time.time()),
-				'utype_id': user.user_type_id
-			}
-			token = jwt.encode(payload, JWT_SECRET, algorithm='HS256')
-			return {'message' : 'Welcome {}'.format(user.name), 'success': True, 'token': token}
-		else:
-			return error
+# @user_login.get()
+endpoint.login = user_login.get()(endpoint.login)
 
 
 @update_answer.get()
