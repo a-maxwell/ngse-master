@@ -2,6 +2,7 @@ import sqlalchemy
 import os
 from sqlalchemy.orm import sessionmaker
 from setup import setup
+from models import Base
 
 def connect(user, password, db, host='localhost', port=5432):
 	url = 'postgresql://{}:{}@{}:{}/{}'.format(user, password, host, port, db)

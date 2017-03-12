@@ -2,15 +2,15 @@ from cornice import Service
 import json
 import sqlalchemy
 
-from pyramid.httpexceptions import HTTPFound
-from pyramid.security import remember, forget
-from pyramid.security import authenticated_userid
-from pyramid.security import unauthenticated_userid
-from pyramid.security import (
-    Authenticated,
-    Everyone,
-	Allow
-)
+# from pyramid.httpexceptions import HTTPFound
+# from pyramid.security import remember, forget
+# from pyramid.security import authenticated_userid
+# from pyramid.security import unauthenticated_userid
+# from pyramid.security import (
+#     Authenticated,
+#     Everyone,
+# 	Allow
+# )
 import bcrypt
 import jwt
 import os
@@ -121,16 +121,15 @@ question_update = question['actions']['update']
 
 ''' User views '''
 login_url = '/v1/login'
-answers_url = '/v1/users/answers'
+view_answers_url = '/v1/users/answers'
 update_answer_url = 'v1/users/update_answer'
+view_status_url = 'v1/users/status'
+# update_status_url = 'v1/users/update_status'
 user_login = Service(name='user_login', path=login_url, description="logging in")
-# user_logout = Service(name='user_logout', path=logout_url, description="logging out")
-view_answers = Service(name='view_answers', path=answers_url, description="view answers")
+view_answers = Service(name='view_answers', path=view_answers_url, description="view answers")
+view_status = Service(name='view_status', path=view_status_url, description="view user's application status")
 update_answer = Service(name='update_answer', path=update_answer_url, description="update answer")
-# __acl__ = 	[(Allow, Everyone, 'view'),
-#  		# 	 (Allow, Authenticated, 'auth')
-#             ]
-
+# update_status = Service(name='update_status', path=update_status_url, description="update user's application status")
 
 import endpoint
 
@@ -141,148 +140,13 @@ def is_authenticated(request):
 
 # @user_login.get()
 endpoint.login = user_login.get()(endpoint.login)
-
-
-@update_answer.get()
-def answer_update(request):
-	user_id = request.params['user_id']
-	q_id = request.params['question_id']
-	curr_ans = request.params['answer']
-
-	db_ans = session.query(Answer)\
-			.filter(Answer.question_id == q_id)\
-			.filter(Answer.user_id == user_id)\
-			.all()
-
-	if(db_ans == []):
-		try:
-			answer = Answer(name=curr_ans, question_id=q_id, user_id=user_id)
-			session.add(answer)
-			session.commit()
-			# return{'message': 'Answer saved', 'success':True}
-		except:
-			return{'message': 'Smth went wrong', 'success': False}
-	else:
-		try:
-			# update lang here
-			answer = session.query(Answer)\
-					.filter(Answer.question_id == q_id)\
-					.filter(Answer.user_id == user_id)\
-					.first()
-			answer.name = curr_ans
-			session.commit()
-			# return{'message': 'Answer saved', 'success':True}
-		except:
-			return{'message': 'Smth went wrong', 'success':False}
-	return{'message': 'Answer saved', 'success':True}
-
-
-
-@view_answers.get()
-def view_answer(request):
-	user_id = request.params['user_id'] #if succesful auth, this should be authenticated_userid(request)
-	# form = request.params['form_type']
-	categ=[]
-	for item in session.query(Category).filter(Category.form_type_id == 1).all():
-		ques_array=[]
-		for q in session.query(Question).filter(Question.category_id == item.id).all():
-			answer = session.query(Answer.name).filter(Answer.question_id == q.id).filter(Answer.user_id == user_id).first()
-			if(answer!=None): answer=answer.name
-			ques_array.append({
-                # 'category' : item.name,
-				'question' : q.name,
-				'answer' : answer
-			})
-		categ.append({
-			'name' : item.name,
-			'data' : ques_array
-			})
-		# categ[item.name] = ques_array
-	return categ
-
-'''
-@view_status.get()
-def user_status(request):
-	user_id = request.params['user_id']
-	u = session.query(User).filter(User.id == user_id).first()
-	return{'name': u.name, 'Application status': u.status}
-'''
-
-@user_collection.get()
-def get_users(request):
-	d = []
-	for u in session.query(User):
-		d.append({
-			'id': int(u.id),
-			'name': u.name,
-			'email': u.email,
-			'user_type': u.user_type.name,
-			'date_created': str(u.date_created),
-			'last_modified': str(u.last_modified)
-		})
-	return d
-
-@user_authorize.post()
-def authorize_user(request):
-	# check for required params, return error if incomplete
-
-	email = request.params['email']
-	password = request.params['password'] # hash this??? huhu di ko pa alam
-
-	# check if email is linked to an account
-	try:
-		u = session.query(User).filter(User.email == email).one()
-	except:
-		return {'msg' : 'email not linked to an account', 'success': False}
-
-	# check if user entered correct password
-	auth = (u.password == password)
-
-	if not auth:
-		# return error message, wrong passcode
-		return {'msg': 'invalid email password combination', 'success': False}
-
-	# fetch user type for payload
-	user_type = u.user_type.name
-
-	# get jwt and return jwt
-
-	return {
-		'auth': auth, 'success': True
-	}
-
-	# fetch and return token
-	# token = encode()
-	# return {'token': token}
-
-@user_create.post()
-def create_user(request):
-	# check for required params, return error if incomplete
-
-	email = request.params.get('email', None)
-	name = request.params.get('name', None)
-	# user_type_id = int(request.params.get('user_type_id', session.query(UserType).filter(UserType.name == 'Applicant').one().id))
-	user_type_id = int(request.params.get('user_type_id', 3))
-
-	if email is None or name is None:
-		return error(1)
-
-	# check if email is linked to an account
-	try:
-		u = session.query(User).filter(User.email == email).one()
-		return {'msg': 'email is in use', 'success': False}
-	except:
-		# generate password
-		password = 'password'
-
-	try:
-		u = User(name=name, email=email, password=password)
-		session.add(u)
-		session.commit()
-	except:
-		return {'msg': 'an error occured', 'success': False}
-
-	return {'success': True}
+endpoint.answer_update = update_answer.get()(endpoint.answer_update)
+endpoint.view_answer = view_answers.get()(endpoint.view_answer)
+endpoint.get_users = user_collection.get()(endpoint.get_users)
+endpoint.authorize_user = user_authorize.post()(endpoint.authorize_user)
+endpoint.create_user = user_create.post()(endpoint.create_user)
+endpoint.view_user_status = view_status.get()(endpoint.view_user_status)
+# endpoint.update_user_status = update_status.get()(endpoint.update_user_status)
 
 @user_delete.get()
 def delete_user(request):
