@@ -133,12 +133,12 @@ login_url = '/v1/login'
 view_answers_url = '/v1/users/answers'
 update_answer_url = 'v1/users/update_answer'
 view_status_url = 'v1/users/status'
-# update_status_url = 'v1/users/update_status'
+update_status_url = 'v1/users/update_status'
 user_login = Service(name='user_login', path=login_url, description="logging in")
 view_answers = Service(name='view_answers', path=view_answers_url, description="view answers")
 view_status = Service(name='view_status', path=view_status_url, description="view user's application status")
 update_answer = Service(name='update_answer', path=update_answer_url, description="update answer")
-# update_status = Service(name='update_status', path=update_status_url, description="update user's application status")
+update_status = Service(name='update_status', path=update_status_url, description="update user's application status")
 
 
 def is_authenticated(request):
@@ -154,7 +154,7 @@ endpoint.get_users = user_collection.get()(endpoint.get_users)
 endpoint.authorize_user = user_authorize.post()(endpoint.authorize_user)
 endpoint.create_user = user_create.post()(endpoint.create_user)
 endpoint.view_user_status = view_status.get()(endpoint.view_user_status)
-# endpoint.update_user_status = update_status.get()(endpoint.update_user_status)
+endpoint.update_user_status = update_status.get()(endpoint.update_user_status)
 
 @user_delete.get()
 def delete_user(request):

@@ -81,6 +81,13 @@ def answer_update(request):
 def view_answer(request):
 	user_id = request.params['user_id'] #if succesful auth, this should be authenticated_userid(request)
 	# form = request.params['form_type']
+	try:
+		u = session.query(User).filter(User.id == user_id).first()
+	except:
+		return {'success':False}
+	if u == None or u.user_type_id != 3:
+		return {'success':False}
+
 	categ=[]
 	for item in session.query(Category).filter(Category.form_type_id == 1).all():
 		ques_array=[]
@@ -97,7 +104,7 @@ def view_answer(request):
 			'data' : ques_array
 			})
 		# categ[item.name] = ques_array
-	return categ
+	return {'data': categ, 'success': True}
 
 def get_users(request):
 	d = []
@@ -161,7 +168,7 @@ def create_user(request):
 		return {'msg': 'email is in use', 'success': False}
 	except:
 		# generate password
-		password = 'password'
+		password = bcrypt.hashpw('password', bcrypt.gensalt())
 
 	try:
 		u = User(name=name, email=email, password=password)
@@ -178,17 +185,28 @@ def update_user_status(request):
 	status = request.params['user_status']
 	try:
 		u = session.query(User).filter(User.id == user_id).first()
-		u.application_status= status
 	except:
 		return {'message': 'Smth went wrong', 'success': False}
+
+	if u == None or user_id == '' or u.user_type_id != 3:
+			return {'message': 'Smth went wrong', 'success': False}
 	
+	u.application_status= status
 	session.commit()
 	return {'message': 'Status successfully updated', 'success': True}
 
+
 def view_user_status(request):
 	user_id = request.params['user_id']
-	u = session.query(User).filter(User.id == user_id).first()
-	return{'name': u.name, 'Application status': u.application_status}
+	try:
+		u = session.query(User).filter(User.id == user_id).one()
+	except:
+		return{'success':False} 
+	if (u == None or u.user_type_id != 3):
+		return{'success':False} 
+
+
+	return{'name': u.name, 'Application status': u.application_status, 'success': True}
 
 
 ''' Form views '''
@@ -235,9 +253,12 @@ def delete_form(request):
 def show_form(request):
 	id = request.params['id']
 
-	form = session.query(Form)\
-	.filter(Form.id == id)\
-	.one()
+	try:
+		form = session.query(Form)\
+			.filter(Form.id == id)\
+			.one()
+	except:
+		return {}
 
 	return form.as_dict()
 
