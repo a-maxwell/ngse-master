@@ -14,6 +14,11 @@ from models import (
 import os
 
 def setup(session):
+	def add(obj):
+		session.add(obj)
+		session.commit()
+		return obj
+
 	dir_path = os.path.dirname(os.path.realpath(__file__))
 
 	user_types = open('{}/initial/user_types.txt'.format(dir_path), 'r').read().splitlines()
@@ -26,17 +31,36 @@ def setup(session):
 			.one()
 		# make new entry if not found
 		except NoResultFound as e:
-			user_type = UserType(name=user_type_name)
-			session.add(user_type)
-			session.commit()
-	
-	admin = User(name="admin", email="ngse@coe.upd.edu.ph", password=bcrypt.hashpw('ngse', bcrypt.gensalt()),user_type_id=1)
-	session.add(admin)
-	user1 = User(name="user1", email="user@upd.edu.ph", password=bcrypt.hashpw('ngse',bcrypt.gensalt()),user_type_id=2)
-	session.add(user1)
-	session.commit()
+			user_type = add(UserType(name=user_type_name))
+
+	try:
+		admin = session.query(User)\
+		.filter(User.name == 'admin')\
+		.one()
+	except NoResultFound as e:
+		admin = add(User(
+			name="admin",
+			email="ngse@coe.upd.edu.ph",
+			password=bcrypt.hashpw('ngse', bcrypt.gensalt()),
+			user_type_id=1
+		))
+
+	try:
+		user = session.query(User)\
+		.filter(User.name == 'user')\
+		.one()
+	except NoResultFound as e:
+		user = add(User(
+			name="user",
+			email="user@upd.edu.ph",
+			password=bcrypt.hashpw('ngse',bcrypt.gensalt()),
+			user_type_id=3
+		))
 
 	form_types = open('{}/initial/form_types.txt'.format(dir_path), 'r').read().splitlines()
+
+	application_form_sequence = [1,2,3,4,5,6,7,8,9]
+	recommendation_letter_sequence = [10,11]
 
 	for form_type_name in form_types:
 		# check form type
@@ -44,12 +68,17 @@ def setup(session):
 			form_type = session.query(FormType)\
 			.filter(FormType.name == form_type_name)\
 			.one()
-
 		# make new entry if not found
 		except NoResultFound as e:
-			form_type = FormType(name=form_type_name)
-			session.add(form_type)
-			session.commit()
+			form_type = add(FormType(
+				name=form_type_name,
+				page_sequence=application_form_sequence if\
+				(form_type_name == "Application Form") else\
+				(
+					recommendation_letter_sequence if\
+					(form_type_name == "Recommendation Letter") else []
+				)
+			))
 
 		categories = open('{}/initial/{}/categories.txt'.format(dir_path, form_type_name), 'r').read().splitlines()
 
@@ -62,9 +91,7 @@ def setup(session):
 				.one()
 			# make new entry if not found
 			except NoResultFound as e:
-				category = Category(name=category_name, form_type_id=form_type.id)
-				session.add(category)
-				session.commit()
+				category = add(Category(name=category_name, form_type_id=form_type.id))
 
 			questions = open('{}/initial/{}/{}/questions.txt'.format(dir_path, form_type_name, category_name), 'r').read().splitlines()
 
@@ -79,16 +106,14 @@ def setup(session):
 
 				# check question wrt category
 				try:
-					question = session.query(Question)\
+					q = session.query(Question)\
 					.filter(Question.name == name)\
 					.filter(Question.category_id == category.id)\
 					.one()
 					# check if meta is the same
 				# make new entry if not found
 				except NoResultFound as e:
-					question = Question(name=name, category_id=category.id, meta=meta)
-					session.add(question)
-					session.commit()
+					q = add(Question(name=name, category_id=category.id, meta=meta))
 
 			answers = open('{}/initial/{}/{}/answers.txt'.format(dir_path, form_type_name, category_name), 'r').read().splitlines()
 
@@ -99,10 +124,34 @@ def setup(session):
 				user_id = fields[2]
 
 				try:
-					answer = session.query(Answer)\
+					a = session.query(Answer)\
 					.filter(Answer.name == answer_name)\
 					.one()
 				except NoResultFound as e:
-					answer = Answer(name = name, question_id= question_id, user_id = 2)
-					session.add(answer)
-					session.commit()
+					a = add(Answer(name=name, question_id=question_id, user_id=2))
+
+	try:
+		application_form = session.query(Form)\
+			.filter(Form.name == 'Application Form')\
+			.one()
+	except NoResultFound as e:
+		application_form = add(Form(
+			name="Application Form",
+			date_start="2017-03-01 01:00:00",
+			date_end="2017-06-01 01:00:00",
+			# page_sequence=application_form_sequence,
+			form_type_id=1
+		))
+
+	try:
+		recommendation_letter = session.query(Form)\
+			.filter(Form.name == 'Recommendation Letter')\
+			.one()
+	except NoResultFound as e:
+		recommendation_letter = add(Form(
+			name="Recommendation Letter",
+			date_start="2017-03-01 01:00:00",
+			date_end="2017-06-01 01:00:00",
+			# page_sequence=recommendation_letter_sequence,
+			form_type_id=2
+			))

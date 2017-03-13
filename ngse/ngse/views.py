@@ -31,6 +31,7 @@ from models import (
 from utils import encapsulate, URI, log
 from setup import setup
 from database import session
+import endpoint
 
 
 def create_resource(resource, primary, secondary='', extra=[]):
@@ -94,12 +95,20 @@ recommender_delete = recommender['actions']['delete']
 recommender_show = recommender['actions']['show']
 recommender_update = recommender['actions']['update']
 
-form = create_resource("form", URI['forms'])
+form = create_resource("form", URI['forms'],
+	extra=[
+		{
+			'key': 'types',
+			'name': 'list form types',
+			'description': 'List all types of forms'
+		}
+	])
 
 form_collection = form['collection']
 form_create = form['actions']['create']
 form_delete = form['actions']['delete']
 form_show = form['actions']['show']
+form_types = form['actions']['types']
 form_update = form['actions']['update']
 
 category = create_resource("category", URI['forms'], URI['categories'])
@@ -131,7 +140,6 @@ view_status = Service(name='view_status', path=view_status_url, description="vie
 update_answer = Service(name='update_answer', path=update_answer_url, description="update answer")
 # update_status = Service(name='update_status', path=update_status_url, description="update user's application status")
 
-import endpoint
 
 def is_authenticated(request):
 	#returns null if not logged in
@@ -235,30 +243,12 @@ def update_recommender(request):
 
 ''' Form views '''
 
-@form_collection.get()
-def get_forms(request):
-	log.debug('{}'.format(request.params))
-	return {'hello': 'yes'}
-
-@form_create.post()
-def create_form(request):
-	log.debug('{}'.format(request.params))
-	return {'hello': 'yes'}
-
-@form_delete.post()
-def delete_form(request):
-	log.debug('{}'.format(request.params))
-	return {'hello': 'yes'}
-
-@form_show.get()
-def show_form(request):
-	log.debug('{}'.format(request.params))
-	return {'hello': 'yes'}
-
-@form_update.post()
-def update_form(request):
-	log.debug('{}'.format(request.params))
-	return {'hello': 'yes'}
+endpoint.get_forms = form_collection.get()(endpoint.get_forms)
+endpoint.create_form = form_create.get()(endpoint.create_form)
+endpoint.delete_form = form_delete.get()(endpoint.delete_form)
+endpoint.show_form = form_show.get()(endpoint.show_form)
+endpoint.update_form = form_update.get()(endpoint.update_form)
+endpoint.list_form_types = form_types.get()(endpoint.list_form_types)
 
 ''' Category views '''
 
