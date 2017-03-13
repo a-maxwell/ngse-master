@@ -189,3 +189,93 @@ def view_user_status(request):
 	user_id = request.params['user_id']
 	u = session.query(User).filter(User.id == user_id).first()
 	return{'name': u.name, 'Application status': u.application_status}
+
+
+''' Form views '''
+
+def get_forms(request):
+	d = []
+	for f in session.query(Form):
+		d.append({
+			'id': int(f.id),
+			'name': f.name
+		})
+	return d
+
+def create_form(request):
+	# we need name, form type id, date start, date end
+	name = request.params['name']
+	form_type_id = request.params['form_type_id']
+	date_start = request.params['date_start']
+	date_end = request.params['date_end']
+
+	form = Form(
+		name=name,
+		date_start=date_start,
+		date_end=date_end,
+		form_type_id=form_type_id
+		)
+	session.add(form)
+	session.commit()
+
+	return {'success': True}
+
+def delete_form(request):
+	id = request.params['id']
+
+	form = session.query(Form)\
+	.filter(Form.id == id)\
+	.one()
+
+	session.delete(form)
+	session.commit()
+
+	return {'success': True}
+
+def show_form(request):
+	id = request.params['id']
+
+	form = session.query(Form)\
+	.filter(Form.id == id)\
+	.one()
+
+	return form.as_dict()
+
+def update_form(request):
+	id = request.params['id']
+
+	form = session.query(Form)\
+	.filter(Form.id == id)\
+	.one()
+
+	name = request.params.get('name', None)
+	if name is not None:
+		form.name = name
+
+	date_start = request.params.get('date_start', None)
+	if date_start is not None:
+		form.date_start = date_start
+
+	date_end = request.params.get('date_end', None)
+	if date_end is not None:
+		form.date_end = date_end
+
+	form_type_id = request.params.get('form_type_id', None)
+	if form_type_id is not None:
+		form.form_type_id = form_type_id
+
+	session.commit()
+
+	return form.as_dict()
+
+def list_form_types(request):
+	d = []
+	for ft in session.query(FormType):
+		d.append({
+			'id': int(ft.id),
+			'name': ft.name,
+			'page_sequence': ft.page_sequence,
+			'date_created': str(ft.date_created),
+			'last_modified': str(ft.last_modified)
+		})
+	return d

@@ -19,6 +19,7 @@ class FormType(Base):
 
 	id = Column(Integer, primary_key=True)
 	name = Column(Text, nullable=False)
+	page_sequence = Column(ARRAY(Integer))
 	date_created = Column(DateTime, nullable=False, server_default=func.now())
 	last_modified = Column(DateTime, nullable=False, server_default=func.now(), onupdate=func.now())
 
@@ -38,7 +39,6 @@ class Form(Base):
 
 	date_start = Column(DateTime, nullable=False)
 	date_end = Column(DateTime, nullable=False)
-	page_sequence = Column(ARRAY(Integer))
 
 	form_type_id = Column(Integer, ForeignKey('form_types.id')) # parent
 	form_type = relationship("FormType", back_populates="forms") # parent relationship
@@ -124,7 +124,7 @@ class User(Base):
 	email = Column(Text, unique=True, nullable=False)
 	password = Column(Text, nullable=False)
 	
-	application_status = Column(Text, nullable=False, default='none')
+	application_status = Column(Text)
 	# meta = Column(JSON) #status can be submitted, on process, accepted, rejected
 
 	user_type_id = Column(Integer, ForeignKey('user_types.id'), default=4)
