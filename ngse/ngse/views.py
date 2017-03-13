@@ -171,8 +171,23 @@ def delete_user(request):
 
 @user_search.get()
 def search_user(request):
-	log.debug('{}'.format(request.params))
-	return {'hello': 'yes'}
+
+	department = request.params["department"]
+
+	users = session.query(User).join(Answer)\
+		.filter(Answer.name == department)\
+		.all()
+
+	d = []
+	for user in users:
+		d.append({
+			'id': int(user.id),
+			'name': user.name,
+			'email': user.email,
+			'application_status': user.application_status
+		})
+
+	return d
 
 @user_show.get()
 def show_user(request):
@@ -184,7 +199,36 @@ def show_user(request):
 		else:
 			not authorized
 	'''
-	return {'hello': 'yes'}
+	id = request.params['id']
+
+	user = session.query(User)\
+		.filter(User.id == id)\
+		.one()
+
+
+	answers = session.query(Answer)\
+		.filter(Answer.user_id == id)\
+		.all()
+
+	a = []
+
+	for answer in answers:
+		a.append({
+			'question_id': answer.question_id,
+			'question': answer.question.name,
+			'answer_id': answer.id,
+			'name': answer.name
+			})
+
+	return {
+		'name': user.name,
+		'date_created': str(user.date_created),
+		'last_modified': str(user.last_modified),
+		'email': user.email,
+		'application_status': user.application_status,
+		'user_type': user.user_type.name,
+		'answers': a
+	}
 
 @user_types.get()
 def list_user_types(request):
