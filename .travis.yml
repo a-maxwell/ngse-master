@@ -1,6 +1,6 @@
 language: python
-services:
-  - postgres
+# services:
+  # - postgresql
 addons:
   postgresql: "9.4"
 sudo: required
