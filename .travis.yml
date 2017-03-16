@@ -1,4 +1,9 @@
 language: python
+services:
+  - postgres
+addons:
+  postgresql: "9.4"
+sudo: required
 # command to install dependencies
 install: "pip install -r requirements.txt"
 # make database before running scripts
@@ -8,5 +13,3 @@ before_script:
 script:
   - python ./ngse/test.py
 # services to use
-services:
-  - postgres
