@@ -1,30 +1,41 @@
 from cornice import Service
-import logging
+import json
+import sqlalchemy
 
-log = logging.getLogger(__name__)
+# from pyramid.httpexceptions import HTTPFound
+# from pyramid.security import remember, forget
+# from pyramid.security import authenticated_userid
+# from pyramid.security import unauthenticated_userid
+# from pyramid.security import (
+#     Authenticated,
+#     Everyone,
+# 	Allow
+# )
+import bcrypt
+import jwt
+import os
+import time
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm.exc import NoResultFound
+from models import (
+	Base,
+	FormType,
+	Form,
+	Category,
+	Question,
+	Answer,
+	UserType,
+	User,
+	# ApplicantAttribute
+)
+from utils import encapsulate, URI, log
+from setup import setup
+from database import session
+import endpoint
 
-URI = {
-	# resources
-	'users': '/users',
-	'recommenders': '/recommenders',
-	'forms': '/forms',
-	'categories': '/categories',
-	'questions': '/questions',
-	# actions
-	'authorize': '/authorize',
-	'create': '/create',
-	'delete': '/delete',
-	'search': '/search',
-	'show': '/show',
-	'update': '/update',
-	'validate': '/validate'
-}
 
-def encapsulate(primary, secondary='', action='', base='/v1'):
-	return base+primary+secondary+action
-
-def create_resource(resource, primary, secondary=''):
-	return {
+def create_resource(resource, primary, secondary='', extra=[]):
+	d = {
 		'collection': Service(name=resource, path=encapsulate(primary, secondary), renderer='json', description="Fetch list of {}".format(resource)),
 		'actions': {
 			'create': Service(name='create {}'.format(resource), path=encapsulate(primary, secondary, URI['create']), renderer='json', description="Create {}".format(resource)),
@@ -34,10 +45,37 @@ def create_resource(resource, primary, secondary=''):
 		}
 	}
 
-user = create_resource("user", URI['users'])
-user['actions']['authorize'] = Service(name='authorize user', path=encapsulate(URI['users'], URI['authorize']), description="Return JWT upon successful authorization")
-user['actions']['search'] = Service(name='search user', path=encapsulate(URI['users'], URI['search']), description="Search for set of users")
-user['actions']['validate'] = Service(name='validate user', path=encapsulate(URI['users'], URI['validate']), description="Validate the status of the user")
+	for item in extra:
+		key = item['key']
+		name = item['name']
+		desc = item['description']
+		d['actions'][key] = Service(name=name, path=encapsulate(primary, secondary, URI[key]), renderer='json', description=desc)
+
+	return d
+
+user = create_resource("user", URI['users'],
+	extra=[
+		{
+			'key': 'authorize',
+			'name': 'authorize user',
+			'description': 'Return JWT upon successful authorization'
+		},
+		{
+			'key': 'search',
+			'name': 'search user',
+			'description': 'Search for set of users'
+		},
+		{
+			'key': 'types',
+			'name': 'list user types',
+			'description': 'List all types of users'
+		},
+		{
+			'key': 'validate',
+			'name': 'validate user',
+			'description': 'Validate the status of the user'
+		}
+	])
 
 user_collection = user['collection']
 user_authorize = user['actions']['authorize']
@@ -45,6 +83,7 @@ user_create = user['actions']['create']
 user_delete = user['actions']['delete']
 user_search = user['actions']['search']
 user_show = user['actions']['show']
+user_types = user['actions']['types']
 user_update = user['actions']['update']
 user_validate = user['actions']['validate']
 
@@ -56,12 +95,20 @@ recommender_delete = recommender['actions']['delete']
 recommender_show = recommender['actions']['show']
 recommender_update = recommender['actions']['update']
 
-form = create_resource("form", URI['forms'])
+form = create_resource("form", URI['forms'],
+	extra=[
+		{
+			'key': 'types',
+			'name': 'list form types',
+			'description': 'List all types of forms'
+		}
+	])
 
 form_collection = form['collection']
 form_create = form['actions']['create']
 form_delete = form['actions']['delete']
 form_show = form['actions']['show']
+form_types = form['actions']['types']
 form_update = form['actions']['update']
 
 category = create_resource("category", URI['forms'], URI['categories'])
@@ -80,37 +127,115 @@ question_delete = question['actions']['delete']
 question_show = question['actions']['show']
 question_update = question['actions']['update']
 
+
 ''' User views '''
+login_url = '/v1/login'
+view_answers_url = '/v1/users/answers'
+update_answer_url = 'v1/users/update_answer'
+view_status_url = 'v1/users/status'
+update_status_url = 'v1/users/update_status'
+user_login = Service(name='user_login', path=login_url, description="logging in")
+view_answers = Service(name='view_answers', path=view_answers_url, description="view answers")
+view_status = Service(name='view_status', path=view_status_url, description="view user's application status")
+update_answer = Service(name='update_answer', path=update_answer_url, description="update answer")
+update_status = Service(name='update_status', path=update_status_url, description="update user's application status")
 
-@user_collection.get()
-def get_users(request):
-	log.debug('{}'.format(request.params))
-	return {'hello': 'yes'}
 
-@user_authorize.post()
-def authorize_user(request):
-	log.debug('email: {}, password: {}'.format(request.params['email'], request.params['password']))
-	return {'hello': 'yes'}
+def is_authenticated(request):
+	#returns null if not logged in
+	#else returns id of loged in user
+	return authenticated_userid(request)
 
-@user_create.post()
-def create_user(request):
-	log.debug('{}'.format(request.params))
-	return {'hello': 'yes'}
+# @user_login.get()
+endpoint.login = user_login.get()(endpoint.login)
+endpoint.answer_update = update_answer.get()(endpoint.answer_update)
+endpoint.view_answer = view_answers.get()(endpoint.view_answer)
+endpoint.get_users = user_collection.get()(endpoint.get_users)
+endpoint.authorize_user = user_authorize.post()(endpoint.authorize_user)
+endpoint.create_user = user_create.post()(endpoint.create_user)
+endpoint.view_user_status = view_status.get()(endpoint.view_user_status)
+endpoint.update_user_status = update_status.get()(endpoint.update_user_status)
 
-@user_delete.post()
+@user_delete.get()
 def delete_user(request):
-	log.debug('{}'.format(request.params))
-	return {'hello': 'yes'}
+	'''
+	if admin: proceed
+	else: forbidden
+	'''
+	#assuming  muna na admin yung logged in
+	user_id = request.params['id']
+	user = session.query(User).filter(User.id == user_id).one()
+	session.delete(user)
+	session.commit()
+	return {'msg':'user deleted', 'success': True}
 
 @user_search.get()
 def search_user(request):
-	log.debug('{}'.format(request.params))
-	return {'hello': 'yes'}
+
+	department = request.params["department"]
+
+	users = session.query(User).join(Answer)\
+		.filter(Answer.name == department)\
+		.all()
+
+	d = []
+	for user in users:
+		d.append({
+			'id': int(user.id),
+			'name': user.name,
+			'email': user.email,
+			'application_status': user.application_status
+		})
+
+	return d
 
 @user_show.get()
 def show_user(request):
-	log.debug('{}'.format(request.params))
-	return {'hello': 'yes'}
+	'''
+	if admin: proceed
+	else:
+		if param user id and token user id are the same:
+			proceed
+		else:
+			not authorized
+	'''
+	id = request.params['id']
+
+	user = session.query(User)\
+		.filter(User.id == id)\
+		.one()
+
+
+	answers = session.query(Answer)\
+		.filter(Answer.user_id == id)\
+		.all()
+
+	a = []
+
+	for answer in answers:
+		a.append({
+			'question_id': answer.question_id,
+			'question': answer.question.name,
+			'answer_id': answer.id,
+			'name': answer.name
+			})
+
+	return {
+		'name': user.name,
+		'date_created': str(user.date_created),
+		'last_modified': str(user.last_modified),
+		'email': user.email,
+		'application_status': user.application_status,
+		'user_type': user.user_type.name,
+		'answers': a
+	}
+
+@user_types.get()
+def list_user_types(request):
+	d = []
+	for ut in session.query(UserType):
+		d.append(ut.as_dict())
+	return d
 
 @user_update.post()
 def update_user(request):
@@ -126,8 +251,19 @@ def validate_user(request):
 
 @recommender_collection.get()
 def get_recommenders(request):
-	log.debug('{}'.format(request.params))
-	return {'hello': 'yes'}
+	# log.debug('{}'.format(request.params))
+	# return {'hello': 'yes'}
+	r = []
+	for user in session.query(User).filter(User.user_type_id == 4):
+		r.append({
+			'id': int(user.id),
+			'name': user.name,
+			'email': user.email,
+			'user_type': user.user_type.name,
+			'date_created': str(user.date_created),
+			'last_modified': str(user.last_modified)
+		})
+	return r
 
 @recommender_create.post()
 def create_recommender(request):
@@ -151,37 +287,29 @@ def update_recommender(request):
 
 ''' Form views '''
 
-@form_collection.get()
-def get_forms(request):
-	log.debug('{}'.format(request.params))
-	return {'hello': 'yes'}
-
-@form_create.post()
-def create_form(request):
-	log.debug('{}'.format(request.params))
-	return {'hello': 'yes'}
-
-@form_delete.post()
-def delete_form(request):
-	log.debug('{}'.format(request.params))
-	return {'hello': 'yes'}
-
-@form_show.get()
-def show_form(request):
-	log.debug('{}'.format(request.params))
-	return {'hello': 'yes'}
-
-@form_update.post()
-def update_form(request):
-	log.debug('{}'.format(request.params))
-	return {'hello': 'yes'}
+endpoint.get_forms = form_collection.get()(endpoint.get_forms)
+endpoint.create_form = form_create.get()(endpoint.create_form)
+endpoint.delete_form = form_delete.get()(endpoint.delete_form)
+endpoint.show_form = form_show.get()(endpoint.show_form)
+endpoint.update_form = form_update.get()(endpoint.update_form)
+endpoint.list_form_types = form_types.get()(endpoint.list_form_types)
 
 ''' Category views '''
 
 @category_collection.get()
 def get_categories(request):
-	log.debug('{}'.format(request.params))
-	return {'hello': 'yes'}
+	# log.debug('{}'.format(request.params))
+	# return {'hello': 'yes'}
+	c = []
+	for item in session.query(Category).all():
+		c.append({
+			'id': int(item.id),
+			'name': item.name,
+			'date_created': str(item.date_created),
+			'last_modified': str(item.last_modified),
+			'form_type_id': item.form_type_id
+	})
+	return c
 
 @category_create.post()
 def create_category(request):
@@ -207,8 +335,18 @@ def update_category(request):
 
 @question_collection.get()
 def get_questions(request):
-	log.debug('{}'.format(request.params))
-	return {'hello': 'yes'}
+	# log.debug('{}'.format(request.params))
+	# return {'hello': 'yes'}
+	q = []
+	for item in session.query(Question).all():
+		q.append({
+			'id': int(item.id),
+			'name': item.name,
+			'date_created': str(item.date_created),
+			'last_modified': str(item.last_modified),
+			'category_id': item.category_id
+	})
+	return q
 
 @question_create.post()
 def create_question(request):
