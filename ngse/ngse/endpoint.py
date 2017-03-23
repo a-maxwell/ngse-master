@@ -106,6 +106,50 @@ def view_answer(request):
 		# categ[item.name] = ques_array
 	return {'data': categ, 'success': True}
 
+'''
+def view_answer(request):
+	# 1
+	user_id = request.params['user_id']
+	# return {'id':user_id}
+	# 2
+	try:
+		u = session.query(User).filter(User.id == user_id).first()
+		# return {'u_name':u.name}
+	except:
+		# 3
+		return{'success':False}
+		# pass
+	# 4
+	if u == None or u.user_type_id != 3:
+		return{'success': False}
+	# 5
+	# if u.user_type_id != 3:
+	# 	return{'success': True}
+	# return{'success': False}
+	# 6
+	categ=[]
+	# return {'list': categ}
+	# 7
+	c = 0;
+	for item in session.query(Category).filter(Category.form_type_id == 1).all():
+		# print item.name
+		# c+=1
+		# if c == 9:
+		# 	return{'categ': item.name}
+		# 8
+		ques_array=[]
+		# return {'list': ques_array}
+		# 9
+		for q in session.query(Question).filter(Question.category_id == item.id).all():
+			c+=1
+			# print q.name, c
+			 
+			# 	return {'q': q.name} #Last Name, Overall Evaluation
+			answer = session.query(Answer.name).filter(Answer.question_id == q.id).filter(Answer.user_id == user_id).first()
+			if c == 78:
+				return {'name': answer.name}
+# return{'categ': item.name}
+'''
 def get_users(request):
 	d = []
 	for u in session.query(User):
