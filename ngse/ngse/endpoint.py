@@ -79,7 +79,7 @@ def answer_update(request):
 		except:
 			return{'message': 'Smth went wrong', 'success':False}
 	return{'message': 'Answer saved', 'success':True}
-
+'''
 def view_answer(request):
 	user_id = request.params['user_id'] #if succesful auth, this should be authenticated_userid(request)
 	# form = request.params['form_type']
@@ -95,7 +95,8 @@ def view_answer(request):
 		ques_array=[]
 		for q in session.query(Question).filter(Question.category_id == item.id).all():
 			answer = session.query(Answer.name).filter(Answer.question_id == q.id).filter(Answer.user_id == user_id).first()
-			if(answer!=None): answer=answer.name
+			if(answer!=None): 
+				answer=answer.name
 			ques_array.append({
                 # 'category' : item.name,
 				'question' : q.name,
@@ -107,6 +108,81 @@ def view_answer(request):
 			})
 		# categ[item.name] = ques_array
 	return {'data': categ, 'success': True}
+'''
+
+
+def view_answer(request):
+	# 1
+	user_id = request.params['user_id']
+	# return {'id':user_id}
+	# 2
+	try:
+		u = session.query(User).filter(User.id == user_id).first()
+		# return {'u_name':u.name}
+	except:
+		# 3
+		return{'success':False}
+		# pass
+	# 4
+	# if u.user_type_id != 3: 
+	# 	return{'success': False}
+	# return{'success': True}
+	
+	# 5
+	# if u.user_type_id != 3: 
+	# 	return{'success': False}
+	# return{'success': True}
+	if u == None or u.user_type_id != 3:
+		return{'success': False}
+	# 6
+	categ=[]
+	# return {'list': categ}
+	
+	c = 0; #for debugging and testing lang this 
+	# 7
+	for item in session.query(Category).filter(Category.form_type_id == 1).all():
+		# print item.name
+		# c+=1
+		# if c == 9:
+		# 	return{'categ': item.name}
+		# 8
+		ques_array=[]
+		# return {'list': ques_array}
+		# 9
+		for q in session.query(Question).filter(Question.category_id == item.id).all():
+			c+=1 #for debugging and testing purposes
+			# print q.name, c
+			 
+			# 	return {'q': q.name} #Last Name, Overall Evaluation
+			# 10
+			answer = session.query(Answer.name).filter(Answer.question_id == q.id).filter(Answer.user_id == user_id).first()
+			# if c == 78:
+			# 	return {'name': answer.name}
+			# if q.id == 4:
+			# 11
+			if(answer!=None):
+				# 12
+				answer=answer.name
+			# 13
+			ques_array.append({
+				'question' : q.name,
+				'answer' : answer
+			})
+			# if  q.id == 3:
+			# 	return {'q_array': ques_array}
+		# 14
+		categ.append({
+			'name' : item.name,
+			'data' : ques_array
+			})
+		# if item.id == 2: #last categ id 
+		# 	return {'categ': categ}
+	# 15
+	return {'data': categ, 'success': True}
+				
+			
+
+# return{'categ': item.name}
 
 def get_users(request):
 	d = []
