@@ -17,6 +17,8 @@ import bcrypt
 import jwt
 import time
 
+def error(message):
+	return {'success': False, 'message': message}
 
 def login(request):
 	email = request.params['email']
@@ -178,6 +180,87 @@ def create_user(request):
 		return {'msg': 'an error occured', 'success': False}
 
 	return {'success': True}
+
+def delete_user(request):
+
+	'''
+	
+	input id of user accessing endpoint, id of user to delete, type of user
+	input step number for testing
+
+	'''
+
+	# variable for testing
+	step = int(request.params.get('step', 0))
+
+	'''user_id testing'''
+
+	user_id = request.params.get('user_id', None)
+
+	# user_id was not passed
+	if user_id is None:
+		return {'message': 'user_id is missing'}
+
+	# test if user_id value is integer
+	try:
+		int(user_id)
+	except ValueError:
+		return {'message': 'user_id is invalid'}
+
+	if step == 1:
+		return {'message': 'user_id is valid'}
+
+	'''id testing'''
+	_id = request.params.get('id', None)
+
+	# user_id was not passed
+	if _id is None:
+		return {'message': 'id is missing'}
+
+	# test if user_id value is integer
+	try:
+		int(_id)
+	except ValueError:
+		return {'message': 'id is invalid'}
+
+	if step == 2:
+		return {'message': 'id is valid'}
+
+	'''user entry in database testing'''
+	try:
+		user = session.query(User).filter(User.id == user_id).one()
+	except NoResultFound:
+		return {'message': 'user does not exist'}
+
+	if step == 3:
+		return {'message': 'user exists'}
+
+	'''accessibility testing'''
+	user_type = user.user_type_id
+
+	if user_type != 1:
+		if user_id == _id:
+			if step == 4:
+				return {'message': 'user not admin but same id'}
+		else:
+			return {'message': 'user not admin but diff id'}
+	else:
+		if user_id == _id:
+			return {'message': 'admin trying to delete admin account'}
+		else:
+			if step == 4:
+				return {'message': 'admin trying to delete other account'}
+
+	try:
+		other_user = session.query(User).filter(User.id == _id).one()
+	except NoResultFound:
+		return {'message': 'other user does not exist'}
+
+	if step == 5:
+		return {'message': 'other user exists'}
+
+
+	# return {'message': 'oh no', 'success': False}
 
 def update_user_status(request):
 	#if admin

@@ -156,18 +156,20 @@ endpoint.create_user = user_create.post()(endpoint.create_user)
 endpoint.view_user_status = view_status.get()(endpoint.view_user_status)
 endpoint.update_user_status = update_status.get()(endpoint.update_user_status)
 
-@user_delete.get()
-def delete_user(request):
-	'''
-	if admin: proceed
-	else: forbidden
-	'''
-	#assuming  muna na admin yung logged in
-	user_id = request.params['id']
-	user = session.query(User).filter(User.id == user_id).one()
-	session.delete(user)
-	session.commit()
-	return {'msg':'user deleted', 'success': True}
+endpoint.delete_user = user_delete.get()(endpoint.delete_user)
+
+# @user_delete.get()
+# def delete_user(request):
+# 	'''
+# 	if admin: proceed
+# 	else: forbidden
+# 	'''
+# 	#assuming  muna na admin yung logged in
+# 	user_id = request.params['id']
+# 	user = session.query(User).filter(User.id == user_id).one()
+# 	session.delete(user)
+# 	session.commit()
+# 	return {'msg':'user deleted', 'success': True}
 
 @user_search.get()
 def search_user(request):
