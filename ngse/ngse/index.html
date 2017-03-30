@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>National Graduate School of Engineering</title>
+<script type="text/javascript" src="{{'ngse:static/js/angular.min.js'|static_url}}"></script>
+<script type="text/javascript" src="{{'ngse:static/js/angular-route.min.js'|static_url}}"></script>
+<link rel="stylesheet" type="text/css" href="{{'ngse:static/css/semantic.min.css'|static_url}}">
+<link rel="stylesheet" type="text/css" href="{{'ngse:static/css/styles.css'|static_url}}">
+
+<base href="http://localhost:6543/">
+
+</head>
+<body ng-app="NGSEApp">
+
+{% include 'header.html' %}
+
+<main class="ui raised vertical segment">
+	<div class="ui container">
+		<div ng-view></div>
+	</div>
+</main>
+
+{% include 'footer.html' %}
+
+</body>
+</html>

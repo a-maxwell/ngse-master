@@ -1,5 +1,8 @@
-main.ui.raised.vertical.segment.ui.raised.vertical.segment {
-	margin-top: 96px;
+body {
+	padding-top: 96px;
+}
+
+main.ui.raised.vertical.segment {
 	padding: 1rem 0;
 }
 
@@ -37,8 +40,8 @@ header.ui.menu > a.item:after {
 
 @media only screen
 and (max-device-width: 991px) {
-	main.ui.raised.vertical.segment {
-		margin-top: 72px;
+	body {
+		padding-top: 72px;
 	}
 
 	header {
@@ -61,8 +64,8 @@ and (max-device-width: 991px) {
 
 @media only screen
 and (max-width: 991px) {
-	main.ui.raised.vertical.segment {
-		margin-top: 72px;
+	body {
+		padding-top: 72px;
 	}
 
 	header {

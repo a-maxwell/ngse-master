@@ -1,0 +1,17 @@
+{% set places = [
+	
+	] %}
+
+<header class="ui fixed menu">
+	<a href="" class="header item">
+		<img class="ui image" src="{{'ngse:static/images/logo.png'|static_url}}">
+	</a>
+	<div class="right menu">
+		{% for section in sections %}
+		<a class="item" href="#!{% if section['name'] != 'home' %}{{ section['name'] }}{% endif %}">
+			<i class="{{ section['icon'] }} icon"></i>
+			<span>{{ section['name'] | capitalize() }}</span>
+		</a>
+		{% endfor %}
+	</div>
+</header>

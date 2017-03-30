@@ -1,16 +1,6 @@
 from cornice import Service
 import json
 import sqlalchemy
-
-# from pyramid.httpexceptions import HTTPFound
-# from pyramid.security import remember, forget
-# from pyramid.security import authenticated_userid
-# from pyramid.security import unauthenticated_userid
-# from pyramid.security import (
-#     Authenticated,
-#     Everyone,
-# 	Allow
-# )
 import bcrypt
 import jwt
 import os
@@ -32,6 +22,24 @@ from utils import encapsulate, URI, log
 from setup import setup
 from database import session
 import endpoint
+
+from pyramid.view import view_config
+
+@view_config(route_name='index', renderer='index.html')
+def index(request):
+	sections = [
+		{'name': 'home', 'icon': 'home'},
+		{'name': 'news', 'icon': 'announcement'},
+		{'name': 'about', 'icon': 'book'},
+		{'name': 'documents', 'icon': 'file text outline'},
+		{'name': 'contact', 'icon': 'mail'},
+		{'name': 'lounge', 'icon': 'sign in'},
+	]
+	return {'sections': sections}
+
+# @view_config(route_name='home', renderer='templates/home.jinja2')
+# def home(request):
+# 	return {}
 
 
 def create_resource(resource, primary, secondary='', extra=[]):
