@@ -88,7 +88,25 @@ class ConditionTests(unittest.TestCase):
 		request = app.get('/v1/users/delete', dict(user_id=1, id=data, step=5))
 		self.assertEqual(request.json['message'], 'other user exists')
 
-class Test(unittest.TestCase):
+	def test_bva_min_1(self):
+		app = TestApp(main({}))
+		data = 0
+		request = app.get('/v1/users/delete', dict(user_id=1, id=data, step=2))
+		self.assertEqual(request.json['message'], 'id must not be less than 1')
+
+	def test_bva_between(self):
+		app = TestApp(main({}))
+		data = 2
+		request = app.get('/v1/users/delete', dict(user_id=1, id=data, step=2))
+		self.assertEqual(request.json['message'], 'id is valid')
+
+	def test_bva_max_1(self):
+		app = TestApp(main({}))
+		data = 2147483648
+		request = app.get('/v1/users/delete', dict(user_id=1, id=data, step=2))
+		self.assertEqual(request.json['message'], 'id is too large')
+
+# class Test(unittest.TestCase):
 	# def test_1(self): #test that val is what's expected
 	# 	app=TestApp(main({}))
 	# 	resp = app.get('/v1/users/answers', dict(user_id='2'))

@@ -283,6 +283,12 @@ def delete_user(request):
 	except ValueError:
 		return {'message': 'user_id is invalid'}
 
+	if int(user_id) < 1:
+		return {'message': 'user_id must not be less than 1'}
+
+	if int(user_id) > 2147483647:
+		return {'message': 'user_id is too large'}
+
 	if step == 1:
 		return {'message': 'user_id is valid'}
 
@@ -298,6 +304,12 @@ def delete_user(request):
 		int(_id)
 	except ValueError:
 		return {'message': 'id is invalid'}
+
+	if int(_id) < 1:
+		return {'message': 'id must not be less than 1'}
+
+	if int(_id) > 2147483647:
+		return {'message': 'id is too large'}
 
 	if step == 2:
 		return {'message': 'id is valid'}
