@@ -7,6 +7,10 @@ from models import Base
 def connect(user, password, db, host='localhost', port=5432):
 	url = 'postgresql://{}:{}@{}:{}/{}'.format(user, password, host, port, db)
 
+	if 'DATABASE_URL' in os.environ:
+		url = os.environ['DATABASE_URL']
+
+
 	db = sqlalchemy.create_engine(url, client_encoding='utf8')
 	engine = db.connect()
 	meta = sqlalchemy.MetaData(bind=engine, reflect=True)
