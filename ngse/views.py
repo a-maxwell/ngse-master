@@ -37,10 +37,6 @@ def index(request):
 	]
 	return {'sections': sections}
 
-# @view_config(route_name='home', renderer='templates/home.jinja2')
-# def home(request):
-# 	return {}
-
 
 def create_resource(resource, primary, secondary='', extra=[]):
 	d = {
