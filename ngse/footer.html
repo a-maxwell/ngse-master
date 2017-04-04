@@ -1,19 +1,167 @@
 <footer>
 
 <script type="text/javascript">
-	var app = angular.module("NGSEApp", ["ngRoute"]);
-	app.config(function($routeProvider) {
-		$routeProvider
-		{% for section in sections %}.when("/{% if section['name'] != 'home' %}{{ section['name'] }}{% endif %}", {
-			templateUrl: "/templates/{{ section['name'] }}.html"
-		})
-		{% endfor %};
+	function sleep(ms) {
+		return new Promise(resolve => setTimeout(resolve, ms));
+	}
+
+	var app = angular.module("NGSEApp", ["ngRoute", "ngCookies"], function($httpProvider) {
+		$httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
+
+		/**
+		* The workhorse; converts an object to x-www-form-urlencoded serialization.
+		* @param {Object} obj
+		* @return {String}
+		*/ 
+		var param = function(obj) {
+			var query = '', name, value, fullSubName, subName, subValue, innerObj, i;
+
+			for(name in obj) {
+				value = obj[name];
+
+				if(value instanceof Array) {
+					for(i=0; i<value.length; ++i) {
+						subValue = value[i];
+						fullSubName = name + '[' + i + ']';
+						innerObj = {};
+						innerObj[fullSubName] = subValue;
+						query += param(innerObj) + '&';
+					}
+				}
+				else if(value instanceof Object) {
+					for(subName in value) {
+						subValue = value[subName];
+						fullSubName = name + '[' + subName + ']';
+						innerObj = {};
+						innerObj[fullSubName] = subValue;
+						query += param(innerObj) + '&';
+					}
+				}
+				else if(value !== undefined && value !== null)
+				query += encodeURIComponent(name) + '=' + encodeURIComponent(value) + '&';
+			}
+
+			return query.length ? query.substr(0, query.length - 1) : query;
+		};
+
+		// Override $http service's default transformRequest
+		$httpProvider.defaults.transformRequest = [function(data) {
+			return angular.isObject(data) && String(data) !== '[object File]' ? param(data) : data;
+		}];
 	});
+
+	app.controller('loginController', function($scope, $location, AuthenticationService) {
+
+		initController();
+
+		$scope.login = function login() {
+			$scope.loading = true;
+			AuthenticationService.login($scope.email, $scope.password, function(data) {
+				if (data['success'] === true) $location.path('/');
+				else {
+					$scope.message = data['message'];
+					$scope.loading = false;
+
+					console.log('fail man');
+				}
+			});
+
+		};
+
+		function initController() {
+			// if ($cookies.get('token') === undefined) {
+
+			// } else {
+			// 	$location.path('/');
+			// }
+			AuthenticationService.logout();
+		}
+	});
+
+	app.factory('AuthenticationService', function($http, $cookies) {
+		return {
+			authorize: function(level=10) {
+				var token = $cookies.get('token');
+
+				return (token === undefined) ? false : (jwt_decode(token)['level'] <= level);
+
+				// return $http.post('/v1/users/verify', {'token': token, 'level': level})
+				// .then(function successCallback(response) {
+				// 	data = response['data'];
+				// 	console.log(data);
+				// 	callback(data);
+				// }, function errorCallback(response) {
+				// 	return;
+				// });
+			},
+			login: function(email, password, callback) {
+				var d = new Date();
+				d.setHours(d.getHours() + 2);
+				return $http.post('/v1/users/login', {'email': email, 'password': password})
+				.then(function successCallback(response) {
+					var data = response['data'];
+					console.log(data);
+					if (data['success']) {
+						$cookies.put('token', data['token'], {'expires': d});
+						$http.defaults.headers.common.Authorization = 'Bearer ' + data['token'];
+					}
+					callback(data);
+				}, function errorCallback(response) {
+					return;
+				});
+			},
+			logout: function() {
+				console.log('removing token from cookies...');
+				$cookies.remove('token');
+				$http.defaults.headers.common.Authorization = '';
+			}
+		}
+	});
+
+	app.config(function($routeProvider) {
+		var res = {
+			auth: ["$cookies", "$q", "AuthenticationService", function($cookies, $q, AuthenticationService) {
+				var authorized = AuthenticationService.authorize(10);
+				if (!authorized) return $q.reject({"authorized": false});
+			}]
+		}
+
+		$routeProvider
+		.when("/", {
+			templateUrl: "/templates/home.html",
+			resolve: res
+		})
+		.when("/news", {
+			templateUrl: "/templates/news.html",
+			resolve: res
+		})
+		.when("/about", {
+			templateUrl: "/templates/about.html",
+			resolve: res
+		})
+		.when("/documents", {
+			templateUrl: "/templates/documents.html",
+			resolve: res
+		})
+		.when("/contact", {
+			templateUrl: "/templates/contact.html",
+			resolve: res
+		})
+		.when("/lounge", {
+			templateUrl: "/templates/lounge.html"
+		})
+		;
+	});
+
+	app.run(["$rootScope", "$location", function($rootScope, $location) {
+
+		$rootScope.$on("$routeChangeError", function(event, current, previous, eventObj) {
+			if (eventObj.authorized === false) $location.path('/lounge');
+		});
+	}]);
 </script>
 
 <script type="text/javascript" src="static/js/jquery-3.1.0.min.js"></script>
-<!-- <script type="text/javascript" src="{{'ngse:static/js/jquery-3.1.0.min.js'|static_url}}"></script> -->
 <script type="text/javascript" src="static/js/semantic.min.js"></script>
-<!-- <script type="text/javascript" src="{{'ngse:static/js/semantic.min.js'|static_url}}"></script> -->
 
 </footer>

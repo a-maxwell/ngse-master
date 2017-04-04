@@ -11,7 +11,8 @@ URI = {
 	'categories': '/categories',
 	'questions': '/questions',
 	# actions
-	'authorize': '/authorize',
+	'verify': '/verify',
+	'login': '/login',
 	'create': '/create',
 	'delete': '/delete',
 	'search': '/search',

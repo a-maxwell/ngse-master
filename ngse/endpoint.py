@@ -20,34 +20,6 @@ import time
 def error(message):
 	return {'success': False, 'message': message}
 
-def login(request):
-	email = request.params['email']
-	password = request.params['password']
-
-	user = session.query(User).filter(User.email == email).all()
-
-	error = {
-		'message': 'Please check your username or password',
-		'success': False
-	}
-
-	if (user == []):
-		return error
-	else:
-		user = session.query(User).filter(User.email == email).first()
-		pwd = bcrypt.hashpw(password.encode('UTF_8'), user.password.encode('UTF_8'))
-		if(pwd == user.password):
-			payload = {
-				'sub': user.name,
-				'exp': int(time.time()) + 60*120,
-				'iat': int(time.time()),
-				'utype_id': user.user_type_id
-			}
-			token = jwt.encode(payload, JWT_SECRET, algorithm='HS256')
-			return {'message' : 'Welcome {}'.format(user.name), 'success': True, 'token': token}
-		else:
-			return error
-
 def answer_update(request):
 	user_id = request.params['user_id']
 	q_id = request.params['question_id']
@@ -197,37 +169,59 @@ def get_users(request):
 		})
 	return d
 
-def authorize_user(request):
-	# check for required params, return error if incomplete
+def verify_user(request):
+	token = request.params.get('token', None)
+	level = request.params.get('level', 10)
 
-	email = request.params['email']
-	password = request.params['password'] # hash this??? huhu di ko pa alam
+	if token is None:
+		return {'message': 'Token is missing', 'expired': False, 'success': False}
 
-	# check if email is linked to an account
 	try:
-		u = session.query(User).filter(User.email == email).one()
-	except:
-		return {'msg' : 'email not linked to an account', 'success': False}
+		payload = jwt.decode(token, JWT_SECRET)
+	except jwt.ExpiredSignatureError:
+		return {'message': 'Token has expired', 'expired': True, 'success': False}
 
-	# check if user entered correct password
-	auth = (u.password == password)
+	if payload['level'] > level:
+		return {'message': 'Access denied', 'expired': False, 'success': False}
 
-	if not auth:
-		# return error message, wrong passcode
-		return {'msg': 'invalid email password combination', 'success': False}
+	return {'message': 'Access granted', 'expired': False, 'success': True}
 
-	# fetch user type for payload
-	user_type = u.user_type.name
+def login_user(request):
+	email = request.params.get('email', None)
+	password = request.params.get('password', None)
 
-	# get jwt and return jwt
-
-	return {
-		'auth': auth, 'success': True
+	error = {
+		'message': 'Please check your username or password',
+		'success': False
 	}
 
-	# fetch and return token
-	# token = encode()
-	# return {'token': token}
+	if email is None or password is None:
+		error['step'] = 1
+		return error
+
+	try:
+		user = session.query(User).filter(User.email == email).one()
+	except NoResultFound:
+		error['step'] = 2
+		return error
+
+	pwd = bcrypt.hashpw(password.encode('UTF_8'), user.password.encode('UTF_8'))
+
+	if (pwd != user.password):
+		error['step'] = 3
+		return error
+
+	current_time = int(time.time())
+	expiry_time = current_time + 60*120
+
+	payload = {
+		'sub': user.name,
+		'exp': expiry_time,
+		'iat': current_time,
+		'level': user.user_type_id
+	}
+	token = jwt.encode(payload, JWT_SECRET, algorithm='HS256')
+	return {'message' : 'Welcome {}'.format(user.name), 'success': True, 'token': token}
 
 def create_user(request):
 	# check for required params, return error if incomplete

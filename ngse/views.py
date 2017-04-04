@@ -60,9 +60,14 @@ def create_resource(resource, primary, secondary='', extra=[]):
 user = create_resource("user", URI['users'],
 	extra=[
 		{
-			'key': 'authorize',
-			'name': 'authorize user',
-			'description': 'Return JWT upon successful authorization'
+			'key': 'verify',
+			'name': 'verify user',
+			'description': 'Verify user token'
+		},
+		{
+			'key': 'login',
+			'name': 'login user',
+			'description': 'Return JWT upon successful login'
 		},
 		{
 			'key': 'search',
@@ -82,7 +87,8 @@ user = create_resource("user", URI['users'],
 	])
 
 user_collection = user['collection']
-user_authorize = user['actions']['authorize']
+user_verify = user['actions']['verify']
+user_login = user['actions']['login']
 user_create = user['actions']['create']
 user_delete = user['actions']['delete']
 user_search = user['actions']['search']
@@ -133,12 +139,12 @@ question_update = question['actions']['update']
 
 
 ''' User views '''
-login_url = '/v1/login'
+# login_url = '/v1/login'
 view_answers_url = '/v1/users/answers'
 update_answer_url = 'v1/users/update_answer'
 view_status_url = 'v1/users/status'
 update_status_url = 'v1/users/update_status'
-user_login = Service(name='user_login', path=login_url, description="logging in")
+# user_login = Service(name='user_login', path=login_url, description="logging in")
 view_answers = Service(name='view_answers', path=view_answers_url, description="view answers")
 view_status = Service(name='view_status', path=view_status_url, description="view user's application status")
 update_answer = Service(name='update_answer', path=update_answer_url, description="update answer")
@@ -151,11 +157,11 @@ def is_authenticated(request):
 	return authenticated_userid(request)
 
 # @user_login.get()
-endpoint.login = user_login.get()(endpoint.login)
+endpoint.verify_user = user_verify.post()(endpoint.verify_user)
+endpoint.login_user = user_login.post()(endpoint.login_user)
 endpoint.answer_update = update_answer.get()(endpoint.answer_update)
 endpoint.view_answer = view_answers.get()(endpoint.view_answer)
 endpoint.get_users = user_collection.get()(endpoint.get_users)
-endpoint.authorize_user = user_authorize.post()(endpoint.authorize_user)
 endpoint.create_user = user_create.post()(endpoint.create_user)
 endpoint.view_user_status = view_status.get()(endpoint.view_user_status)
 endpoint.update_user_status = update_status.get()(endpoint.update_user_status)
