@@ -11,5 +11,5 @@ before_script:
   - psql -c 'create database ngsewebsite;' -U postgres
 # command to run tests
 script:
-  - python ./ngse/test.py
+  - python test.py
 # services to use
