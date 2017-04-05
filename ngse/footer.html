@@ -147,16 +147,16 @@
 			templateUrl: "/templates/contact.html",
 			resolve: res
 		})
-		.when("/lounge", {
+		.when("/auth", {
 			templateUrl: "/templates/lounge.html"
 		})
-		;
+		.otherwise({redirectTo: '/'});
 	});
 
 	app.run(["$rootScope", "$location", function($rootScope, $location) {
 
 		$rootScope.$on("$routeChangeError", function(event, current, previous, eventObj) {
-			if (eventObj.authorized === false) $location.path('/lounge');
+			if (eventObj.authorized === false) $location.path('/auth');
 		});
 	}]);
 </script>

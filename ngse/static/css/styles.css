@@ -2,6 +2,10 @@ body {
 	padding-top: 96px;
 }
 
+.ui.grid>.column+.divider, .ui.grid>.row>.column+.divider {
+    left: 50%;
+}
+
 main.ui.raised.vertical.segment {
 	padding: 1rem 0;
 }

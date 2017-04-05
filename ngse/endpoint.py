@@ -191,7 +191,7 @@ def login_user(request):
 	password = request.params.get('password', None)
 
 	error = {
-		'message': 'Please check your username or password',
+		'message': 'Invalid email/password',
 		'success': False
 	}
 
@@ -221,7 +221,7 @@ def login_user(request):
 		'level': user.user_type_id
 	}
 	token = jwt.encode(payload, JWT_SECRET, algorithm='HS256')
-	return {'message' : 'Welcome {}'.format(user.name), 'success': True, 'token': token}
+	return {'message' : 'Welcome, {}!'.format(user.name), 'success': True, 'token': token}
 
 def create_user(request):
 	# check for required params, return error if incomplete
