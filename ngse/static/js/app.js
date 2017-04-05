@@ -174,11 +174,11 @@ app.config(function($routeProvider) {
     $routeProvider
     .when("/", {
         templateUrl: "/templates/home.html",
-        resolve: {auth: _auth}
+        resolve: {auth: _user}
     })
     .when("/application", {
         templateUrl: "/templates/application.html",
-        resolve: {auth: _auth}
+        resolve: {auth: _user}
     })
     // .when("/about", {
     //     templateUrl: "/templates/about.html",
