@@ -33,7 +33,7 @@ def index(request):
 		{'name': 'about', 'icon': 'book'},
 		{'name': 'documents', 'icon': 'file text outline'},
 		{'name': 'contact', 'icon': 'mail'},
-		{'name': 'lounge', 'icon': 'sign in'},
+		{'name': 'auth', 'icon': 'sign in'},
 	]
 	return {'sections': sections}
 

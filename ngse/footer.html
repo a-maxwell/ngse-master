@@ -50,34 +50,6 @@
 		}];
 	});
 
-	app.controller('loginController', function($scope, $location, AuthenticationService) {
-
-		initController();
-
-		$scope.login = function login() {
-			$scope.loading = true;
-			AuthenticationService.login($scope.email, $scope.password, function(data) {
-				if (data['success'] === true) $location.path('/');
-				else {
-					$scope.message = data['message'];
-					$scope.loading = false;
-
-					console.log('fail man');
-				}
-			});
-
-		};
-
-		function initController() {
-			// if ($cookies.get('token') === undefined) {
-
-			// } else {
-			// 	$location.path('/');
-			// }
-			AuthenticationService.logout();
-		}
-	});
-
 	app.factory('AuthenticationService', function($http, $cookies) {
 		return {
 			authorize: function(level=10) {
@@ -94,6 +66,23 @@
 				// 	return;
 				// });
 			},
+			register: function(last, given, middlemaiden, email, callback) {
+				var d = new Date();
+				d.setHours(d.getHours() + 2);
+				return $http.post('/v1/users/create', {'last': last, 'given': given, 'middlemaiden': middlemaiden, 'email': email})
+				.then(function successCallback(response) {
+					var data = response['data'];
+					console.log(data);
+					if (data['success']) {
+						$cookies.put('token', data['token'], {'expires': d});
+						$http.defaults.headers.common.Authorization = 'Bearer ' + data['token'];
+					}
+					callback(data);
+				}, function errorCallback(response) {
+					var data = response['data'];
+					callback(data);
+				});
+			},
 			login: function(email, password, callback) {
 				var d = new Date();
 				d.setHours(d.getHours() + 2);
@@ -107,7 +96,8 @@
 					}
 					callback(data);
 				}, function errorCallback(response) {
-					return;
+					var data = response['data'];
+					callback(data);
 				});
 			},
 			logout: function() {
@@ -115,6 +105,50 @@
 				$cookies.remove('token');
 				$http.defaults.headers.common.Authorization = '';
 			}
+		}
+	});
+
+	app.controller('authController', function($scope, $location, AuthenticationService) {
+
+		initController();
+
+		$scope.signin = function signin() {
+			// alert('submitting a login form!');
+			$scope.login.loading = true;
+			AuthenticationService.login($scope.login.email, $scope.login.password, function(data) {
+				if (data['success'] === true) $location.path('/');
+				else {
+					$scope.login.message = data['message'];
+					$scope.login.loading = false;
+
+					console.log('fail man');
+				}
+			});
+
+		};
+
+		$scope.register = function register() {
+			// alert('submitting a registration form!');
+			$scope.registration.loading = true;
+			AuthenticationService.register($scope.registration.last, $scope.registration.given, $scope.registration.middlemaiden, $scope.registration.email, function(data) {
+				if (data['success'] === true) $location.path('/');
+				else {
+					$scope.registration.message = data['message'];
+					$scope.registration.loading = false;
+
+					console.log('fail man');
+				}
+			});
+
+		};
+
+		function initController() {
+			// if ($cookies.get('token') === undefined) {
+
+			// } else {
+			// 	$location.path('/');
+			// }
+			AuthenticationService.logout();
 		}
 	});
 

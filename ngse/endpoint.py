@@ -11,14 +11,38 @@ from models import (
 	User
 )
 
-from utils import JWT_SECRET
+from utils import JWT_SECRET, log
 
 import bcrypt
 import jwt
 import time
 
-def error(message):
-	return {'success': False, 'message': message}
+def generateError(message, extra_fields=None):
+	d = {'success': False, 'message': message}
+	if extra_fields is not None:
+		d.update(extra_fields)
+	return d
+
+def generateSuccess(message, extra_fields=None):
+	d = {'success': True, 'message': message}
+	if extra_fields is not None:
+		d.update(extra_fields)
+	return d
+
+def generateToken(user):
+	current_time = int(time.time())
+	expiry_time = current_time + 60*120
+
+	payload = {
+		'sub': user.name,
+		'exp': expiry_time,
+		'iat': current_time,
+		'level': user.user_type_id
+	}
+
+	token = jwt.encode(payload, JWT_SECRET, algorithm='HS256')
+
+	return token
 
 def answer_update(request):
 	user_id = request.params['user_id']
@@ -174,82 +198,74 @@ def verify_user(request):
 	level = request.params.get('level', 10)
 
 	if token is None:
-		return {'message': 'Token is missing', 'expired': False, 'success': False}
+		return generateError('Token is missing', {'expired': False})
 
 	try:
 		payload = jwt.decode(token, JWT_SECRET)
 	except jwt.ExpiredSignatureError:
-		return {'message': 'Token has expired', 'expired': True, 'success': False}
+		return generateError('Token has expired', {'expired': True})
 
 	if payload['level'] > level:
-		return {'message': 'Access denied', 'expired': False, 'success': False}
+		return generateError('Token is missing', {'expired': False})
 
-	return {'message': 'Access granted', 'expired': False, 'success': True}
+	return generateSuccess('Token verified', {'expired': False})
 
 def login_user(request):
 	email = request.params.get('email', None)
 	password = request.params.get('password', None)
 
-	error = {
-		'message': 'Invalid email/password',
-		'success': False
-	}
-
 	if email is None or password is None:
-		error['step'] = 1
-		return error
+		return generateError('Invalid email/password')
 
 	try:
 		user = session.query(User).filter(User.email == email).one()
 	except NoResultFound:
-		error['step'] = 2
-		return error
+		return generateError('Invalid email/password')
 
 	pwd = bcrypt.hashpw(password.encode('UTF_8'), user.password.encode('UTF_8'))
 
 	if (pwd != user.password):
-		error['step'] = 3
-		return error
+		return generateError('Invalid email/password')
 
-	current_time = int(time.time())
-	expiry_time = current_time + 60*120
-
-	payload = {
-		'sub': user.name,
-		'exp': expiry_time,
-		'iat': current_time,
-		'level': user.user_type_id
-	}
-	token = jwt.encode(payload, JWT_SECRET, algorithm='HS256')
-	return {'message' : 'Welcome, {}!'.format(user.name), 'success': True, 'token': token}
+	return generateSuccess('Welcome, {}!'.format(user.name), {'token': generateToken(user)})
 
 def create_user(request):
 	# check for required params, return error if incomplete
 
 	email = request.params.get('email', None)
-	name = request.params.get('name', None)
-	# user_type_id = int(request.params.get('user_type_id', session.query(UserType).filter(UserType.name == 'Applicant').one().id))
-	user_type_id = int(request.params.get('user_type_id', 3))
+	last = request.params.get('last', None)
+	given = request.params.get('given', None)
+	middlemaiden = request.params.get('middlemaiden', None)
+	level = request.params.get('level', None)
+	if level is not None:
+		level = int(level)
 
-	if email is None or name is None:
-		return error(1)
+	if email is None or last is None or given is None or middlemaiden is None:
+		return generateError('Field is missing')
 
 	# check if email is linked to an account
 	try:
 		u = session.query(User).filter(User.email == email).one()
-		return {'msg': 'email is in use', 'success': False}
+		return generateError('E-mail is already in use')
 	except:
 		# generate password
 		password = bcrypt.hashpw('password', bcrypt.gensalt())
 
-	try:
-		u = User(name=name, email=email, password=password)
-		session.add(u)
-		session.commit()
-	except:
-		return {'msg': 'an error occured', 'success': False}
+	fullname = '{} {}'.format(given, last)
+	# return generateError(name)
 
-	return {'success': True}
+	try:
+		if level is None:
+			u = User(name=fullname, email=email, password=password)
+		else:
+			u = User(name=fullname, email=email, password=password, user_type_id=level)
+	except:
+		return generateError('Something weird happened!')
+
+	session.add(u)
+	session.commit()
+
+	return generateSuccess('Welcome, {}!'.format(fullname), {'token': generateToken(u)})
 
 def delete_user(request):
 

@@ -10,6 +10,10 @@ main.ui.raised.vertical.segment {
 	padding: 1rem 0;
 }
 
+div.ui.centered.grid {
+	min-height: calc(100vh - 96px);
+}
+
 header {
 	height: 96px;
 }
@@ -48,6 +52,10 @@ and (max-device-width: 991px) {
 		padding-top: 72px;
 	}
 
+	div.ui.centered.grid {
+		min-height: calc(100vh - 72px);
+	}
+
 	header {
 		height: 72px;
 	}
@@ -70,6 +78,10 @@ and (max-device-width: 991px) {
 and (max-width: 991px) {
 	body {
 		padding-top: 72px;
+	}
+
+	div.ui.centered.grid {
+		min-height: calc(100vh - 72px);
 	}
 
 	header {
