@@ -195,7 +195,6 @@ def get_users(request):
 
 def verify_user(request):
 	token = request.params.get('token', None)
-	level = request.params.get('level', 10)
 
 	if token is None:
 		return generateError('Token is missing', {'expired': False})
@@ -204,11 +203,10 @@ def verify_user(request):
 		payload = jwt.decode(token, JWT_SECRET)
 	except jwt.ExpiredSignatureError:
 		return generateError('Token has expired', {'expired': True})
+	except:
+		return generateError('Token is invalid', {'expired': False})
 
-	if payload['level'] > level:
-		return generateError('Token is missing', {'expired': False})
-
-	return generateSuccess('Token verified', {'expired': False})
+	return generateSuccess('Token is valid', {'expired': False})
 
 def login_user(request):
 	email = request.params.get('email', None)

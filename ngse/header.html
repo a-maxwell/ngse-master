@@ -1,13 +1,23 @@
-<header class="ui fixed menu">
-	<a href="" class="header item">
+<header class="ui fixed menu" ng-controller="headerController">
+	<a class="header item" ng-click="debug()">
 		<img class="ui image" src="static/images/logo.png">
 	</a>
 	<div class="right menu">
-		{% for section in sections %}
-		<a class="item" href="#!{% if section['name'] != 'home' %}{{ section['name'] }}{% endif %}">
-			<i class="{{ section['icon'] }} icon"></i>
-			<span>{{ section['name'] | capitalize() }}</span>
+		<a class="item" href="#!" ng-show="loggedIn()">
+			<i class="home icon"></i>
+			<span>Home</span>
 		</a>
-		{% endfor %}
+		<a class="item" href="#!application" ng-show="loggedIn()">
+			<i class="browser icon"></i>
+			<span>Application</span>
+		</a>
+		<a class="item" ng-click="logout()" ng-show="loggedIn()">
+			<i class="sign out icon"></i>
+			<span>Logout</span>
+		</a>
+		<a class="item" href="#!auth" ng-show="!(loggedIn())">
+			<i class="sign in icon"></i>
+			<span>Login</span>
+		</a>
 	</div>
 </header>
