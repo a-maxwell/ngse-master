@@ -121,7 +121,7 @@ class User(Base):
 	date_created = Column(DateTime, nullable=False, server_default=func.now())
 	last_modified = Column(DateTime, nullable=False, server_default=func.now(), onupdate=func.now())
 
-	email = Column(Text, unique=True, nullable=False)
+	email = Column(Text, nullable=False)
 	password = Column(Text, nullable=False)
 	
 	application_status = Column(Text)
@@ -134,20 +134,20 @@ class User(Base):
 	answers = relationship("Answer", back_populates="user")
 
 
-# class ApplicantAttribute(Base):
-# 	__tablename__ = 'applicant_attrs'
+class ApplicantAttribute(Base):
+	__tablename__ = 'applicant_attrs'
 
-# 	id = Column(Integer, primary_key=True)
-# 	date_created = Column(DateTime, nullable=False, server_default=func.now())
-# 	last_modified = Column(DateTime, nullable=False, server_default=func.now(), onupdate=func.now())
+	id = Column(Integer, primary_key=True)
+	date_created = Column(DateTime, nullable=False, server_default=func.now())
+	last_modified = Column(DateTime, nullable=False, server_default=func.now(), onupdate=func.now())
 
-# 	erdt_status = Column(Boolean, nullable=False, default=False)
-# 	applicant_status = Column(Integer, nullable=False, default=0)
-# 	validation_status = Column(Text, nullable=False, default='incomplete')
+	scholarship = Column(Boolean, nullable=False, default=False)
+	applicant_status = Column(Integer, nullable=False, default=0)
+	validation_status = Column(Text, nullable=False, default='incomplete')
 
-# 	recommender_A = Column(Integer, ForeignKey('user_types.id'))
-# 	recommender_B = Column(Integer, ForeignKey('user_types.id'))
-# 	recommender_C = Column(Integer, ForeignKey('user_types.id'))
+	recommender_A = Column(Integer, ForeignKey('user_types.id'))
+	recommender_B = Column(Integer, ForeignKey('user_types.id'))
+	recommender_C = Column(Integer, ForeignKey('user_types.id'))
 
-# 	applicant_id = Column(Integer, ForeignKey('user_types.id'))
-# 	applicant = relationship("User", back_populates='applicant_attrs')
+	applicant_id = Column(Integer, ForeignKey('user_types.id'))
+	applicant = relationship("User", back_populates='applicant_attrs')
