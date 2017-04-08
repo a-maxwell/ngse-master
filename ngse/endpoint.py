@@ -242,12 +242,23 @@ def create_user(request):
 		return generateError('Field is missing')
 
 	# check if email is linked to an account
+	u = session.query(User).filter(User.email == email).all()
+	if (len(u) > 0 and level < 4):
+		return generateError('E-mail is already in use')
+
+	password = bcrypt.hashpw('password', bcrypt.gensalt())
+	
+
+	'''
 	try:
 		u = session.query(User).filter(User.email == email).one()
-		return generateError('E-mail is already in use')
+		if (level < 4) :
+			return generateError('E-mail is already in use')
 	except:
 		# generate password
-		password = bcrypt.hashpw('password', bcrypt.gensalt())
+		pass
+	password = bcrypt.hashpw('password', bcrypt.gensalt())
+	'''
 
 	fullname = '{} {}'.format(given, last)
 	# return generateError(name)
