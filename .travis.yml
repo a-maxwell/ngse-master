@@ -1,15 +1,13 @@
 language: python
-# services:
-  # - postgresql
 addons:
-  postgresql: "9.4"
+  postgresql: '9.4'
 sudo: required
-# command to install dependencies
-install: "pip install -r requirements.txt"
-# make database before running scripts
+install: pip install -r requirements.txt
 before_script:
-  - psql -c 'create database ngsewebsite;' -U postgres
-# command to run tests
+- psql -c 'create database ngsewebsite;' -U postgres
 script:
-  - python test.py
-# services to use
+- python newtest.py
+deploy:
+  provider: heroku
+  api_key:
+    secure: G+oOQ67F7Nj0CCAGNUvgAhk5kUinXjepHaD6hsPDTTYsbwrbHqgtzAPnrJkFYoNp4SebdbcuvSTGUWOlwERyTU3HVdg4pLQ712590+EZan6sJLYx9wFS/QJOt+iJ52OAPjlcTbpc6PtmBaxcE+J0ru3FpV8Kdj449wT6hM4AdPImsGB8rB9hPebKs9ayv2M3+QHJCerEeUR4aRgm517YgUGFumbmPoE3B8IJnQpZH+Sc3JIxsGcfAFVRsbPfveKW2StGw+L4cF6Jg9ypHB0rEd9yB8ebkJJzMTsDHa7pQImKKisHVveuYKHaU6bWB7KVt5qyiOOoaq86+1u4Av6Z5EJBj6S1pZsLccGEn9ed2tOU0G8440qBpTxWtZhSGmTpgsZMySVm0w8vk8v2Lgy+WGHfbVpaP+JJRZM0AnLE+piSEgf7l+ssKDrd3D2jD5x5KDhyHWN07i2zVk2ejaVFFmUMDKHKMzTne3K5vt2pRaKtlMs1nfcXwHEO5B+Ig2kAJgl0VUMBUUW6g4JVu/juRmD9bhoBr1qKjuSfWl93Yl4OYl/j9O2ishmJz9UzIja6oCYmEyl7NAh4gBlNG1DzTiiuVvVa+sAp+wLSY7z1uxriy21CSKkTBpWKOrH2nZfleeimuzDWsy1kU03lV9f7wiuQwLsiVurKs0WZ99161LA=

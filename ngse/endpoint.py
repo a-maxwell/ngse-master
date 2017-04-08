@@ -34,9 +34,10 @@ def generateToken(user):
 	expiry_time = current_time + 60*120
 
 	payload = {
-		'sub': user.name,
+		'sub': user.id,
 		'exp': expiry_time,
 		'iat': current_time,
+		'name': user.name,
 		'level': user.user_type_id
 	}
 
@@ -266,91 +267,51 @@ def create_user(request):
 	return generateSuccess('Welcome, {}!'.format(fullname), {'token': generateToken(u)})
 
 def delete_user(request):
-
 	'''
-	
 	input id of user accessing endpoint, id of user to delete, type of user
 	input step number for testing
-
 	'''
 
-	# variable for testing
-	step = int(request.params.get('step', 0))
-
-	'''user_id testing'''
-
+	step = int(request.params.get('step', 0)) # variable for testing
 	user_id = request.params.get('user_id', None)
-
-	# user_id was not passed
-	if user_id is None:
-		return {'message': 'user_id is missing'}
-
-	# test if user_id value is integer
-	try:
-		int(user_id)
-	except ValueError:
-		return {'message': 'user_id is invalid'}
-
-	if int(user_id) < 1:
-		return {'message': 'user_id must not be less than 1'}
-
-	if int(user_id) > 2147483647:
-		return {'message': 'user_id is too large'}
-
-	if step == 1:
-		return {'message': 'user_id is valid'}
-
-	'''id testing'''
 	_id = request.params.get('id', None)
 
-	# user_id was not passed
-	if _id is None:
-		return {'message': 'id is missing'}
+	if user_id is None or _id is None: # user_id was not passed
+		return generateError('Required field is missing')
 
-	# test if user_id value is integer
 	try:
-		int(_id)
-	except ValueError:
-		return {'message': 'id is invalid'}
+		user_id = int(user_id)
+	except ValueError: # user_id not an integer
+		return generateError('user_id is invalid')
 
-	if int(_id) < 1:
-		return {'message': 'id must not be less than 1'}
+	if user_id < 1 or user_id > 2147483647: # user_id beyond range
+		return generateError('user_id is out of bounds')
 
-	if int(_id) > 2147483647:
-		return {'message': 'id is too large'}
+	try:
+		_id = int(_id)
+	except ValueError: # id not an integer
+		return generateError('id is invalid')
 
-	if step == 2:
-		return {'message': 'id is valid'}
+	if _id < 1 or _id > 2147483647:
+		return generateError('id is out of bounds')
 
-	'''user entry in database testing'''
 	try:
 		user = session.query(User).filter(User.id == user_id).one()
-	except NoResultFound:
-		return {'message': 'user does not exist'}
+	except NoResultFound: # user_id not found in database 
+		return generateError('User accessing does not exist')
 
-	if step == 3:
-		return {'message': 'user exists'}
-
-	'''accessibility testing'''
 	user_type = user.user_type_id
 
-	if user_type != 1:
-		if user_id == _id:
-			if step == 4:
-				return {'message': 'user not admin but same id'}
-		else:
-			return {'message': 'user not admin but diff id'}
-	else:
-		if user_id == _id:
-			return {'message': 'admin trying to delete admin account'}
-		else:
-			if step == 4:
-				return {'message': 'admin trying to delete other account'}
+	if ((user_type != 1) and (user_id != _id)): # not admin deleting different id
+		return generateError('Unauthorized')
+
+	if ((user_type == 1) and (user_id == _id)): # admin deleting admin id
+		return generateError('Cannot delete admin account')
 
 	try:
 		other_user = session.query(User).filter(User.id == _id).one()
-	except NoResultFound:
-		return {'message': 'other user does not exist'}
+	except NoResultFound: # id not found in database
+		return generateError('User ')
 
 	if step == 5:
 		return {'message': 'other user exists'}

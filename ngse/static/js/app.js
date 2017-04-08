@@ -48,7 +48,7 @@ app.factory('AuthenticationService', function($http, $cookies, $location) {
 
     function getExpiryDate() {
         var d = new Date();
-        d.setHours(d.getHours() + 1);
+        d.setHours(d.getHours() + 2);
         return d;
     }
 
@@ -180,18 +180,6 @@ app.config(function($routeProvider) {
         templateUrl: "/templates/application.html",
         resolve: {auth: _user}
     })
-    // .when("/about", {
-    //     templateUrl: "/templates/about.html",
-    //     resolve: res
-    // })
-    // .when("/documents", {
-    //     templateUrl: "/templates/documents.html",
-    //     resolve: res
-    // })
-    // .when("/contact", {
-    //     templateUrl: "/templates/contact.html",
-    //     resolve: res
-    // })
     .when("/auth", {
         templateUrl: "/templates/lounge.html",
         resolve: {auth: _loggedIn}
