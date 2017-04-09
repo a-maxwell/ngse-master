@@ -130,7 +130,12 @@ class User(Base):
 	user_type_id = Column(Integer, ForeignKey('user_types.id'), default=4)
 	user_type = relationship("UserType", back_populates='user')
 
-	# applicant_attr = relationship("ApplicantAttribute", uselist=False, back_populates='users')
+	# applicant_attr = relationship("ApplicantAttribute", back_populates='applicant')
+	# rec_a = relationship("ApplicantAttribute", back_populates='recommenderA')
+	# rec_b = relationship("ApplicantAttribute", back_populates='recommenderB')
+	# rec_c = relationship("ApplicantAttribute", back_populates='recommenderC')
+
+	# applicant_attr = relationship("ApplicantAttribute")
 	answers = relationship("Answer", back_populates="user")
 
 
@@ -145,9 +150,21 @@ class ApplicantAttribute(Base):
 	applicant_status = Column(Integer, nullable=False, default=0)
 	validation_status = Column(Text, nullable=False, default='incomplete')
 
-	recommender_A = Column(Integer, ForeignKey('user_types.id'))
-	recommender_B = Column(Integer, ForeignKey('user_types.id'))
-	recommender_C = Column(Integer, ForeignKey('user_types.id'))
+	# recommender_A = Column(Integer, ForeignKey('user_types.id'))
+	# recommender_B = Column(Integer, ForeignKey('user_types.id'))
+	# recommender_C = Column(Integer, ForeignKey('user_types.id'))
 
-	applicant_id = Column(Integer, ForeignKey('user_types.id'))
-	applicant = relationship("User", back_populates='applicant_attrs')
+	# applicant_id = Column(Integer, ForeignKey('user_types.id'))
+
+	recommender_A = Column(Integer, ForeignKey('users.id'))
+	recommender_B = Column(Integer, ForeignKey('users.id'))
+	
+	recommender_C = Column(Integer, ForeignKey('users.id'))
+
+	applicant_id = Column(Integer, ForeignKey('users.id'))
+	# applicant = relationship("User", back_populates='applicant_attr')
+
+	applicant = relationship("User", foreign_keys='ApplicantAttribute.applicant_id')
+	recommenderA = relationship("User", foreign_keys='ApplicantAttribute.recommender_A')
+	recommenderB = relationship("User", foreign_keys='ApplicantAttribute.recommender_B')
+	recommenderC = relationship("User", foreign_keys='ApplicantAttribute.recommender_C')

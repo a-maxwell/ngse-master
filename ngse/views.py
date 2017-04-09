@@ -16,7 +16,7 @@ from models import (
 	Answer,
 	UserType,
 	User,
-	# ApplicantAttribute
+	ApplicantAttribute
 )
 from utils import encapsulate, URI, log
 from setup import setup
