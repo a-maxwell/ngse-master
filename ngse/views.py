@@ -142,14 +142,21 @@ question_update = question['actions']['update']
 # login_url = '/v1/login'
 view_answers_url = '/v1/users/answers'
 update_answer_url = 'v1/users/update_answer'
-view_status_url = 'v1/users/status'
-update_status_url = 'v1/users/update_status'
+view_application_status_url = 'v1/users/a_status'
+update_application_status_url = 'v1/users/update_a_status'
+
+view_validation_status_url = 'v1/users/v_status'
+update_validation_status_url = 'v1/users/update_v_status'
+reset_database_url = 'v1/delete_all'
 # user_login = Service(name='user_login', path=login_url, description="logging in")
 view_answers = Service(name='view_answers', path=view_answers_url, description="view answers")
-view_status = Service(name='view_status', path=view_status_url, description="view user's application status")
+view_a_status = Service(name='view_a_status', path=view_application_status_url, description="view user's application status")
 update_answer = Service(name='update_answer', path=update_answer_url, description="update answer")
-update_status = Service(name='update_status', path=update_status_url, description="update user's application status")
+update_a_status = Service(name='update_a_status', path=update_application_status_url, description="update user's application status")
 
+view_v_status = Service(name='view_v_status', path=view_validation_status_url, description="view user's form validation status")
+update_v_status = Service(name='update_v_status', path=update_validation_status_url, description="update user's form validation status")
+reset_db = Service(name='reset_db', path=reset_database_url, description="truncate tables in database")
 
 def is_authenticated(request):
 	#returns null if not logged in
@@ -163,11 +170,14 @@ endpoint.answer_update = update_answer.get()(endpoint.answer_update)
 endpoint.view_answer = view_answers.get()(endpoint.view_answer)
 endpoint.get_users = user_collection.get()(endpoint.get_users)
 endpoint.create_user = user_create.post()(endpoint.create_user)
-endpoint.view_user_status = view_status.get()(endpoint.view_user_status)
-endpoint.update_user_status = update_status.get()(endpoint.update_user_status)
+endpoint.view_application_status = view_a_status.get()(endpoint.view_application_status)
+endpoint.update_application_status = update_a_status.get()(endpoint.update_application_status)
 
 endpoint.delete_user = user_delete.get()(endpoint.delete_user)
 
+endpoint.view_validation_status = view_v_status.get()(endpoint.view_validation_status)
+endpoint.update_validation_status = update_v_status.get()(endpoint.update_validation_status)
+endpoint.reset_database = reset_db.get()(endpoint.reset_database)
 # @user_delete.get()
 # def delete_user(request):
 # 	'''

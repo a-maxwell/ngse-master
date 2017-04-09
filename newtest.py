@@ -161,7 +161,7 @@ class ConditionTests(unittest.TestCase):
 	# def test_9b(self): #loop test: inner loop boundary val(end)
 	# 	app=TestApp(main({}))
 	# 	resp = app.get('/v1/users/answers', dict(user_id='2'))
-	# 	self.assertEqual(resp.json['q'], 'E-mail Addresss')
+	# 	self.assertEqual(resp.json['q'], 'E-mail Address')
 	# def test_10a(self): #data flow/loop test: checks if data is correct sa boundary val (start)
 	# 	app=TestApp(main({}))
 	# 	resp = app.get('/v1/users/answers', dict(user_id='2'))

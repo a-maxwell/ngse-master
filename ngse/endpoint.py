@@ -8,7 +8,8 @@ from models import (
 	Question,
 	Answer,
 	UserType,
-	User
+	User,
+	ApplicantAttribute
 )
 
 from utils import JWT_SECRET, log
@@ -369,37 +370,82 @@ def delete_user(request):
 
 	# return {'message': 'oh no', 'success': False}
 
-def update_user_status(request):
+def update_application_status(request):
 	#if admin
 	user_id = request.params['user_id']
-	status = request.params['user_status']
-	try:
-		u = session.query(User).filter(User.id == user_id).first()
-	except:
-		return {'message': 'Smth went wrong', 'success': False}
+	status = request.params['a_status']
 
-	if u == None or user_id == '' or u.user_type_id != 3:
-			return {'message': 'Smth went wrong', 'success': False}
-	
-	u.application_status= status
+	app = session.query(ApplicantAttribute).filter(ApplicantAttribute.applicant_id == user_id).first()
+
+	# try:
+	# 	app = session.query(ApplicantAttribute).filter(ApplicantAttribute.applicant_id == user_id).first()
+	# except:
+	# 	return {'message': 'Smth went wrong', 'success': False}
+	if app == None: return{'message': 'user is not an applicant', 'success':False}
+	app.application_status= status
 	session.commit()
 	return {'message': 'Status successfully updated', 'success': True}
 
 
-def view_user_status(request):
+def view_application_status(request):
 	user_id = request.params['user_id']
-	try:
-		u = session.query(User).filter(User.id == user_id).one()
-	except:
-		return{'success':False} 
-	if (u == None or u.user_type_id != 3):
-		return{'success':False} 
+	app = session.query(ApplicantAttribute).filter(ApplicantAttribute.applicant_id == user_id).first()
 
+	# try:
+	# 	app = session.query(ApplicantAttribute).filter(ApplicantAttribute.applicant_id == user_id).first()
 
-	return{'name': u.name, 'Application status': u.application_status, 'success': True}
+	# except:
+	# 	return{'success':False}
 
+	if app == None: return{'message': 'user is not an applicant', 'success':False}
+	user = session.query(User).filter(User.id == user_id).first()					
+
+	return{ 'name': user.name, 'application status': app.application_status}
+
+def update_validation_status(request):
+	user_id = request.params['user_id']
+	status = request.params['v_status'] # complete, incomplete, not yet submitted
+	app = session.query(ApplicantAttribute).filter(ApplicantAttribute.applicant_id == user_id).first()
+	# try:
+	# 	app = session.query(ApplicantAttribute).filter(ApplicantAttribute.applicant_id == user_id).first()
+	# except:
+	# 	return {'message': 'Smth went wrong', 'success': False}
+
+	if app == None: return{'message': 'user is not an applicant', 'success':False}
+	app.validation_status= status
+	session.commit()
+	return {'message': 'Validation status successfully updated', 'success': True}
+
+def view_validation_status(request):
+	user_id = request.params['user_id']
+	app = session.query(ApplicantAttribute).filter(ApplicantAttribute.applicant_id == user_id).first()
+	# try:
+	# 	app = session.query(ApplicantAttribute).filter(ApplicantAttribute.applicant_id == user_id).first()
+	# except:
+	# 	return{'success':False}
+	if app == None: return{'message': 'user is not an applicant', 'success':False}
+
+	user = session.query(User).filter(User.id == user_id).first()					
+
+	return{ 'name': user.name, 'validation status': app.validation_status}
+
+def reset_database(request):
+	# if admin
+
+	# problem: does not delete the id sequence
+	session.query(Answer).delete()
+	session.commit()
+	session.query(ApplicantAttribute).delete()
+	session.commit()
+    users = session.query(User).filter(User.id > 1).all()
+	for user in users:
+		session.delete(user)
+		session.commit()
+
+	return {'success': True}
 
 ''' Form views '''
+
 
 def get_forms(request):
 	d = []
