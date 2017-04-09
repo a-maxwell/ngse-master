@@ -124,7 +124,7 @@ class User(Base):
 	email = Column(Text, nullable=False)
 	password = Column(Text, nullable=False)
 	
-	application_status = Column(Text)
+	# application_status = Column(Text)
 	# meta = Column(JSON) #status can be submitted, on process, accepted, rejected
 
 	user_type_id = Column(Integer, ForeignKey('user_types.id'), default=4)
