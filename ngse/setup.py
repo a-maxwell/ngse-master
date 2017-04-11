@@ -82,28 +82,23 @@ def setup(session):
 				category = add(Category(name=category_name))
 
 			'''please do this pio huhuhuhu'''
-			continue
-			questions = open('{}/initial/{}/{}/questions.txt'.format(dir_path, form_type_name, category_name), 'r').read().splitlines()
+			questions = json.loads(open('{}/initial/categories/{}.json'.format(dir_path, category_name), 'r').read())
+			# continue
 
-			for question_name in questions:
-				fields = question_name.split(', ')
-
-				name = fields[0]
-				meta = {}
-				if len(fields) > 1:
-					choices = fields[1].split('; ')
-					meta['choices'] = choices
-
+			for question in questions:
+				print 'checked q \'{}\''.format(question['title'])
 				# check question wrt category
 				try:
 					q = session.query(Question)\
-					.filter(Question.name == name)\
+					.filter(Question.name == question['title'])\
 					.filter(Question.category_id == category.id)\
 					.one()
 					# check if meta is the same
 				# make new entry if not found
 				except NoResultFound as e:
-					q = add(Question(name=name, category_id=category.id, meta=meta))
+					q = Question(name=question['title'], category_id=category.id, input_type=question['class'])
+					q.choices = question.get('choices', None)
+					add(q)
 
 	def setup_forms(forms):
 		form_types = open('{}/initial/form_types.txt'.format(dir_path), 'r').read().splitlines()
