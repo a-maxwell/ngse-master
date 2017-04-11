@@ -1,8 +1,0 @@
-Title, -; Engr.; Dr.; Prof.
-Given Name
-Middle Initial
-Last Name
-Highest Educational Attainment
-Affiliated Organization Name
-Position in Organization
-Address of Organization

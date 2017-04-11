@@ -43,132 +43,14 @@
     }];
 });
 
-app.factory('AuthenticationService', function($http, $cookies, $location) {
-    methods = {};
-
-    function getExpiryDate() {
-        var d = new Date();
-        d.setHours(d.getHours() + 2);
-        return d;
-    }
-
-    function setToken(token) {
-        $cookies.put('token', token, {'expires': getExpiryDate()});
-        $http.defaults.headers.common.Authorization = 'Bearer ' + token;
-    }
-
-    methods.isLoggedIn = function() {
-        return (!($cookies.get('token') === undefined));
-    }
-
-    methods.verify = function(callback) {
-        var token = $cookies.get('token');
-        if (token === undefined) callback(false);
-        return $http.post('/v1/users/verify', {'token': token})
-        .then(function successCallback(response) {
-            var d = response.data;
-            callback(d.success);
-        }, function errorCallback(response) {
-            callback(false);
-        });
-    }
-
-    methods.authorize = function(level=10) {
-        var token = $cookies.get('token');
-        return (token === undefined) ? false : (jwt_decode(token)['level'] <= level);
-    }
-
-    methods.register = function(last, given, middlemaiden, email, callback) {
-        return $http.post('/v1/users/create', {'last': last, 'given': given, 'middlemaiden': middlemaiden, 'email': email})
-        .then(function(response) {
-            var d = response.data;
-            console.log(d);
-            if (d.success) setToken(d.token);
-            callback(d);
-        });
-    }
-
-    methods.login = function(email, password, callback) {
-        return $http.post('/v1/users/login', {'email': email, 'password': password})
-        .then(function(response) {
-            var d = response.data;
-            console.log(d);
-            if (d.success) setToken(d.token);
-            callback(d);
-        });
-    }
-
-    methods.logout = function() {
-        console.log('removing token from cookies...');
-        $cookies.remove('token');
-        $http.defaults.headers.common.Authorization = '';
-        $location.path('/auth');
-    }
-
-    return methods;
-});
-
-app.controller('headerController', function($scope, $cookies, $location, AuthenticationService) {
-
-    $scope.debug = function() {
-        console.log($scope.loggedIn());
-    }
-
-    $scope.loggedIn = AuthenticationService.isLoggedIn;
-
-    $scope.logout = AuthenticationService.logout;
-});
-
-app.controller('authController', function($scope, $location, AuthenticationService) {
-
-    initController();
-
-    $scope.signin = signin;
-    $scope.register = register;
-
-    function signin() {
-        // alert('submitting a login form!');
-        $scope.login.loading = true;
-        AuthenticationService.login($scope.login.email, $scope.login.password, function(data) {
-            if (data.success === true) $location.path('/');
-            else {
-                $scope.login.message = data.message;
-                $scope.login.loading = false;
-            }
-        });
-
-    };
-
-    function register() {
-        // alert('submitting a registration form!');
-        $scope.registration.loading = true;
-        AuthenticationService.register($scope.registration.last, $scope.registration.given, $scope.registration.middlemaiden, $scope.registration.email, function(data) {
-            if (data['success'] === true) $location.path('/');
-            else {
-                $scope.registration.message = data['message'];
-                $scope.registration.loading = false;
-            }
-        });
-
-    };
-
-    function initController() {
-        AuthenticationService.verify(function(valid) {
-            console.log('Token Validity: ' + valid);
-            if (!valid) AuthenticationService.logout()
-            else $location.path('/');
-        });
-    };
-});
-
 app.config(function($routeProvider) {
 
-    var _user = ["$q", "AuthenticationService", function($q, AuthenticationService) {
-        if (!AuthenticationService.authorize(10)) return $q.reject({"authorized": false});
+    var _user = ["$q", "authService", function($q, authService) {
+        if (!authService.authorize(10)) return $q.reject({"authorized": false});
     }];
 
-    var _loggedIn = ["$q", "AuthenticationService", function($q, AuthenticationService) {
-        if (AuthenticationService.isLoggedIn()) return $q.reject({"authorized": true});
+    var _loggedIn = ["$q", "authService", function($q, authService) {
+        if (authService.isLoggedIn()) return $q.reject({"authorized": true});
     }]
 
     $routeProvider
@@ -182,7 +64,7 @@ app.config(function($routeProvider) {
     })
     .when("/auth", {
         templateUrl: "/templates/lounge.html",
-        resolve: {auth: _loggedIn}
+        resolve: {auth: _loggedIn,}
     })
     .otherwise({redirectTo: '/'});
 });

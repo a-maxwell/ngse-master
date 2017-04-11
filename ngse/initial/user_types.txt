@@ -1,4 +1,5 @@
 Admin
 Representative
-Applicant
 Recommender
+Non-ERDT Applicant
+ERDT Applicant

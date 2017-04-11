@@ -23,6 +23,8 @@ if 'TRAVIS' in  os.environ:
 	db, engine, meta = connect('postgres', '', 'ngsewebsite')
 else:
 	db, engine, meta = connect('ngse', 'ngse', 'ngsewebsite')
+
+Base.metadata.drop_all(engine)
 Base.metadata.create_all(engine)
 SessionFactory = sessionmaker(engine)
 session = SessionFactory()
