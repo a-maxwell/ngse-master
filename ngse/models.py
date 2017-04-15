@@ -15,7 +15,7 @@ import bcrypt
 
 Base = declarative_base()
 
-association_table = Table('association', Base.metadata,
+form_category_association = Table('form_category_association', Base.metadata,
 	Column('form_types_id', Integer, ForeignKey('form_types.id')),
 	Column('categories_id', Integer, ForeignKey('categories.id'))
 )
@@ -30,7 +30,7 @@ class FormType(Base):
 	last_modified = Column(DateTime, nullable=False, server_default=func.now(), onupdate=func.now())
 
 	forms = relationship("Form", back_populates="form_type") # child relationship
-	categories = relationship("Category", secondary=association_table, back_populates="form_type")
+	categories = relationship("Category", secondary=form_category_association, back_populates="form_type")
 	user_type_id = Column(Integer, ForeignKey('user_types.id'))
 
 	def as_dict(self):
@@ -61,7 +61,7 @@ class Category(Base):
 	date_created = Column(DateTime, nullable=False, server_default=func.now())
 	last_modified = Column(DateTime, nullable=False, server_default=func.now(), onupdate=func.now())
 
-	form_type = relationship("FormType", secondary=association_table, back_populates="categories") # parent relationship
+	form_type = relationship("FormType", secondary=form_category_association, back_populates="categories") # parent relationship
 
 	questions = relationship("Question", back_populates="category")
 

@@ -8,44 +8,259 @@ from models import (
 	Question,
 	Answer,
 	UserType,
-	User
+	User,
+	form_category_association
 )
 
-from utils import JWT_SECRET, log
+from utils import encode, decode, log, generateError, generateSuccess, generateToken, is_past
 
 import bcrypt
-import jwt
-import time
 
-def generateError(message, extra_fields=None):
-	d = {'success': False, 'message': message}
-	if extra_fields is not None:
-		d.update(extra_fields)
-	return d
 
-def generateSuccess(message, extra_fields=None):
-	d = {'success': True, 'message': message}
-	if extra_fields is not None:
-		d.update(extra_fields)
-	return d
+'''users'''
 
-def generateToken(user):
-	current_time = int(time.time())
-	expiry_time = current_time + 60*120
+def show_user(request):
+	_id = request.params['id']
 
-	payload = {
-		'sub': user.id,
-		'exp': expiry_time,
-		'iat': current_time,
+	user = session.query(User)\
+		.filter(User.id == _id)\
+		.one()
+
+	d = {
 		'name': user.name,
-		'level': user.user_type_id
+		'date_created': str(user.date_created),
+		'last_modified': str(user.last_modified),
+		'email': user.email,
+		'user_type_id': user.user_type_id
 	}
 
-	token = jwt.encode(payload, JWT_SECRET, algorithm='HS256')
+	if (user.user_type_id in [4,5]):
+		d['application_status'] = user.application_status
 
-	return token
+	if (user.user_type_id in [3,4,5]):
+		answers = session.query(Answer)\
+			.filter(Answer.user_id == id)\
+			.all()
 
-def answer_update(request):
+		d['answers'] = []
+
+		for answer in answers:
+			d['answers'].append({
+				'id': answer.id,
+				'question_id': answer.question_id,
+				'name': answer.name
+			})
+
+	return d
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+################################################################
+
+def get_forms(request):
+	d = []
+	for f in session.query(Form):
+		started = is_past(str(f.date_start))
+		ended = is_past(str(f.date_end))
+
+		status = 'idle' if (not started) else ( 'expired' if (ended) else 'ongoing' )
+
+		d.append({
+			'id': int(f.id),
+			'name': f.name,
+			'user': f.form_type.user_type_id,
+			'date_start': str(f.date_start),
+			'date_end': str(f.date_end),
+			'status': status
+		})
+	return d
+
+def create_form(request):
+	# we need name, form type id, date start, date end
+	name = request.params['name']
+	form_type_id = request.params['form_type_id']
+	date_start = request.params['date_start']
+	date_end = request.params['date_end']
+
+	form = Form(
+		name=name,
+		date_start=date_start,
+		date_end=date_end,
+		form_type_id=form_type_id
+		)
+	session.add(form)
+	session.commit()
+
+	return {'success': True}
+
+def delete_form(request):
+	_id = request.params['id']
+
+	form = session.query(Form)\
+	.filter(Form.id == _id)\
+	.one()
+
+	session.delete(form)
+	session.commit()
+
+	return {'success': True}
+
+def show_form(request):
+	form_id = request.params['form_id']
+
+	try:
+		form = session.query(Form)\
+			.filter(Form.id == form_id)\
+			.one()
+	except:
+		return generateError('Invalid form id')
+
+	d = {
+		'name': form.name,
+		'date_created': str(form.date_created),
+		'last_modified': str(form.last_modified),
+		'date_start': str(form.date_start),
+		'date_end': str(form.date_end),
+		'form_type_id': form.form_type_id,
+		'user_type_id': form.form_type.user_type_id,
+		'page_sequence': form.form_type.page_sequence
+	}
+
+	return d
+
+def update_form(request):
+	id = request.params['id']
+
+	form = session.query(Form)\
+	.filter(Form.id == id)\
+	.one()
+
+	name = request.params.get('name', None)
+	if name is not None:
+		form.name = name
+
+	date_start = request.params.get('date_start', None)
+	if date_start is not None:
+		form.date_start = date_start
+
+	date_end = request.params.get('date_end', None)
+	if date_end is not None:
+		form.date_end = date_end
+
+	form_type_id = request.params.get('form_type_id', None)
+	if form_type_id is not None:
+		form.form_type_id = form_type_id
+
+	session.commit()
+
+	return generateSuccess('Success')
+
+def get_form_types(request):
+	d = []
+	for ft in session.query(FormType):
+		d.append({
+			'id': ft.id,
+			'name': ft.name,
+			'page_sequence': ft.page_sequence,
+			'date_created': str(ft.date_created),
+			'last_modified': str(ft.last_modified)
+		})
+	return d
+
+################################################################
+
+def get_categories(request):
+	form_id = request.params.get('form_id')
+
+	form = session.query(Form)\
+		.filter(Form.id == form_id)\
+		.one()
+
+	result = []
+
+	for category in session.query(Category).join(Category.form_type, aliased=True).filter_by(id = form.form_type_id):
+		result.append({
+			'id': category.id,
+			'name': category.name
+		})
+
+	return result
+
+def show_category(request):
+	category_id = request.params.get('category_id')
+
+	category = session.query(Category)\
+		.filter(Category.id == category_id)\
+		.one()
+
+	d = {
+		'id': category.id,
+		'name': category.name,
+		'date_created': str(category.date_created),
+		'last_modified': str(category.last_modified),
+		'form_type_ids': []
+	}
+
+	associations = session.query(form_category_association)\
+		.filter(form_category_association.c.categories_id == category.id)\
+		.all()
+
+	for association in associations:
+		d['form_type_ids'].append(association.form_types_id)
+
+	return d
+
+
+
+################################################################
+
+
+def get_questions(request):
+	category_id = request.params.get('category_id')
+	result = []
+
+	for question in session.query(Question).filter(Question.category_id == category_id):
+		q = {
+			'id': int(question.id),
+			'name': question.name,
+			'input_type': question.input_type
+		}
+
+		if (question.choices):
+			q['choices'] = choices
+		
+		result.append(q)
+
+	return result
+
+################################################################
+
+def get_answers(request):
+	user_id = request.params.get('user_id')
+	category_id = request.params.get('category_id')
+	result = []
+
+	for answer in session.query(Answer).filter(Answer.user_id == user_id).join(Answer.question, aliased=True).filter_by(category_id=category_id):
+		result.append({
+			'id': answer.id,
+			'name': answer.name,
+			'question_id': answer.question_id
+		})
+	
+	return result
+
+def update_answer(request):
 	user_id = request.params['user_id']
 	q_id = request.params['question_id']
 	curr_ans = request.params['answer']
@@ -76,36 +291,6 @@ def answer_update(request):
 		except:
 			return{'message': 'Smth went wrong', 'success':False}
 	return{'message': 'Answer saved', 'success':True}
-'''
-def view_answer(request):
-	user_id = request.params['user_id'] #if succesful auth, this should be authenticated_userid(request)
-	# form = request.params['form_type']
-	try:
-		u = session.query(User).filter(User.id == user_id).first()
-	except:
-		return {'success':False}
-	if u == None or u.user_type_id != 3:
-		return {'success':False}
-
-	categ=[]
-	for item in session.query(Category).filter(Category.form_type_id == 1).all():
-		ques_array=[]
-		for q in session.query(Question).filter(Question.category_id == item.id).all():
-			answer = session.query(Answer.name).filter(Answer.question_id == q.id).filter(Answer.user_id == user_id).first()
-			if(answer!=None): 
-				answer=answer.name
-			ques_array.append({
-                # 'category' : item.name,
-				'question' : q.name,
-				'answer' : answer
-			})
-		categ.append({
-			'name' : item.name,
-			'data' : ques_array
-			})
-		# categ[item.name] = ques_array
-	return {'data': categ, 'success': True}
-'''
 
 
 def view_answer(request):
@@ -176,10 +361,7 @@ def view_answer(request):
 		# 	return {'categ': categ}
 	# 15
 	return {'data': categ, 'success': True}
-				
-			
 
-# return{'categ': item.name}
 
 def get_users(request):
 	d = []
@@ -201,7 +383,7 @@ def verify_user(request):
 		return generateError('Token is missing', {'expired': False})
 
 	try:
-		payload = jwt.decode(token, JWT_SECRET)
+		payload = decode(token)
 	except jwt.ExpiredSignatureError:
 		return generateError('Token has expired', {'expired': True})
 	except:
@@ -315,128 +497,3 @@ def delete_user(request):
 
 	if step == 5:
 		return {'message': 'other user exists'}
-
-
-	# return {'message': 'oh no', 'success': False}
-
-def update_user_status(request):
-	#if admin
-	user_id = request.params['user_id']
-	status = request.params['user_status']
-	try:
-		u = session.query(User).filter(User.id == user_id).first()
-	except:
-		return {'message': 'Smth went wrong', 'success': False}
-
-	if u == None or user_id == '' or u.user_type_id != 3:
-			return {'message': 'Smth went wrong', 'success': False}
-	
-	u.application_status= status
-	session.commit()
-	return {'message': 'Status successfully updated', 'success': True}
-
-
-def view_user_status(request):
-	user_id = request.params['user_id']
-	try:
-		u = session.query(User).filter(User.id == user_id).one()
-	except:
-		return{'success':False} 
-	if (u == None or u.user_type_id != 3):
-		return{'success':False} 
-
-
-	return{'name': u.name, 'Application status': u.application_status, 'success': True}
-
-
-''' Form views '''
-
-def get_forms(request):
-	d = []
-	for f in session.query(Form):
-		d.append({
-			'id': int(f.id),
-			'name': f.name
-		})
-	return d
-
-def create_form(request):
-	# we need name, form type id, date start, date end
-	name = request.params['name']
-	form_type_id = request.params['form_type_id']
-	date_start = request.params['date_start']
-	date_end = request.params['date_end']
-
-	form = Form(
-		name=name,
-		date_start=date_start,
-		date_end=date_end,
-		form_type_id=form_type_id
-		)
-	session.add(form)
-	session.commit()
-
-	return {'success': True}
-
-def delete_form(request):
-	id = request.params['id']
-
-	form = session.query(Form)\
-	.filter(Form.id == id)\
-	.one()
-
-	session.delete(form)
-	session.commit()
-
-	return {'success': True}
-
-def show_form(request):
-	id = request.params['id']
-
-	try:
-		form = session.query(Form)\
-			.filter(Form.id == id)\
-			.one()
-	except:
-		return {}
-
-	return form.as_dict()
-
-def update_form(request):
-	id = request.params['id']
-
-	form = session.query(Form)\
-	.filter(Form.id == id)\
-	.one()
-
-	name = request.params.get('name', None)
-	if name is not None:
-		form.name = name
-
-	date_start = request.params.get('date_start', None)
-	if date_start is not None:
-		form.date_start = date_start
-
-	date_end = request.params.get('date_end', None)
-	if date_end is not None:
-		form.date_end = date_end
-
-	form_type_id = request.params.get('form_type_id', None)
-	if form_type_id is not None:
-		form.form_type_id = form_type_id
-
-	session.commit()
-
-	return form.as_dict()
-
-def list_form_types(request):
-	d = []
-	for ft in session.query(FormType):
-		d.append({
-			'id': int(ft.id),
-			'name': ft.name,
-			'page_sequence': ft.page_sequence,
-			'date_created': str(ft.date_created),
-			'last_modified': str(ft.last_modified)
-		})
-	return d

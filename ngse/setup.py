@@ -33,33 +33,46 @@ def setup(session):
 			'name': 'erdt',
 			'email': 'erdt@upd.edu.ph',
 			'password': 'ngse',
-			'user_type_id': 3
+			'user_type_id': 5
 		},
 		{
 			'name': 'rec',
 			'email': 'rec@upd.edu.ph',
 			'password': 'ngse',
-			'user_type_id': 5
+			'user_type_id': 3
 		}
 	]
+	answers = {
+		'4': {
+			'1': 'Mayol',
+			'2': 'Michael Pio',
+			'3': 'Fortuno'
+		},
+		'5': {
+
+		},
+		'3': {
+
+		}
+	}
 	forms = [
 		{
 			'name': 'Non-ERDT Application Form',
 			'date_start': '2017-03-01 01:00:00',
 			'date_end': '2017-06-01 01:00:00',
-			'form_type_id': 1
+			'form_type_id': 2
 		},
 		{
 			'name': 'ERDT Application Form',
 			'date_start': '2017-03-01 01:00:00',
 			'date_end': '2017-06-01 01:00:00',
-			'form_type_id': 2
+			'form_type_id': 3
 		},
 		{
 			'name': 'Recommendation Letter',
 			'date_start': '2017-03-01 01:00:00',
 			'date_end': '2017-06-01 01:00:00',
-			'form_type_id': 3
+			'form_type_id': 1
 		}
 	]
 
@@ -167,6 +180,24 @@ def setup(session):
 					password = bcrypt.hashpw(u['password'], bcrypt.gensalt()),
 					user_type_id = u['user_type_id']
 				))
+
+		for k, v in answers.iteritems():
+			user = session.query(User)\
+				.filter(User.user_type_id == k)\
+				.one()
+
+			for question_id, text in v.iteritems():
+				try:
+					session.query(Answer)\
+					.filter(Answer.user_id == user.id)\
+					.filter(Answer.question_id == question_id)\
+					.one()
+				except:
+					add(Answer(
+						name = text,
+						question_id = question_id,
+						user_id = user.id
+					))
 
 	setup_categories()
 	setup_users(users)

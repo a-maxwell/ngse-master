@@ -1,11 +1,4 @@
 from cornice import Service
-import json
-import sqlalchemy
-import bcrypt
-import jwt
-import os
-import time
-from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.exc import NoResultFound
 from models import (
 	Base,
@@ -16,12 +9,13 @@ from models import (
 	Answer,
 	UserType,
 	User,
-	# ApplicantAttribute
+	form_category_association
 )
-from utils import encapsulate, URI, log
-from setup import setup
+from utils import encapsulate, decode, encode, generateError, generateSuccess, URI, log
+
 from database import session
-import endpoint
+from validators import *
+from endpoint import *
 
 from pyramid.view import view_config
 
@@ -36,7 +30,6 @@ def index(request):
 		{'name': 'auth', 'icon': 'sign in'},
 	]
 	return {'sections': sections}
-
 
 def create_resource(resource, primary, secondary='', extra=[]):
 	d = {
@@ -57,45 +50,35 @@ def create_resource(resource, primary, secondary='', extra=[]):
 
 	return d
 
-user = create_resource("user", URI['users'],
-	extra=[
-		{
-			'key': 'verify',
-			'name': 'verify user',
-			'description': 'Verify user token'
-		},
-		{
-			'key': 'login',
-			'name': 'login user',
-			'description': 'Return JWT upon successful login'
-		},
-		{
-			'key': 'search',
-			'name': 'search user',
-			'description': 'Search for set of users'
-		},
-		{
-			'key': 'types',
-			'name': 'list user types',
-			'description': 'List all types of users'
-		},
-		{
-			'key': 'validate',
-			'name': 'validate user',
-			'description': 'Validate the status of the user'
-		}
-	])
+###############################################################################
 
-user_collection = user['collection']
+user = create_resource("user", URI['users'], extra=[{'key': 'verify', 'name': 'verify user', 'description': 'Verify user token'},{'key': 'login', 'name': 'login user', 'description': 'Return JWT upon successful login'}])
+
+users_get = user['collection']
+get_users = (users_get).get()(get_users)
+
 user_verify = user['actions']['verify']
+verify_user = user_verify.post()(verify_user)
+
 user_login = user['actions']['login']
+login_user = user_login.post()(login_user)
+
 user_create = user['actions']['create']
+create_user = user_create.post()(create_user)
+
 user_delete = user['actions']['delete']
-user_search = user['actions']['search']
+delete_user = user_delete.get()(delete_user)
+
 user_show = user['actions']['show']
-user_types = user['actions']['types']
+show_user = user_show.get()(show_user)
+
 user_update = user['actions']['update']
-user_validate = user['actions']['validate']
+@user_update.post()
+def update_user(request):
+	log.debug('{}'.format(request.params))
+	return {'hello': 'yes'}
+
+###############################################################################
 
 recommender = create_resource("recommender", URI['users'], URI['recommenders'])
 
@@ -105,159 +88,112 @@ recommender_delete = recommender['actions']['delete']
 recommender_show = recommender['actions']['show']
 recommender_update = recommender['actions']['update']
 
-form = create_resource("form", URI['forms'],
-	extra=[
-		{
-			'key': 'types',
-			'name': 'list form types',
-			'description': 'List all types of forms'
-		}
-	])
+###############################################################################
 
-form_collection = form['collection']
+form = create_resource("form", URI['forms'], extra=[{'key': 'types','name': 'list form types','description': 'List all types of forms'}])
+
+forms_get = form['collection']
+get_forms = forms_get.get(validators=(has_token))(get_forms)
+
 form_create = form['actions']['create']
+create_form = form_create.get(validators=(has_token, has_admin_rights))(create_form)
+
 form_delete = form['actions']['delete']
+delete_form = form_delete.get(validators=(has_token, has_admin_rights))(delete_form)
+
 form_show = form['actions']['show']
-form_types = form['actions']['types']
+# show_form = form_show.get(validators=(has_token, has_form_id))(show_form)
+show_form = form_show.get()(show_form)
+
 form_update = form['actions']['update']
+update_form = form_update.get()(update_form)
+
+form_types_get = form['actions']['types']
+get_form_types = form_types_get.get()(get_form_types)
+
+###############################################################################
 
 category = create_resource("category", URI['forms'], URI['categories'])
 
-category_collection = category['collection']
+categories_get = category['collection']
+get_categories = categories_get.get(validators=())(get_categories)
+
 category_create = category['actions']['create']
+
 category_delete = category['actions']['delete']
+
 category_show = category['actions']['show']
+show_category = category_show.get()(show_category)
+
 category_update = category['actions']['update']
 
-question = create_resource("question", URI['forms'], URI['questions'])
 
-question_collection = question['collection']
+###############################################################################
+
+question = create_resource("question", URI['forms']+URI['categories'], URI['questions'])
+
+questions_get = question['collection']
+get_questions = questions_get.get()(get_questions)
+
 question_create = question['actions']['create']
 question_delete = question['actions']['delete']
 question_show = question['actions']['show']
 question_update = question['actions']['update']
 
+###############################################################################
 
-''' User views '''
-# login_url = '/v1/login'
+answer = create_resource("answer", URI['users'], URI['answers'])
+
+answers_get = answer['collection']
+get_answers = answers_get.get()(get_answers)
+
+answer_create = answer['actions']['create']
+
+answer_delete = answer['actions']['delete']
+
+answer_show = answer['actions']['show']
+
+answer_update = answer['actions']['update']
+update_answer = answer_update.get()(update_answer)
+
+###############################################################################
+
 view_answers_url = '/v1/users/answers'
 update_answer_url = 'v1/users/update_answer'
 view_status_url = 'v1/users/status'
 update_status_url = 'v1/users/update_status'
 # user_login = Service(name='user_login', path=login_url, description="logging in")
 view_answers = Service(name='view_answers', path=view_answers_url, description="view answers")
-view_status = Service(name='view_status', path=view_status_url, description="view user's application status")
+# view_status = Service(name='view_status', path=view_status_url, description="view user's application status")
 update_answer = Service(name='update_answer', path=update_answer_url, description="update answer")
-update_status = Service(name='update_status', path=update_status_url, description="update user's application status")
+# update_status = Service(name='update_status', path=update_status_url, description="update user's application status")
 
+###############################################################################
 
-def is_authenticated(request):
-	#returns null if not logged in
-	#else returns id of loged in user
-	return authenticated_userid(request)
+# answer_update = update_answer.get()(answer_update)
+view_answer = view_answers.get()(view_answer)
 
-# @user_login.get()
-endpoint.verify_user = user_verify.post()(endpoint.verify_user)
-endpoint.login_user = user_login.post()(endpoint.login_user)
-endpoint.answer_update = update_answer.get()(endpoint.answer_update)
-endpoint.view_answer = view_answers.get()(endpoint.view_answer)
-endpoint.get_users = user_collection.get()(endpoint.get_users)
-endpoint.create_user = user_create.post()(endpoint.create_user)
-endpoint.view_user_status = view_status.get()(endpoint.view_user_status)
-endpoint.update_user_status = update_status.get()(endpoint.update_user_status)
+''' User views '''
 
-endpoint.delete_user = user_delete.get()(endpoint.delete_user)
+# @user_search.get()
+# def search_user(request):
 
-# @user_delete.get()
-# def delete_user(request):
-# 	'''
-# 	if admin: proceed
-# 	else: forbidden
-# 	'''
-# 	#assuming  muna na admin yung logged in
-# 	user_id = request.params['id']
-# 	user = session.query(User).filter(User.id == user_id).one()
-# 	session.delete(user)
-# 	session.commit()
-# 	return {'msg':'user deleted', 'success': True}
+# 	department = request.params["department"]
 
-@user_search.get()
-def search_user(request):
+# 	users = session.query(User).join(Answer)\
+# 		.filter(Answer.name == department)\
+# 		.all()
 
-	department = request.params["department"]
+# 	d = []
+# 	for user in users:
+# 		d.append({
+# 			'id': int(user.id),
+# 			'name': user.name,
+# 			'email': user.email,
+# 			'application_status': user.application_status
+# 		})
 
-	users = session.query(User).join(Answer)\
-		.filter(Answer.name == department)\
-		.all()
-
-	d = []
-	for user in users:
-		d.append({
-			'id': int(user.id),
-			'name': user.name,
-			'email': user.email,
-			'application_status': user.application_status
-		})
-
-	return d
-
-@user_show.get()
-def show_user(request):
-	'''
-	if admin: proceed
-	else:
-		if param user id and token user id are the same:
-			proceed
-		else:
-			not authorized
-	'''
-	id = request.params['id']
-
-	user = session.query(User)\
-		.filter(User.id == id)\
-		.one()
-
-
-	answers = session.query(Answer)\
-		.filter(Answer.user_id == id)\
-		.all()
-
-	a = []
-
-	for answer in answers:
-		a.append({
-			'question_id': answer.question_id,
-			'question': answer.question.name,
-			'answer_id': answer.id,
-			'name': answer.name
-			})
-
-	return {
-		'name': user.name,
-		'date_created': str(user.date_created),
-		'last_modified': str(user.last_modified),
-		'email': user.email,
-		'application_status': user.application_status,
-		'user_type': user.user_type.name,
-		'answers': a
-	}
-
-@user_types.get()
-def list_user_types(request):
-	d = []
-	for ut in session.query(UserType):
-		d.append(ut.as_dict())
-	return d
-
-@user_update.post()
-def update_user(request):
-	log.debug('{}'.format(request.params))
-	return {'hello': 'yes'}
-
-@user_validate.post()
-def validate_user(request):
-	log.debug('{}'.format(request.params))
-	return {'hello': 'yes'}
+# 	return d
 
 ''' Recommender views '''
 
@@ -297,31 +233,8 @@ def update_recommender(request):
 	log.debug('{}'.format(request.params))
 	return {'hello': 'yes'}
 
-''' Form views '''
-
-endpoint.get_forms = form_collection.get()(endpoint.get_forms)
-endpoint.create_form = form_create.get()(endpoint.create_form)
-endpoint.delete_form = form_delete.get()(endpoint.delete_form)
-endpoint.show_form = form_show.get()(endpoint.show_form)
-endpoint.update_form = form_update.get()(endpoint.update_form)
-endpoint.list_form_types = form_types.get()(endpoint.list_form_types)
-
 ''' Category views '''
 
-@category_collection.get()
-def get_categories(request):
-	# log.debug('{}'.format(request.params))
-	# return {'hello': 'yes'}
-	c = []
-	for item in session.query(Category).all():
-		c.append({
-			'id': int(item.id),
-			'name': item.name,
-			'date_created': str(item.date_created),
-			'last_modified': str(item.last_modified),
-			'form_type_id': item.form_type_id
-	})
-	return c
 
 @category_create.post()
 def create_category(request):
@@ -333,32 +246,12 @@ def delete_category(request):
 	log.debug('{}'.format(request.params))
 	return {'hello': 'yes'}
 
-@category_show.get()
-def show_category(request):
-	log.debug('{}'.format(request.params))
-	return {'hello': 'yes'}
-
 @category_update.post()
 def update_category(request):
 	log.debug('{}'.format(request.params))
 	return {'hello': 'yes'}
 
 ''' Question views '''
-
-@question_collection.get()
-def get_questions(request):
-	# log.debug('{}'.format(request.params))
-	# return {'hello': 'yes'}
-	q = []
-	for item in session.query(Question).all():
-		q.append({
-			'id': int(item.id),
-			'name': item.name,
-			'date_created': str(item.date_created),
-			'last_modified': str(item.last_modified),
-			'category_id': item.category_id
-	})
-	return q
 
 @question_create.post()
 def create_question(request):

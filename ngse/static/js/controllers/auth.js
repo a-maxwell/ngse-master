@@ -1,4 +1,4 @@
-app.controller('authController', function($scope, $location, authService) {
+app.controller('authController', function($rootScope, $scope, $location, authService) {
 
     initController();
 
@@ -6,39 +6,42 @@ app.controller('authController', function($scope, $location, authService) {
     $scope.register = register;
 
     function signin() {
-        // alert('submitting a login form!');
-        $scope.login.loading = true;
-        authService.login($scope.login.email, $scope.login.password, function(data) {
+        if ($rootScope.debug) console.log('submitting a login form!');
+        l = $scope.login;
+        l.loading = true;
+        data = {'email': l.email, 'password': l.password}
+        authService.login(data, function(data) {
             if (data.success === true) {
                 if (authService.authorize(1)) $location.path('/admin');
-                if (authService.authorize(3)) $location.path('/application');
+                if (authService.authorize(4) ||  authService.authorize(5)) $location.path('/application');
                 else $location.path('/recommendation');
             }
-            else {
-                $scope.login.message = data.message;
-                $scope.login.loading = false;
-            }
+            else l.message = data.message;
+            l.loading = false;
         });
 
     };
 
     function register() {
-        // alert('submitting a registration form!');
-        $scope.registration.loading = true;
-        authService.register($scope.registration.last, $scope.registration.given, $scope.registration.middlemaiden, $scope.registration.email, function(data) {
+        if ($rootScope.debug) console.log('submitting a registration form!');
+        r = $scope.registration;
+        r.loading = true;
+        data = {'last': r.last, 'given': r.given, 'middlemaiden': r.middlemaiden, 'email': r.email, 'scholarship': r.scholarship}
+        authService.register(data, function(data) {
             if (data['success'] === true) $location.path('/');
-            else {
-                $scope.registration.message = data['message'];
-                $scope.registration.loading = false;
-            }
+            else r.message = data.message;
+            r.loading = false;
         });
 
     };
 
     function initController() {
-        authService.verify(function(valid) {
-            console.log('Token Validity: ' + valid);
-            if (!valid) authService.logout()
+        authService.verify(function(d) {
+            if (d === false) validity = false;
+            else validity = d.success;
+
+            if ($rootScope.debug) console.log('Token Validity: ' + validity);
+            if (!validity) authService.logout()
             else $location.path('/');
         });
     };

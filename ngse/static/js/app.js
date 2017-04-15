@@ -62,6 +62,15 @@ app.config(function($routeProvider) {
         templateUrl: "/templates/application.html",
         resolve: {auth: _user}
     })
+    .when("/application/category", {
+        templateUrl: "/templates/category.html",
+        resolve: {auth: _user}
+    })
+    .when("/application/category/:id", {
+        templateUrl: "/templates/form.html",
+        controller: "formController",
+        resolve: {auth: _user}
+    })
     .when("/auth", {
         templateUrl: "/templates/lounge.html",
         resolve: {auth: _loggedIn,}
@@ -69,7 +78,19 @@ app.config(function($routeProvider) {
     .otherwise({redirectTo: '/'});
 });
 
+// app.directive('backButton', ['$window', function($window) {
+//     return {
+//         restrict: 'A',
+//         link: function (scope, elem, attrs) {
+//             elem.bind('click', function () {
+//                 $window.history.back();
+//             });
+//         }
+//     };
+// }]);
+
 app.run(["$rootScope", "$location", function($rootScope, $location) {
+    $rootScope.debug = true;
 
     $rootScope.$on("$routeChangeError", function(event, current, previous, eventObj) {
         if (eventObj.authorized === false) $location.path('/auth');
