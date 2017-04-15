@@ -144,6 +144,7 @@ def setup(session):
 				add(form_type)
 
 				for category_id in form['category_ids']:
+					print '{} and {}'.format(form_type.id, category_id)
 					try:
 						session.query(form_category_association)\
 						.filter(form_category_association.c.form_types_id == form_type.id)\
