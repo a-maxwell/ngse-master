@@ -85,7 +85,7 @@ def setup(session):
 	def setup_categories():
 		categories = open('{}/initial/categories.txt'.format(dir_path), 'r').read().splitlines()
 		for category_name in categories:
-			print 'checked {}'.format(category_name)
+			# print 'checked {}'.format(category_name)
 			# check category 
 			try:
 				category = session.query(Category)\
@@ -100,7 +100,7 @@ def setup(session):
 			# continue
 
 			for question in questions:
-				print 'checked q \'{}\''.format(question['title'])
+				# print 'checked q \'{}\''.format(question['title'])
 				# check question wrt category
 				try:
 					q = session.query(Question)\
@@ -117,7 +117,7 @@ def setup(session):
 	def setup_forms(forms):
 		form_types = open('{}/initial/form_types.txt'.format(dir_path), 'r').read().splitlines()
 		for form_type_name in form_types:
-			print 'checked {}'.format(form_type_name)
+			# print 'checked {}'.format(form_type_name)
 			# check form type
 			try:
 				form_type = session.query(FormType)\
@@ -145,6 +145,7 @@ def setup(session):
 
 				for category_id in form['category_ids']:
 					print '{} and {}'.format(form_type.id, category_id)
+					
 					try:
 						session.query(form_category_association)\
 						.filter(form_category_association.c.form_types_id == form_type.id)\
@@ -172,7 +173,7 @@ def setup(session):
 	def setup_users(users):
 		user_types = open('{}/initial/user_types.txt'.format(dir_path), 'r').read().splitlines()
 		for user_type_name in user_types:
-			print 'checked {}'.format(user_type_name)
+			# print 'checked {}'.format(user_type_name)
 			# check user type
 			try:
 				user_type = session.query(UserType)\
