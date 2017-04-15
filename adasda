@@ -1,0 +1,8 @@
+ id | name  |        date_created        |       last_modified        |        email        |                           password                           | application_status | user_type_id 
+----+-------+----------------------------+----------------------------+---------------------+--------------------------------------------------------------+--------------------+--------------
+  1 | admin | 2017-04-15 12:52:02.203461 | 2017-04-15 12:52:02.203461 | ngse@coe.upd.edu.ph | $2b$12$kQFF4aJdmZqctFiAsH7ylu.bf2AlpR898n65j6zomGjKPwsUgTRFi |                    |            1
+  2 | user  | 2017-04-15 12:52:02.546363 | 2017-04-15 12:52:02.546363 | user@upd.edu.ph     | $2b$12$GhChH6Xl5Vog64yvQNvnSO5iekJJi6MQYGSuWF4eO.IGdijhgvqLG |                    |            4
+  3 | erdt  | 2017-04-15 12:52:02.917436 | 2017-04-15 12:52:02.917436 | erdt@upd.edu.ph     | $2b$12$DmVeI38m0/jqGq/iQioJWOSK0HOKA2HTkDF0OPMTx5iXWQKDkUsg2 |                    |            5
+  4 | rec   | 2017-04-15 12:52:03.318674 | 2017-04-15 12:52:03.318674 | rec@upd.edu.ph      | $2b$12$qPj8WLX2EdyI6Nmy3ixoJuJivn0lEXg6ibt05lL5UmNBt6PUovVPm |                    |            3
+(4 rows)
+

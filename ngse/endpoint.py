@@ -401,12 +401,12 @@ def login_user(request):
 	try:
 		user = session.query(User).filter(User.email == email).one()
 	except NoResultFound:
-		return generateError('Invalid email/password')
+		return generateError('Invalid email')
 
 	pwd = bcrypt.hashpw(password.encode('UTF_8'), user.password.encode('UTF_8'))
 
 	if (pwd != user.password):
-		return generateError('Invalid email/password')
+		return generateError('Invalid password')
 
 	return generateSuccess('Welcome, {}!'.format(user.name), {'token': generateToken(user)})
 
