@@ -9,6 +9,7 @@ from models import (
 	Answer,
 	UserType,
 	User,
+	form_category_association
 	# ApplicantAttribute
 )
 import json
@@ -141,6 +142,18 @@ def setup(session):
 				)
 				form_type.categories = categories
 				add(form_type)
+
+				for category_id in form['category_ids']:
+					try:
+						session.query(form_category_association)\
+						.filter(form_category_association.c.form_types_id == form_type.id)\
+						.filter(form_category_association.c.categories_id == category_id)\
+						.one()
+					except:
+						add(form_category_association(
+							form_type_id = form_type.id,
+							categories_id = category_id
+						))
 
 		for f in forms:
 			try:
