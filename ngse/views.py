@@ -93,7 +93,8 @@ recommender_update = recommender['actions']['update']
 form = create_resource("form", URI['forms'], extra=[{'key': 'types','name': 'list form types','description': 'List all types of forms'}])
 
 forms_get = form['collection']
-get_forms = forms_get.get(validators=(has_token))(get_forms)
+# get_forms = forms_get.get(validators=(has_token))(get_forms)
+get_forms = forms_get.get(validators=())(get_forms)
 
 form_create = form['actions']['create']
 create_form = form_create.get(validators=(has_token, has_admin_rights))(create_form)

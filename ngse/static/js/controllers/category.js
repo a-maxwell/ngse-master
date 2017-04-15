@@ -10,6 +10,7 @@ app.controller('categoryController', function($rootScope, $scope, formService, a
     function initController() {
         formService.fetchForm(function(d) {
             $scope.categories = formService.getCategories();
+            if ($rootScope.debug) $scope.categories;
         	$scope.loading = false;
         });
     };
