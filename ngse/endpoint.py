@@ -76,7 +76,7 @@ def answer_update(request):
 		except:
 			return{'message': 'Smth went wrong', 'success':False}
 	return{'message': 'Answer saved', 'success':True}
-'''
+
 def view_answer(request):
 	user_id = request.params['user_id'] #if succesful auth, this should be authenticated_userid(request)
 	# form = request.params['form_type']
@@ -105,9 +105,9 @@ def view_answer(request):
 			})
 		# categ[item.name] = ques_array
 	return {'data': categ, 'success': True}
+
+
 '''
-
-
 def view_answer(request):
 	# 1
 	user_id = request.params['user_id']
@@ -176,7 +176,7 @@ def view_answer(request):
 		# 	return {'categ': categ}
 	# 15
 	return {'data': categ, 'success': True}
-				
+'''				
 			
 
 # return{'categ': item.name}
@@ -377,57 +377,32 @@ def update_application_status(request):
 
 	app = session.query(ApplicantAttribute).filter(ApplicantAttribute.applicant_id == user_id).first()
 
-	# try:
-	# 	app = session.query(ApplicantAttribute).filter(ApplicantAttribute.applicant_id == user_id).first()
-	# except:
-	# 	return {'message': 'Smth went wrong', 'success': False}
 	if app == None: return{'message': 'user is not an applicant', 'success':False}
 	app.application_status= status
 	session.commit()
 	return {'message': 'Status successfully updated', 'success': True}
 
 
-def view_application_status(request):
+#returns application and validation status of applicant
+def view_status(request): 
 	user_id = request.params['user_id']
 	app = session.query(ApplicantAttribute).filter(ApplicantAttribute.applicant_id == user_id).first()
-
-	# try:
-	# 	app = session.query(ApplicantAttribute).filter(ApplicantAttribute.applicant_id == user_id).first()
-
-	# except:
-	# 	return{'success':False}
 
 	if app == None: return{'message': 'user is not an applicant', 'success':False}
 	user = session.query(User).filter(User.id == user_id).first()					
 
-	return{ 'name': user.name, 'application status': app.application_status}
+	return{ 'name': user.name, 'application status': app.application_status, 'validation_status': app.validation_status}
 
 def update_validation_status(request):
 	user_id = request.params['user_id']
 	status = request.params['v_status'] # complete, incomplete, not yet submitted
 	app = session.query(ApplicantAttribute).filter(ApplicantAttribute.applicant_id == user_id).first()
-	# try:
-	# 	app = session.query(ApplicantAttribute).filter(ApplicantAttribute.applicant_id == user_id).first()
-	# except:
-	# 	return {'message': 'Smth went wrong', 'success': False}
-
+	
 	if app == None: return{'message': 'user is not an applicant', 'success':False}
 	app.validation_status= status
 	session.commit()
 	return {'message': 'Validation status successfully updated', 'success': True}
 
-def view_validation_status(request):
-	user_id = request.params['user_id']
-	app = session.query(ApplicantAttribute).filter(ApplicantAttribute.applicant_id == user_id).first()
-	# try:
-	# 	app = session.query(ApplicantAttribute).filter(ApplicantAttribute.applicant_id == user_id).first()
-	# except:
-	# 	return{'success':False}
-	if app == None: return{'message': 'user is not an applicant', 'success':False}
-
-	user = session.query(User).filter(User.id == user_id).first()					
-
-	return{ 'name': user.name, 'validation status': app.validation_status}
 
 def reset_database(request):
 	# if admin
@@ -437,11 +412,10 @@ def reset_database(request):
 	session.commit()
 	session.query(ApplicantAttribute).delete()
 	session.commit()
-    users = session.query(User).filter(User.id > 1).all()
+	users = session.query(User).filter(User.id > 1).all()
 	for user in users:
 		session.delete(user)
 		session.commit()
-
 	return {'success': True}
 
 ''' Form views '''

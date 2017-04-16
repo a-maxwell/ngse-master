@@ -1,0 +1,35 @@
+[
+	{
+		"title": "Title",
+		"class": "dropdown",
+		"choices": ["-", "Engr.", "Dr.", "Prof."]
+	},
+	{
+		"title": "Given Name",
+		"class": "text"
+	},
+	{
+		"title": "Middle Initial",
+		"class": "text"
+	},
+	{
+		"title": "Last Name",
+		"class": "text"
+	},
+	{
+		"title": "Highest Educational Attainment",
+		"class": "text"
+	},
+	{
+		"title": "Affiliated Organization Name",
+		"class": "text"
+	},
+	{
+		"title": "Position in Organization",
+		"class": "text"
+	},
+	{
+		"title": "Address of Organization",
+		"class": "text"
+	}
+]

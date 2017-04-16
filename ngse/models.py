@@ -1,4 +1,5 @@
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.schema import Table
 from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.postgresql import ARRAY, JSON
 from sqlalchemy import (
@@ -14,6 +15,11 @@ import bcrypt
 
 Base = declarative_base()
 
+association_table = Table('association', Base.metadata,
+	Column('form_types_id', Integer, ForeignKey('form_types.id')),
+	Column('categories_id', Integer, ForeignKey('categories.id'))
+)
+
 class FormType(Base):
 	__tablename__ = 'form_types'
 
@@ -24,7 +30,8 @@ class FormType(Base):
 	last_modified = Column(DateTime, nullable=False, server_default=func.now(), onupdate=func.now())
 
 	forms = relationship("Form", back_populates="form_type") # child relationship
-	categories = relationship("Category", back_populates="form_type") # child relationship
+	categories = relationship("Category", secondary=association_table, back_populates="form_type")
+	user_type_id = Column(Integer, ForeignKey('user_types.id'))
 
 	def as_dict(self):
 		return {c.name: str(getattr(self, c.name)) for c in self.__table__.columns}
@@ -54,8 +61,8 @@ class Category(Base):
 	date_created = Column(DateTime, nullable=False, server_default=func.now())
 	last_modified = Column(DateTime, nullable=False, server_default=func.now(), onupdate=func.now())
 
-	form_type_id = Column(Integer, ForeignKey('form_types.id')) # parent
-	form_type = relationship("FormType", back_populates="categories") # parent relationship
+	# form_type_id = Column(Integer, ForeignKey('form_types.id')) # parent
+	form_type = relationship("FormType", secondary=association_table, back_populates="categories") # parent relationship
 
 	questions = relationship("Question", back_populates="category")
 
@@ -75,6 +82,9 @@ class Question(Base):
 
 	# form_type_id = Column(Integer, ForeignKey('form_types.id')) # parent
 	# form_type = relationship("FormType", back_populates="questions") # parent relationship
+
+	input_type = Column(Text, nullable=False)
+	choices = Column(ARRAY(Text))
 
 	meta = Column(JSON)
 
@@ -105,8 +115,8 @@ class UserType(Base):
 
 	id = Column(Integer, primary_key=True)
 	name = Column(Text, nullable=False)
-	date_created = Column(DateTime, nullable=False, server_default=func.now())
-	last_modified = Column(DateTime, nullable=False, server_default=func.now(), onupdate=func.now())
+	# date_created = Column(DateTime, nullable=False, server_default=func.now())
+	# last_modified = Column(DateTime, nullable=False, server_default=func.now(), onupdate=func.now())
 
 	user = relationship("User", back_populates='user_type')
 
