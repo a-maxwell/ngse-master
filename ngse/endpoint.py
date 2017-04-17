@@ -395,6 +395,8 @@ def login_user(request):
 	email = request.params.get('email', None)
 	password = request.params.get('password', None)
 
+	print request.POST
+
 	if email is None or password is None:
 		return generateError('Invalid email/password')
 
