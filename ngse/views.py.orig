@@ -9,8 +9,11 @@ from models import (
 	Answer,
 	UserType,
 	User,
-	form_category_association,
+<<<<<<< HEAD
+	form_category_association
+=======
 	ApplicantAttribute
+>>>>>>> fdcf98bdc7ef415b60172a3eeb8f9209ae89af4b
 )
 from utils import encapsulate, decode, encode, generateError, generateSuccess, URI, log
 
@@ -52,24 +55,6 @@ def create_resource(resource, primary, secondary='', extra=[]):
 	return d
 
 ###############################################################################
-# changes in daisy
-
-view_answers_url = '/v1/users/answers'
-update_answer_url = 'v1/users/update_answer'
-update_application_status_url = 'v1/users/update_a_status'
-
-view_status_url = 'v1/users/status'
-update_validation_status_url = 'v1/users/update_v_status'
-reset_database_url = 'v1/delete_all'
-view_answers = Service(name='view_answers', path=view_answers_url, description="view answers")
-# update_answer = Service(name='update_answer', path=update_answer_url, description="update answer")
-# update_a_status = Service(name='update_a_status', path=update_application_status_url, description="update user's application status")
-
-# view_status = Service(name='view_v_status', path=view_status_url, description="view user's form validation status and application status")
-# update_v_status = Service(name='update_v_status', path=update_validation_status_url, description="update user's form validation status")
-# reset_db = Service(name='reset_db', path=reset_database_url, description="truncate tables in database")
-
-###############################################################################
 
 user = create_resource("user", URI['users'], extra=[{'key': 'verify', 'name': 'verify user', 'description': 'Verify user token'},{'key': 'login', 'name': 'login user', 'description': 'Return JWT upon successful login'}])
 
@@ -96,11 +81,6 @@ user_update = user['actions']['update']
 def update_user(request):
 	log.debug('{}'.format(request.params))
 	return {'hello': 'yes'}
-
-
-
-# update_validation_status = update_v_status.get()(update_validation_status)
-# reset_database = reset_db.get()(reset_database)
 
 ###############################################################################
 
@@ -183,8 +163,104 @@ update_answer = answer_update.get()(update_answer)
 
 ###############################################################################
 
+view_answers_url = '/v1/users/answers'
+update_answer_url = 'v1/users/update_answer'
+update_application_status_url = 'v1/users/update_a_status'
+
+view_status_url = 'v1/users/status'
+update_validation_status_url = 'v1/users/update_v_status'
+reset_database_url = 'v1/delete_all'
+# user_login = Service(name='user_login', path=login_url, description="logging in")
+view_answers = Service(name='view_answers', path=view_answers_url, description="view answers")
+<<<<<<< HEAD
+# view_status = Service(name='view_status', path=view_status_url, description="view user's application status")
+update_answer = Service(name='update_answer', path=update_answer_url, description="update answer")
+# update_status = Service(name='update_status', path=update_status_url, description="update user's application status")
+=======
+update_answer = Service(name='update_answer', path=update_answer_url, description="update answer")
+update_a_status = Service(name='update_a_status', path=update_application_status_url, description="update user's application status")
+
+view_status = Service(name='view_v_status', path=view_status_url, description="view user's form validation status and application status")
+update_v_status = Service(name='update_v_status', path=update_validation_status_url, description="update user's form validation status")
+reset_db = Service(name='reset_db', path=reset_database_url, description="truncate tables in database")
+
+def is_authenticated(request):
+	#returns null if not logged in
+	#else returns id of loged in user
+	return authenticated_userid(request)
+
+# @user_login.get()
+endpoint.verify_user = user_verify.post()(endpoint.verify_user)
+endpoint.login_user = user_login.post()(endpoint.login_user)
+endpoint.answer_update = update_answer.get()(endpoint.answer_update)
+endpoint.view_answer = view_answers.get()(endpoint.view_answer)
+endpoint.get_users = user_collection.get()(endpoint.get_users)
+endpoint.create_user = user_create.post()(endpoint.create_user)
+endpoint.view_status = view_status.get()(endpoint.view_status)
+endpoint.update_application_status = update_a_status.get()(endpoint.update_application_status)
+
+endpoint.delete_user = user_delete.get()(endpoint.delete_user)
+
+endpoint.update_validation_status = update_v_status.get()(endpoint.update_validation_status)
+endpoint.reset_database = reset_db.get()(endpoint.reset_database)
+# @user_delete.get()
+# def delete_user(request):
+# 	'''
+# 	if admin: proceed
+# 	else: forbidden
+# 	'''
+# 	#assuming  muna na admin yung logged in
+# 	user_id = request.params['id']
+# 	user = session.query(User).filter(User.id == user_id).one()
+# 	session.delete(user)
+# 	session.commit()
+# 	return {'msg':'user deleted', 'success': True}
+
+@user_search.get()
+def search_user(request):
+
+	department = request.params["department"]
+
+	users = session.query(User).join(Answer)\
+		.filter(Answer.name == department)\
+		.all()
+
+	d = []
+	for user in users:
+		d.append({
+			'id': int(user.id),
+			'name': user.name,
+			'email': user.email,
+			'application_status': user.application_status
+		})
+>>>>>>> fdcf98bdc7ef415b60172a3eeb8f9209ae89af4b
+
+###############################################################################
+
 # answer_update = update_answer.get()(answer_update)
-# view_answer = view_answers.get()(view_answer)
+view_answer = view_answers.get()(view_answer)
+
+''' User views '''
+
+# @user_search.get()
+# def search_user(request):
+
+# 	department = request.params["department"]
+
+# 	users = session.query(User).join(Answer)\
+# 		.filter(Answer.name == department)\
+# 		.all()
+
+# 	d = []
+# 	for user in users:
+# 		d.append({
+# 			'id': int(user.id),
+# 			'name': user.name,
+# 			'email': user.email,
+# 			'application_status': user.application_status
+# 		})
+
+# 	return d
 
 ''' Recommender views '''
 

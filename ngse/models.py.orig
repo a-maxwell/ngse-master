@@ -16,7 +16,11 @@ import bcrypt
 
 Base = declarative_base()
 
+<<<<<<< HEAD
 form_category_association = Table('form_category_association', Base.metadata,
+=======
+association_table = Table('association', Base.metadata,
+>>>>>>> fdcf98bdc7ef415b60172a3eeb8f9209ae89af4b
 	Column('form_types_id', Integer, ForeignKey('form_types.id')),
 	Column('categories_id', Integer, ForeignKey('categories.id'))
 )
@@ -31,7 +35,11 @@ class FormType(Base):
 	last_modified = Column(DateTime, nullable=False, server_default=func.now(), onupdate=func.now())
 
 	forms = relationship("Form", back_populates="form_type") # child relationship
+<<<<<<< HEAD
 	categories = relationship("Category", secondary=form_category_association, back_populates="form_type")
+=======
+	categories = relationship("Category", secondary=association_table, back_populates="form_type")
+>>>>>>> fdcf98bdc7ef415b60172a3eeb8f9209ae89af4b
 	user_type_id = Column(Integer, ForeignKey('user_types.id'))
 
 	def as_dict(self):
@@ -62,7 +70,12 @@ class Category(Base):
 	date_created = Column(DateTime, nullable=False, server_default=func.now())
 	last_modified = Column(DateTime, nullable=False, server_default=func.now(), onupdate=func.now())
 
+<<<<<<< HEAD
 	form_type = relationship("FormType", secondary=form_category_association, back_populates="categories") # parent relationship
+=======
+	# form_type_id = Column(Integer, ForeignKey('form_types.id')) # parent
+	form_type = relationship("FormType", secondary=association_table, back_populates="categories") # parent relationship
+>>>>>>> fdcf98bdc7ef415b60172a3eeb8f9209ae89af4b
 
 	questions = relationship("Question", back_populates="category")
 
@@ -134,10 +147,14 @@ class User(Base):
 	email = Column(Text, nullable=False)
 	password = Column(Text, nullable=False)
 	
+<<<<<<< HEAD
+	application_status = Column(Text)
+=======
 	# application_status = Column(Text)
 	# meta = Column(JSON) #status can be submitted, on process, accepted, rejected
+>>>>>>> fdcf98bdc7ef415b60172a3eeb8f9209ae89af4b
 
-	user_type_id = Column(Integer, ForeignKey('user_types.id'), default=4)
+	user_type_id = Column(Integer, ForeignKey('user_types.id'), default=3)
 	user_type = relationship("UserType", back_populates='user')
 
 	# applicant_attr = relationship("ApplicantAttribute", back_populates='applicant')

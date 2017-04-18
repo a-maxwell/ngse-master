@@ -24,56 +24,78 @@ def setup(session):
 			'password': 'ngse',
 			'user_type_id': 1
 		},
-		# {
-		# 	'name': 'user',
-		# 	'email': 'user@upd.edu.ph',
-		# 	'password': 'ngse',
-		# 	'user_type_id': 4
-		# },
-		# {
-		# 	'name': 'erdt',
-		# 	'email': 'erdt@upd.edu.ph',
-		# 	'password': 'ngse',
-		# 	'user_type_id': 5
-		# },
-		# {
-		# 	'name': 'rec',
-		# 	'email': 'rec@upd.edu.ph',
-		# 	'password': 'ngse',
-		# 	'user_type_id': 3
-		# }
+		{
+			'name': 'user',
+			'email': 'user@upd.edu.ph',
+			'password': 'ngse',
+			'user_type_id': 4
+		},
+		{
+			'name': 'erdt',
+			'email': 'erdt@upd.edu.ph',
+			'password': 'ngse',
+<<<<<<< HEAD
+			'user_type_id': 5
+=======
+			'user_type_id': 3
+>>>>>>> fdcf98bdc7ef415b60172a3eeb8f9209ae89af4b
+		},
+		{
+			'name': 'rec',
+			'email': 'rec@upd.edu.ph',
+			'password': 'ngse',
+<<<<<<< HEAD
+			'user_type_id': 3
+		}
 	]
 	answers = {
-		# '4': {
-		# 	'1': 'Mayol',
-		# 	'2': 'Michael Pio',
-		# 	'3': 'Fortuno'
-		# },
-		# '5': {
+		'4': {
+			'1': 'Mayol',
+			'2': 'Michael Pio',
+			'3': 'Fortuno'
+		},
+		'5': {
 
-		# },
-		# '3': {
+		},
+		'3': {
 
-		# }
+		}
 	}
+=======
+			'user_type_id': 5
+		}
+	]
+>>>>>>> fdcf98bdc7ef415b60172a3eeb8f9209ae89af4b
 	forms = [
 		{
 			'name': 'Non-ERDT Application Form',
 			'date_start': '2017-03-01 01:00:00',
 			'date_end': '2017-06-01 01:00:00',
+<<<<<<< HEAD
 			'form_type_id': 2
+=======
+			'form_type_id': 1
+>>>>>>> fdcf98bdc7ef415b60172a3eeb8f9209ae89af4b
 		},
 		{
 			'name': 'ERDT Application Form',
 			'date_start': '2017-03-01 01:00:00',
 			'date_end': '2017-06-01 01:00:00',
+<<<<<<< HEAD
 			'form_type_id': 3
+=======
+			'form_type_id': 2
+>>>>>>> fdcf98bdc7ef415b60172a3eeb8f9209ae89af4b
 		},
 		{
 			'name': 'Recommendation Letter',
 			'date_start': '2017-03-01 01:00:00',
 			'date_end': '2017-06-01 01:00:00',
+<<<<<<< HEAD
 			'form_type_id': 1
+=======
+			'form_type_id': 3
+>>>>>>> fdcf98bdc7ef415b60172a3eeb8f9209ae89af4b
 		}
 	]
 
@@ -85,7 +107,11 @@ def setup(session):
 	def setup_categories():
 		categories = open('{}/initial/categories.txt'.format(dir_path), 'r').read().splitlines()
 		for category_name in categories:
+<<<<<<< HEAD
 			# print 'checked {}'.format(category_name)
+=======
+			print 'checked {}'.format(category_name)
+>>>>>>> fdcf98bdc7ef415b60172a3eeb8f9209ae89af4b
 			# check category 
 			try:
 				category = session.query(Category)\
@@ -100,7 +126,11 @@ def setup(session):
 			# continue
 
 			for question in questions:
+<<<<<<< HEAD
 				# print 'checked q \'{}\''.format(question['title'])
+=======
+				print 'checked q \'{}\''.format(question['title'])
+>>>>>>> fdcf98bdc7ef415b60172a3eeb8f9209ae89af4b
 				# check question wrt category
 				try:
 					q = session.query(Question)\
@@ -117,7 +147,11 @@ def setup(session):
 	def setup_forms(forms):
 		form_types = open('{}/initial/form_types.txt'.format(dir_path), 'r').read().splitlines()
 		for form_type_name in form_types:
+<<<<<<< HEAD
 			# print 'checked {}'.format(form_type_name)
+=======
+			print 'checked {}'.format(form_type_name)
+>>>>>>> fdcf98bdc7ef415b60172a3eeb8f9209ae89af4b
 			# check form type
 			try:
 				form_type = session.query(FormType)\
@@ -142,6 +176,7 @@ def setup(session):
 				)
 				form_type.categories = categories
 				add(form_type)
+<<<<<<< HEAD
 
 				for category_id in form['category_ids']:
 					print '{} and {}'.format(form_type.id, category_id)
@@ -213,6 +248,47 @@ def setup(session):
 						question_id = question_id,
 						user_id = user.id
 					))
+=======
+
+		for f in forms:
+			try:
+				session.query(Form)\
+					.filter(Form.name == f['name'])\
+					.one()
+			except NoResultFound as e:
+				add(Form(
+					name = f['name'],
+					date_start = f['date_start'] ,
+					date_end = f['date_end'],
+					form_type_id = f['form_type_id']
+				))
+
+	def setup_users(users):
+		user_types = open('{}/initial/user_types.txt'.format(dir_path), 'r').read().splitlines()
+		for user_type_name in user_types:
+			print 'checked {}'.format(user_type_name)
+			# check user type
+			try:
+				user_type = session.query(UserType)\
+				.filter(UserType.name == user_type_name)\
+				.one()
+			# make new entry if not found
+			except NoResultFound as e:
+				user_type = add(UserType(name=user_type_name))
+
+		for u in users:
+			try:
+				session.query(User)\
+				.filter(User.name == u['name'])\
+				.one()
+			except NoResultFound as e:
+				add(User(
+					name = u['name'],
+					email = u['email'],
+					password = bcrypt.hashpw(u['password'], bcrypt.gensalt()),
+					user_type_id = u['user_type_id']
+				))
+>>>>>>> fdcf98bdc7ef415b60172a3eeb8f9209ae89af4b
 
 	setup_categories()
 	setup_users(users)
