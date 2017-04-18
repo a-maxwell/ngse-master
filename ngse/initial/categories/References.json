@@ -1,50 +1,86 @@
 [
 	{
-		"title": "Recommender Name",
-		"class": "text"
+		"name": "rec1name",
+		"text": "Recommender Name",
+		"klass": "question",
+		"kind": "text",
+		"required": true
 	},
 	{
-		"title": "Company of Affiliton",
-		"class": "text"
+		"name": "company1name",
+		"text": "Company of Affiliton",
+		"klass": "question",
+		"kind": "text",
+		"required": true
 	},
 	{
-		"title": "Company Address",
-		"class": "text"
+		"name": "company1address",
+		"text": "Company Address",
+		"klass": "question",
+		"kind": "text",
+		"required": true
 	},
 	{
-		"title": "Company Contact Number",
-		"class": "text"
+		"name": "company1contact",
+		"text": "Company Contact Number",
+		"klass": "question",
+		"kind": "text",
+		"required": true
 	},
 	{
-		"title": "Recommender Name",
-		"class": "text"
+		"name": "rec2name",
+		"text": "Recommender Name",
+		"klass": "question",
+		"kind": "text",
+		"required": true
 	},
 	{
-		"title": "Company of Affiliton",
-		"class": "text"
+		"name": "company2name",
+		"text": "Company of Affiliton",
+		"klass": "question",
+		"kind": "text",
+		"required": true
 	},
 	{
-		"title": "Company Address",
-		"class": "text"
+		"name": "company2address",
+		"text": "Company Address",
+		"klass": "question",
+		"kind": "text",
+		"required": true
 	},
 	{
-		"title": "Company Contact Number",
-		"class": "text"
+		"name": "company2contact",
+		"text": "Company Contact Number",
+		"klass": "question",
+		"kind": "text",
+		"required": true
 	},
 	{
-		"title": "Recommender Name",
-		"class": "text"
+		"name": "rec3name",
+		"text": "Recommender Name",
+		"klass": "question",
+		"kind": "text",
+		"required": true
 	},
 	{
-		"title": "Company of Affiliton",
-		"class": "text"
+		"name": "company3name",
+		"text": "Company of Affiliton",
+		"klass": "question",
+		"kind": "text",
+		"required": true
 	},
 	{
-		"title": "Company Address",
-		"class": "text"
+		"name": "company3address",
+		"text": "Company Address",
+		"klass": "question",
+		"kind": "text",
+		"required": true
 	},
 	{
-		"title": "Company Contact Number",
-		"class": "text"
+		"name": "company3contact",
+		"text": "Company Contact Number",
+		"klass": "question",
+		"kind": "text",
+		"required": true
 	}
 ]

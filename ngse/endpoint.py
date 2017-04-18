@@ -379,44 +379,55 @@ def create_user(request):
 	given = request.params.get('given', None)
 	middlemaiden = request.params.get('middlemaiden', None)
 	level = request.params.get('level', None)
-	if level is not None:
-		level = int(level)
+	fullname = '{} {}'.format(given, last)
+	password = bcrypt.hashpw('password', bcrypt.gensalt())
 
 	if email is None or last is None or given is None or middlemaiden is None:
 		return generateError('Field is missing')
 
-	# check if email is linked to an account
+	# check if user is not recommender email is linked to an account
 	u = session.query(User).filter(User.email == email).all()
-	if (len(u) > 0 and level < 4):
+	if (level != 3 and len(u) > 0):
 		return generateError('E-mail is already in use')
-
-	password = bcrypt.hashpw('password', bcrypt.gensalt())
-	
-
-	'''
-	try:
-		u = session.query(User).filter(User.email == email).one()
-		if (level < 4) :
-			return generateError('E-mail is already in use')
-	except:
-		# generate password
-		pass
-	password = bcrypt.hashpw('password', bcrypt.gensalt())
-	'''
-
-	fullname = '{} {}'.format(given, last)
-	# return generateError(name)
 
 	try:
 		if level is None:
 			u = User(name=fullname, email=email, password=password)
 		else:
-			u = User(name=fullname, email=email, password=password, user_type_id=level)
+			u = User(name=fullname, email=email, password=password, user_type_id=int(level))
 	except:
 		return generateError('Something weird happened!')
 
 	session.add(u)
 	session.commit()
+
+	if int(level) in [4,5]:
+
+		print 'HUH'
+		# create answer} 
+		form_type = session.query(FormType).filter(FormType.user_type_id == u.user_type_id).one()
+		# forms = session.query(Form).filter(Form.form_type_id == form_type.id).all()
+		# for f in forms:
+		# 	started = is_past(str(f.date_start))
+		# 	ended = is_past(str(f.date_end))
+
+		# 	status = 'idle' if (not started) else ( 'expired' if (ended) else 'ongoing' )
+
+		# 	if (status is 'ongoing'):
+		# 		form = f
+		# 		break
+		category_ids = form_type.page_sequence
+		questions = []
+
+		for category_id in category_ids:
+			toadd = session.query(Element).filter(Element.klass == 'question').filter(Element.category_id == category_id).all()
+			for entry in toadd:
+				questions.append(entry)
+
+		for question in questions:
+			answer = Answer(text='', element_id=question.id, user_id=u.id)
+			session.add(answer)
+			session.commit()
 
 	return generateSuccess('Welcome, {}!'.format(fullname), {'token': generateToken(u)})
 

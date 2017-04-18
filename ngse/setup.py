@@ -104,14 +104,15 @@ def setup(session):
 				# check element wrt category
 				try:
 					q = session.query(Element)\
-					.filter(Element.name == question['title'])\
+					.filter(Element.name == element['name'])\
 					.filter(Element.category_id == category.id)\
 					.one()
 					# check if meta is the same
 				# make new entry if not found
 				except NoResultFound as e:
-					q = Element(name=question['title'], category_id=category.id, input_type=question['class'])
-					q.choices = question.get('choices', None)
+					q = Element(name=element['name'], category_id=category.id, klass=element['klass'], kind=element['kind'], text=element['text'])
+					q.required = element.get('required', None)
+					q.choices = element.get('choices', None)
 					add(q)
 
 	def setup_forms(forms):
@@ -201,16 +202,16 @@ def setup(session):
 				.filter(User.user_type_id == k)\
 				.one()
 
-			for question_id, text in v.iteritems():
+			for element_id, text in v.iteritems():
 				try:
 					session.query(Answer)\
 					.filter(Answer.user_id == user.id)\
-					.filter(Answer.question_id == question_id)\
+					.filter(Answer.element_id == element_id)\
 					.one()
 				except:
 					add(Answer(
 						name = text,
-						question_id = question_id,
+						element_id = element_id,
 						user_id = user.id
 					))
 

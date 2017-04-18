@@ -1,6 +1,9 @@
 [
 	{
-		"title": "essay",
-		"class": "textbox"
+		"name": "essay",
+		"text": "essay",
+		"klass": "question",
+		"kind": "textbox",
+		"required": true
 	}
 ]

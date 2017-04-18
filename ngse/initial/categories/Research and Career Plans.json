@@ -1,14 +1,23 @@
 [
 	{
-		"title": "essay1",
-		"class": "textbox"
+		"name": "essay1",
+		"text": "essay1",
+		"klass": "question",
+		"kind": "textbox",
+		"required": true
 	},
 	{
-		"title": "essay2",
-		"class": "textbox"
+		"name": "essay2",
+		"text": "essay2",
+		"klass": "question",
+		"kind": "textbox",
+		"required": true
 	},
 	{
-		"title": "essay3",
-		"class": "textbox"
+		"name": "essay3",
+		"text": "essay3",
+		"klass": "question",
+		"kind": "textbox",
+		"required": true
 	}
 ]

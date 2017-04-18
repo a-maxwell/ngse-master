@@ -1,35 +1,59 @@
 [
 	{
-		"title": "Title",
-		"class": "dropdown",
-		"choices": ["-", "Engr.", "Dr.", "Prof."]
+		"name": "title",
+		"text": "Title",
+		"klass": "question",
+		"kind": "dropdown",
+		"choices": ["-", "Engr.", "Dr.", "Prof."],
+		"required": true
 	},
 	{
-		"title": "Given Name",
-		"class": "text"
+		"name": "givenname",
+		"text": "Given Name",
+		"klass": "question",
+		"kind": "text",
+		"required": true
 	},
 	{
-		"title": "Middle Initial",
-		"class": "text"
+		"name": "middleinitial",
+		"text": "Middle Initial",
+		"klass": "question",
+		"kind": "text",
+		"required": true
 	},
 	{
-		"title": "Last Name",
-		"class": "text"
+		"name": "lastname",
+		"text": "Last Name",
+		"klass": "question",
+		"kind": "text",
+		"required": true
 	},
 	{
-		"title": "Highest Educational Attainment",
-		"class": "text"
+		"name": "attainment",
+		"text": "Highest Educational Attainment",
+		"klass": "question",
+		"kind": "text",
+		"required": true
 	},
 	{
-		"title": "Affiliated Organization Name",
-		"class": "text"
+		"name": "orgname",
+		"text": "Affiliated Organization Name",
+		"klass": "question",
+		"kind": "text",
+		"required": true
 	},
 	{
-		"title": "Position in Organization",
-		"class": "text"
+		"name": "positioninorg",
+		"text": "Position in Organization",
+		"klass": "question",
+		"kind": "text",
+		"required": true
 	},
 	{
-		"title": "Address of Organization",
-		"class": "text"
+		"name": "orgaddress",
+		"text": "Address of Organization",
+		"klass": "question",
+		"kind": "text",
+		"required": true
 	}
 ]

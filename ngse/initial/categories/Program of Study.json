@@ -1,6 +1,23 @@
 [
 	{
-		"title": "Last Name",
-		"class": "text"
+		"name": "lastname",
+		"text": "Last Name",
+		"klass": "question",
+		"kind": "text",
+		"required": true
+	},
+	{
+		"name": "givenname",
+		"text": "Given Name",
+		"klass": "question",
+		"kind": "text",
+		"required": true
+	},
+	{
+		"name": "middlename",
+		"text": "Middle/Maiden Name",
+		"klass": "question",
+		"kind": "text",
+		"required": true
 	}
 ]

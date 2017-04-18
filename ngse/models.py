@@ -83,13 +83,15 @@ class Element(Base):
 	# form_type_id = Column(Integer, ForeignKey('form_types.id')) # parent
 	# form_type = relationship("FormType", back_populates="questions") # parent relationship
 
+	text = Column(Text, nullable=False)
 	klass = Column(Text, nullable=False, default='question')
 	kind = Column(Text, nullable=False, default='text')
 	choices = Column(ARRAY(Text))
+	required = Column(Boolean)
 
 	meta = Column(JSON)
 
-	answers = relationship("Answer", back_populates="question")
+	answers = relationship("Answer", back_populates="element")
 
 	def as_dict(self):
 		return {c.name: str(getattr(self, c.name)) for c in self.__table__.columns}
@@ -98,7 +100,7 @@ class Answer(Base):
 	__tablename__ = 'answers'
 
 	id = Column(Integer, primary_key=True)
-	name = Column(Text, nullable=False)
+	text = Column(Text, nullable=False)
 	date_created = Column(DateTime, nullable=False, server_default=func.now())
 	last_modified = Column(DateTime, nullable=False, server_default=func.now(), onupdate=func.now())
 

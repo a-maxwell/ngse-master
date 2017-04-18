@@ -1,87 +1,146 @@
 [
 	{
-		"title": "Programming Language",
-		"class": "text"
+		"name": "lang1",
+		"text": "Programming Language",
+		"klass": "question",
+		"kind": "text",
+		"required": true
 	},
 	{
-		"title": "Level of Proficiency",
-		"class": "Checkbox",
+		"name": "prof1",
+		"text": "Level of Proficiency",
+		"klass": "question",
+		"kind": "Checkbox",
+		"choices": [1,2,3,4,5],
+		"required": true
+	},
+	{
+		"name": "lang2",
+		"text": "Programming Language",
+		"klass": "question",
+		"kind": "text",
+		"required": false
+	},
+	{
+		"name": "prof2",
+		"text": "Level of Proficiency",
+		"klass": "question",
+		"kind": "Checkbox",
+		"choices": [1,2,3,4,5],
+		"required": false
+	},
+	{
+		"name": "lang3",
+		"text": "Programming Language",
+		"klass": "question",
+		"kind": "text",
+		"required": false
+	},
+	{
+		"name": "prof3",
+		"text": "Level of Proficiency",
+		"klass": "question",
+		"kind": "Checkbox",
+		"choices": [1,2,3,4,5],
+		"required": false
+	},
+	{
+		"name": "lang4",
+		"text": "Programming Language",
+		"klass": "question",
+		"kind": "text",
+		"required": false
+	},
+	{
+		"name": "prof4",
+		"text": "Level of Proficiency",
+		"klass": "question",
+		"kind": "Checkbox",
+		"choices": [1,2,3,4,5],
+		"required": false
+	},
+	{
+		"name": "lang5",
+		"text": "Programming Language",
+		"klass": "question",
+		"kind": "text",
+		"required": false
+	},
+	{
+		"name": "prof5",
+		"text": "Level of Proficiency",
+		"klass": "question",
+		"kind": "Checkbox",
 		"choices": [1,2,3,4,5]
 	},
 	{
-		"title": "Programming Language",
-		"class": "text"
+		"name": "proj1",
+		"text": "Title/Name of Project/Application",
+		"klass": "question",
+		"kind": "text",
+		"required": true
 	},
 	{
-		"title": "Level of Proficiency",
-		"class": "Checkbox",
-		"choices": [1,2,3,4,5]
+		"name": "projlang1",
+		"text": "Programming Language(s) Used",
+		"klass": "question",
+		"kind": "text",
+		"required": true
 	},
 	{
-		"title": "Programming Language",
-		"class": "text"
+		"name": "proj2",
+		"text": "Title/Name of Project/Application",
+		"klass": "question",
+		"kind": "text",
+		"required": false
 	},
 	{
-		"title": "Level of Proficiency",
-		"class": "Checkbox",
-		"choices": [1,2,3,4,5]
+		"name": "projlang2",
+		"text": "Programming Language(s) Used",
+		"klass": "question",
+		"kind": "text",
+		"required": false
 	},
 	{
-		"title": "Programming Language",
-		"class": "text"
+		"name": "proj3",
+		"text": "Title/Name of Project/Application",
+		"klass": "question",
+		"kind": "text",
+		"required": false
 	},
 	{
-		"title": "Level of Proficiency",
-		"class": "Checkbox",
-		"choices": [1,2,3,4,5]
+		"name": "projlang3",
+		"text": "Programming Language(s) Used",
+		"klass": "question",
+		"kind": "text",
+		"required": false
 	},
 	{
-		"title": "Programming Language",
-		"class": "text"
+		"name": "proj4",
+		"text": "Title/Name of Project/Application",
+		"klass": "question",
+		"kind": "text",
+		"required": false
 	},
 	{
-		"title": "Level of Proficiency",
-		"class": "Checkbox",
-		"choices": [1,2,3,4,5]
+		"name": "projlang4",
+		"text": "Programming Language(s) Used",
+		"klass": "question",
+		"kind": "text",
+		"required": false
 	},
 	{
-		"title": "Title/Name of Project/Application",
-		"class": "text"
+		"name": "proj5",
+		"text": "Title/Name of Project/Application",
+		"klass": "question",
+		"kind": "text",
+		"required": false
 	},
 	{
-		"title": "Programming Language(s) Used",
-		"class": "text"
-	},
-	{
-		"title": "Title/Name of Project/Application",
-		"class": "text"
-	},
-	{
-		"title": "Programming Language(s) Used",
-		"class": "text"
-	},
-	{
-		"title": "Title/Name of Project/Application",
-		"class": "text"
-	},
-	{
-		"title": "Programming Language(s) Used",
-		"class": "text"
-	},
-	{
-		"title": "Title/Name of Project/Application",
-		"class": "text"
-	},
-	{
-		"title": "Programming Language(s) Used",
-		"class": "text"
-	},
-	{
-		"title": "Title/Name of Project/Application",
-		"class": "text"
-	},
-	{
-		"title": "Programming Language(s) Used",
-		"class": "text"
+		"name": "projlang5",
+		"text": "Programming Language(s) Used",
+		"klass": "question",
+		"kind": "text",
+		"required": false
 	}
 ]
