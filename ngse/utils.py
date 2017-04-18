@@ -13,6 +13,7 @@ URI = {
 	'forms': '/forms',
 	'categories': '/categories',
 	'questions': '/questions',
+	'elements': '/elements',
 	'answers': '/answers',
 	# actions
 	'verify': '/verify',

@@ -1,4 +1,4 @@
-app.factory('formService', function($http, $cookies, $location, authService) {
+app.factory('formService', function($rootScope, $http, $cookies, $location, authService) {
     var methods = {};
 
     var form = undefined;
@@ -8,6 +8,7 @@ app.factory('formService', function($http, $cookies, $location, authService) {
         return $http.get('/v1/forms')
         .then(function successCallback(response) {
             var d = response.data;
+            console.log(d);
             for (var i = 0; i < d.length; i++) {
                 if (d[i].status === "ongoing" && d[i].user === authService.getLevel()) {
                     form = d[i];
@@ -43,8 +44,8 @@ app.factory('formService', function($http, $cookies, $location, authService) {
         }
     }
 
-    methods.fetchQuestions = function(callback, category_id) {
-        return $http.get('/v1/forms/categories/questions', {params: {'category_id': category_id}})
+    methods.fetchElements = function(callback, category_id) {
+        return $http.get('/v1/forms/categories/elements', {params: {'category_id': category_id}})
         .then(function successCallback(response) {
             var d = response.data;
             callback(d);
@@ -54,13 +55,42 @@ app.factory('formService', function($http, $cookies, $location, authService) {
     }
 
     methods.fetchAnswers = function(callback, user_id, category_id) {
-        return $http.get('/v1/users/answers', {params: {'user_id': user_id, 'category_id': category_id}})
+        return $http.get('/v1/users/answers/show', {params: {'user_id': user_id, 'category_id': category_id}})
         .then(function successCallback(response) {
             var d = response.data;
             callback(d);
         }, function errorCallback(response) {
             callback(false);
         });
+    }
+
+    methods.saveAnswers = function(callback, user_id, answers) {
+
+        data = [];
+        for (var i = 0; i < answers.length; i++) {
+            data.push({
+                'id': answers[i].id,
+                'text': answers[i].text
+            });
+        }
+
+        $http.post('/v1/users/answers/update', {'user_id': user_id, 'data': data, 'length': data.length})
+        .then(function successCallback(response) {
+            var d = response.data;
+            callback(d);
+        }, function errorCallback(response) {
+            callback(false);
+        });
+    }
+
+    methods.debug = function() {
+        return $http.get('/v1/users')
+        .then(function successCallback(response) {
+            var d = response.data;
+            callback(d);
+        }, function errorCallback(response) {
+            callback(false);
+        })
     }
 
     return methods;

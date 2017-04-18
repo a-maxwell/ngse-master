@@ -48,7 +48,7 @@ def show_user(request):
 		for answer in answers:
 			d['answers'].append({
 				'id': answer.id,
-				'question_id': answer.question_id,
+				'element_id': answer.element_id,
 				'name': answer.name
 			})
 
@@ -227,19 +227,24 @@ def show_category(request):
 ################################################################
 
 
-def get_questions(request):
+def get_elements(request):
 	category_id = request.params.get('category_id')
 	result = []
 
-	for question in session.query(Element).filter(Element.category_id == category_id):
+	for element in session.query(Element).filter(Element.category_id == category_id):
 		q = {
-			'id': int(question.id),
-			'name': question.name,
-			'input_type': question.input_type
+			'id': int(element.id),
+			'name': element.name,
+			'text': element.text,
+			'klass': element.klass,
+			'kind': element.kind
 		}
 
-		if (question.choices):
-			q['choices'] = choices
+		if (element.klass == 'question'):
+			q['required'] = element.required
+
+		if (element.choices):
+			q['choices'] = element.choices
 		
 		result.append(q)
 
@@ -247,82 +252,101 @@ def get_questions(request):
 
 ################################################################
 
-def get_answers(request):
-	user_id = request.params.get('user_id')
-	category_id = request.params.get('category_id')
+# def get_answers(request): # old
+# 	user_id = request.params.get('user_id')
+# 	category_id = request.params.get('category_id')
+# 	result = []
+
+# 	for answer in session.query(Answer).filter(Answer.user_id == user_id).join(Answer.element, aliased=True).filter_by(category_id=category_id):
+# 		result.append({
+# 			'id': answer.id,
+# 			'text': answer.text,
+# 			'element_id': answer.element_id
+# 		})
+	
+# 	return result
+
+def get_answers(request): # new
 	result = []
 
-	for answer in session.query(Answer).filter(Answer.user_id == user_id).join(Answer.question, aliased=True).filter_by(category_id=category_id):
+	for answer in session.query(Answer):
 		result.append({
 			'id': answer.id,
-			'name': answer.name,
-			'question_id': answer.question_id
+			'text': answer.text,
+			'element_id': answer.element_id,
+			'user_id': answer.user_id
 		})
 	
 	return result
 
 def update_answer(request):
-	user_id = request.params['user_id']
-	q_id = request.params['question_id']
-	curr_ans = request.params['answer']
+	user_id = request.params.get('user_id')
+	data = request.params.get('data')
+	length = request.params.get('length')
 
-	db_ans = session.query(Answer)\
-			.filter(Answer.question_id == q_id)\
+	print request.params
+
+	for i in range(int(length)):
+		answer_id = request.params.get('data[{}][id]'.format(i))
+		text = request.params.get('data[{}][text]'.format(i))
+		
+		answer = session.query(Answer)\
 			.filter(Answer.user_id == user_id)\
-			.all()
+			.filter(Answer.id == answer_id)\
+			.one()
+		answer.text = text
+	
+	session.commit()
 
-	if(db_ans == []):
-		try:
-			answer = Answer(name=curr_ans, question_id=q_id, user_id=user_id)
-			session.add(answer)
-			session.commit()
-			# return{'message': 'Answer saved', 'success':True}
-		except:
-			return{'message': 'Smth went wrong', 'success': False}
-	else:
-		try:
-			# update lang here
-			answer = session.query(Answer)\
-					.filter(Answer.question_id == q_id)\
-					.filter(Answer.user_id == user_id)\
-					.first()
-			answer.name = curr_ans
-			session.commit()
-			# return{'message': 'Answer saved', 'success':True}
-		except:
-			return{'message': 'Smth went wrong', 'success':False}
-	return{'message': 'Answer saved', 'success':True}
+	return generateSuccess('Successfully updated answer')
 
-def view_answer(request):
-	user_id = request.params['user_id'] #if succesful auth, this should be authenticated_userid(request)
-	# form = request.params['form_type']
-	try:
-		u = session.query(User).filter(User.id == user_id).first()
-	except:
-		return {'success':False}
-	if u == None or u.user_type_id != 3:
-		return {'success':False}
+	# db_ans = session.query(Answer)\
+	# 		.filter(Answer.element_id == q_id)\
+	# 		.filter(Answer.user_id == user_id)\
+	# 		.all()
 
-	categ=[]
-	for item in session.query(Category).filter(Category.form_type_id == 1).all():
-		ques_array=[]
-		for q in session.query(Element).filter(Element.category_id == item.id).all():
-			answer = session.query(Answer.name).filter(Answer.question_id == q.id).filter(Answer.user_id == user_id).first()
-			if(answer!=None): 
-				answer=answer.name
-			ques_array.append({
-                # 'category' : item.name,
-				'question' : q.name,
-				'answer' : answer
-			})
-		categ.append({
-			'name' : item.name,
-			'data' : ques_array
-			})
-		# categ[item.name] = ques_array
-	return {'data': categ, 'success': True}
+	# if(db_ans == []):
+	# 	try:
+	# 		answer = Answer(name=curr_ans, element_id=q_id, user_id=user_id)
+	# 		session.add(answer)
+	# 		session.commit()
+	# 		# return{'message': 'Answer saved', 'success':True}
+	# 	except:
+	# 		return{'message': 'Smth went wrong', 'success': False}
+	# else:
+	# 	try:
+	# 		# update lang here
+	# 		answer = session.query(Answer)\
+	# 				.filter(Answer.element_id == q_id)\
+	# 				.filter(Answer.user_id == user_id)\
+	# 				.first()
+	# 		answer.name = curr_ans
+	# 		session.commit()
+	# 		# return{'message': 'Answer saved', 'success':True}
+	# 	except:
+	# 		return{'message': 'Smth went wrong', 'success':False}
+	# return{'message': 'Answer saved', 'success':True}
+
+# def view_answer(request):
+def show_answer(request):
+	user_id = request.params['user_id']
+	category_id = request.params['category_id']
+
+	result = []
+
+	for answer in session.query(Answer).filter(Answer.user_id == user_id).join(Answer.element, aliased=True).filter_by(category_id=category_id):
+		result.append({
+			'id': answer.id,
+			'text': answer.text,
+			'date_created': str(answer.date_created),
+			'last_modifed': str(answer.last_modified),
+			'element_id': answer.element_id
+		})
+
+	return result
 
 def get_users(request):
+
 	d = []
 	for u in session.query(User):
 		d.append({
@@ -353,8 +377,6 @@ def verify_user(request):
 def login_user(request):
 	email = request.params.get('email', None)
 	password = request.params.get('password', None)
-
-	print request.POST
 
 	if email is None or password is None:
 		return generateError('Invalid email/password')
@@ -530,97 +552,4 @@ def reset_database(request):
 	for user in users:
 		session.delete(user)
 		session.commit()
-	return {'success': True}
-
-''' Form views '''
-
-
-def get_forms(request):
-	d = []
-	for f in session.query(Form):
-		d.append({
-			'id': int(f.id),
-			'name': f.name
-		})
-	return d
-
-def create_form(request):
-	# we need name, form type id, date start, date end
-	name = request.params['name']
-	form_type_id = request.params['form_type_id']
-	date_start = request.params['date_start']
-	date_end = request.params['date_end']
-
-	form = Form(
-		name=name,
-		date_start=date_start,
-		date_end=date_end,
-		form_type_id=form_type_id
-		)
-	session.add(form)
-	session.commit()
-
-	return {'success': True}
-
-def delete_form(request):
-	id = request.params['id']
-
-	form = session.query(Form)\
-	.filter(Form.id == id)\
-	.one()
-
-	session.delete(form)
-	session.commit()
-
-	return {'success': True}
-
-def show_form(request):
-	id = request.params['id']
-
-	try:
-		form = session.query(Form)\
-			.filter(Form.id == id)\
-			.one()
-	except:
-		return {}
-
-	return form.as_dict()
-
-def update_form(request):
-	id = request.params['id']
-
-	form = session.query(Form)\
-	.filter(Form.id == id)\
-	.one()
-
-	name = request.params.get('name', None)
-	if name is not None:
-		form.name = name
-
-	date_start = request.params.get('date_start', None)
-	if date_start is not None:
-		form.date_start = date_start
-
-	date_end = request.params.get('date_end', None)
-	if date_end is not None:
-		form.date_end = date_end
-
-	form_type_id = request.params.get('form_type_id', None)
-	if form_type_id is not None:
-		form.form_type_id = form_type_id
-
-	session.commit()
-
-	return form.as_dict()
-
-def list_form_types(request):
-	d = []
-	for ft in session.query(FormType):
-		d.append({
-			'id': int(ft.id),
-			'name': ft.name,
-			'page_sequence': ft.page_sequence,
-			'date_created': str(ft.date_created),
-			'last_modified': str(ft.last_modified)
-		})
-	return d
+# 	return {'success': True}

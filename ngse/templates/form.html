@@ -3,10 +3,14 @@
 		<div class="header">{{category.name}}</div>
 	</div>
 	<div class="content">
-		<div class="field" ng-repeat="element in elements track by element.id">
-			<label>{{element.name}}</label>
-			<ng-switch on="element.input_type">
-				<input ng-switch-when="text" type="text">
+		<div ng-repeat="element in elements track by element.id">
+			<ng-switch on="element.klass">
+				<div class="field" ng-switch-when="question">
+					<label>{{element.text}}</label>
+					<ng-switch on="element.kind">
+						<input ng-switch-when="text" type="text" name={{element.name}} ng-model="element.answer.text" required="{{element.required}}">
+					</ng-switch>
+				</div>
 			</ng-switch>
 		</div>
 	</div>
@@ -15,7 +19,7 @@
 			<i class="chevron left icon"></i>
 			Back to Sections
 		</a>
-		<button class="ui right labeled icon primary button">
+		<button class="ui right labeled icon primary button" ng-click="save()">
 			Save
 			<i class="save icon"></i>
 		</button>

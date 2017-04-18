@@ -61,7 +61,7 @@ update_application_status_url = 'v1/users/update_a_status'
 view_status_url = 'v1/users/status'
 update_validation_status_url = 'v1/users/update_v_status'
 reset_database_url = 'v1/delete_all'
-view_answers = Service(name='view_answers', path=view_answers_url, description="view answers")
+# view_answers = Service(name='view_answers', path=view_answers_url, description="view answers")
 # update_answer = Service(name='update_answer', path=update_answer_url, description="update answer")
 # update_a_status = Service(name='update_a_status', path=update_application_status_url, description="update user's application status")
 
@@ -155,15 +155,25 @@ category_update = category['actions']['update']
 
 ###############################################################################
 
-question = create_resource("question", URI['forms']+URI['categories'], URI['questions'])
+# question = create_resource("question", URI['forms']+URI['categories'], URI['questions'])
 
-questions_get = question['collection']
-get_questions = questions_get.get()(get_questions)
+# questions_get = question['collection']
+# get_questions = questions_get.get()(get_questions)
 
-question_create = question['actions']['create']
-question_delete = question['actions']['delete']
-question_show = question['actions']['show']
-question_update = question['actions']['update']
+# question_create = question['actions']['create']
+# question_delete = question['actions']['delete']
+# question_show = question['actions']['show']
+# question_update = question['actions']['update']
+
+element = create_resource("element", URI['forms']+URI['categories'], URI['elements'])
+
+elements_get = element['collection']
+get_elements = elements_get.get()(get_elements)
+
+element_create = element['actions']['create']
+element_delete = element['actions']['delete']
+element_show = element['actions']['show']
+element_update = element['actions']['update']
 
 ###############################################################################
 
@@ -177,9 +187,10 @@ answer_create = answer['actions']['create']
 answer_delete = answer['actions']['delete']
 
 answer_show = answer['actions']['show']
+show_answer = answer_show.get()(show_answer)
 
 answer_update = answer['actions']['update']
-update_answer = answer_update.get()(update_answer)
+update_answer = answer_update.post()(update_answer)
 
 ###############################################################################
 
@@ -244,22 +255,22 @@ def update_category(request):
 
 ''' Element views '''
 
-@question_create.post()
-def create_question(request):
+@element_create.post()
+def create_element(request):
 	log.debug('{}'.format(request.params))
 	return {'hello': 'yes'}
 
-@question_delete.post()
-def delete_question(request):
+@element_delete.post()
+def delete_element(request):
 	log.debug('{}'.format(request.params))
 	return {'hello': 'yes'}
 
-@question_show.get()
-def show_question(request):
+@element_show.get()
+def show_element(request):
 	log.debug('{}'.format(request.params))
 	return {'hello': 'yes'}
 
-@question_update.post()
-def update_question(request):
+@element_update.post()
+def update_element(request):
 	log.debug('{}'.format(request.params))
 	return {'hello': 'yes'}
