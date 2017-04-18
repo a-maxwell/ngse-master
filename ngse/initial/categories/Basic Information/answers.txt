@@ -1,3 +1,0 @@
-user surname, 1, 2
-user given name, 2, 2
-user middle name, 3, 2 

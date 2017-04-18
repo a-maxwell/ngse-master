@@ -24,7 +24,7 @@ if 'TRAVIS' in  os.environ:
 else:
 	db, engine, meta = connect('ngse', 'ngse', 'ngsewebsite')
 
-Base.metadata.drop_all(engine)
+# Base.metadata.drop_all(engine)
 Base.metadata.create_all(engine)
 SessionFactory = sessionmaker(engine)
 session = SessionFactory()

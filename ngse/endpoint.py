@@ -5,7 +5,7 @@ from models import (
 	FormType,
 	Form,
 	Category,
-	Question,
+	Element,
 	Answer,
 	UserType,
 	User,
@@ -231,7 +231,7 @@ def get_questions(request):
 	category_id = request.params.get('category_id')
 	result = []
 
-	for question in session.query(Question).filter(Question.category_id == category_id):
+	for question in session.query(Element).filter(Element.category_id == category_id):
 		q = {
 			'id': int(question.id),
 			'name': question.name,
@@ -306,7 +306,7 @@ def view_answer(request):
 	categ=[]
 	for item in session.query(Category).filter(Category.form_type_id == 1).all():
 		ques_array=[]
-		for q in session.query(Question).filter(Question.category_id == item.id).all():
+		for q in session.query(Element).filter(Element.category_id == item.id).all():
 			answer = session.query(Answer.name).filter(Answer.question_id == q.id).filter(Answer.user_id == user_id).first()
 			if(answer!=None): 
 				answer=answer.name

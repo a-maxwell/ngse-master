@@ -5,7 +5,7 @@ from models import (
 	FormType,
 	Form,
 	Category,
-	Question,
+	Element,
 	Answer,
 	UserType,
 	User,
@@ -242,7 +242,7 @@ def update_category(request):
 	log.debug('{}'.format(request.params))
 	return {'hello': 'yes'}
 
-''' Question views '''
+''' Element views '''
 
 @question_create.post()
 def create_question(request):

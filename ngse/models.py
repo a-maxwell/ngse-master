@@ -64,13 +64,13 @@ class Category(Base):
 
 	form_type = relationship("FormType", secondary=form_category_association, back_populates="categories") # parent relationship
 
-	questions = relationship("Question", back_populates="category")
+	elements = relationship("Element", back_populates="category")
 
 	def as_dict(self):
 		return {c.name: str(getattr(self, c.name)) for c in self.__table__.columns}
 
-class Question(Base):
-	__tablename__ = 'questions'
+class Element(Base):
+	__tablename__ = 'elements'
 
 	id = Column(Integer, primary_key=True)
 	name = Column(Text, nullable=False)
@@ -78,12 +78,13 @@ class Question(Base):
 	last_modified = Column(DateTime, nullable=False, server_default=func.now(), onupdate=func.now())
 
 	category_id = Column(Integer, ForeignKey('categories.id')) # parent
-	category = relationship("Category", back_populates="questions") #parent relationship
+	category = relationship("Category", back_populates="elements") #parent relationship
 
 	# form_type_id = Column(Integer, ForeignKey('form_types.id')) # parent
 	# form_type = relationship("FormType", back_populates="questions") # parent relationship
 
-	input_type = Column(Text, nullable=False)
+	klass = Column(Text, nullable=False, default='question')
+	kind = Column(Text, nullable=False, default='text')
 	choices = Column(ARRAY(Text))
 
 	meta = Column(JSON)
@@ -101,8 +102,8 @@ class Answer(Base):
 	date_created = Column(DateTime, nullable=False, server_default=func.now())
 	last_modified = Column(DateTime, nullable=False, server_default=func.now(), onupdate=func.now())
 
-	question_id = Column(Integer, ForeignKey('questions.id')) # parent
-	question = relationship("Question", back_populates='answers') # parent relationship
+	element_id = Column(Integer, ForeignKey('elements.id')) # parent
+	element = relationship("Element", back_populates='answers') # parent relationship
 
 	user_id = Column(Integer, ForeignKey('users.id')) # parent
 	user = relationship("User", back_populates='answers') # parent relationship

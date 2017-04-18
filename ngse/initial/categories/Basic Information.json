@@ -1,14 +1,17 @@
 [
 	{
 		"title": "Last Name",
-		"class": "text"
+		"klass": "question",
+		"kind": "text"
 	},
 	{
 		"title": "Given Name",
-		"class": "text"
+		"klass": "question",
+		"kind": "text"
 	},
 	{
 		"title": "Middle/Maiden Name",
-		"class": "text"
+		"klass": "question",
+		"kind": "text"
 	}
 ]

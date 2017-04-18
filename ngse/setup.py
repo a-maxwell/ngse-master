@@ -5,7 +5,7 @@ from models import (
 	FormType,
 	Form,
 	Category,
-	Question,
+	Element,
 	Answer,
 	UserType,
 	User,
@@ -96,21 +96,21 @@ def setup(session):
 				category = add(Category(name=category_name))
 
 			'''please do this pio huhuhuhu'''
-			questions = json.loads(open('{}/initial/categories/{}.json'.format(dir_path, category_name), 'r').read())
+			elements = json.loads(open('{}/initial/categories/{}.json'.format(dir_path, category_name), 'r').read())
 			# continue
 
-			for question in questions:
+			for element in elements:
 				# print 'checked q \'{}\''.format(question['title'])
-				# check question wrt category
+				# check element wrt category
 				try:
-					q = session.query(Question)\
-					.filter(Question.name == question['title'])\
-					.filter(Question.category_id == category.id)\
+					q = session.query(Element)\
+					.filter(Element.name == question['title'])\
+					.filter(Element.category_id == category.id)\
 					.one()
 					# check if meta is the same
 				# make new entry if not found
 				except NoResultFound as e:
-					q = Question(name=question['title'], category_id=category.id, input_type=question['class'])
+					q = Element(name=question['title'], category_id=category.id, input_type=question['class'])
 					q.choices = question.get('choices', None)
 					add(q)
 
