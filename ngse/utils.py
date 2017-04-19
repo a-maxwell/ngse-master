@@ -66,3 +66,32 @@ def generateToken(user):
 	token = encode(payload)
 
 	return token
+
+def word(n):
+	if int(n) < 1:
+		n = 1
+
+	if int(n) > 16:
+		n = 16
+
+	words = [
+		'zero',
+		'one',
+		'two',
+		'three',
+		'four',
+		'five',
+		'six',
+		'seven',
+		'eight',
+		'nine',
+		'ten',
+		'eleven',
+		'twelve',
+		'thirteen',
+		'fourteen',
+		'fifteen',
+		'sixteen'
+	]
+
+	return words[n]

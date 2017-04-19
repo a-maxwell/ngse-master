@@ -42,6 +42,11 @@ app.controller('formController', function($rootScope, $scope, $routeParams, form
 	        	$scope.loading = false;
         		if ($rootScope.debug) console.log($scope.elements);
 
+                setTimeout(function() {
+                    $(".ui.dropdown").dropdown();
+                    console.log("AYOKO NA");
+                }, 100);
+
         	}, authService.getUserID(), $scope.id);
         }, $scope.id);
     };

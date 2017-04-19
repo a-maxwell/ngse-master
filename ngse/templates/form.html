@@ -2,7 +2,7 @@
 	<div class="content">
 		<div class="header">{{category.name}}</div>
 	</div>
-	<div class="content">
+	<!-- <div class="content">
 		<div ng-repeat="element in elements track by element.id">
 			<ng-switch on="element.klass">
 				<div class="field" ng-switch-when="question">
@@ -12,6 +12,29 @@
 					</ng-switch>
 				</div>
 			</ng-switch>
+		</div>
+	</div> -->
+	<div class="content">
+		<div class="ui grid">
+			<!-- <ng-switch on="element.klass">
+				<div class="{{word(element.width)}} wide field" ng-switch-when="question">
+					<label>{{element.text}}</label>
+					<ng-switch on="element.kind">
+						<input ng-switch-when="text" type="text" name={{element.name}} ng-model="element.answer.text" required="{{element.required}}">
+					</ng-switch>
+				</div>
+			</ng-switch> -->
+			<div ng-repeat="element in elements track by element.id" class="{{element.width}} wide column field" ng-switch="element.klass">
+				<div ng-switch-when="question">
+					<ng-switch on="element.kind">
+						<label ng-switch-when="text|dropdown" ng-switch-when-separator="|">{{element.text}}</label>
+						<input ng-switch-when="text" type="text" name={{element.name}} ng-model="element.answer.text" required="{{element.required}}">
+						<select ng-switch-when="dropdown" class="ui dropdown">
+							<option ng-repeat="choice in element.choices" value="choice">{{choice}}</option>
+						</select>
+					</ng-switch>
+				</div>
+			</div>
 		</div>
 	</div>
 	<div class="ui bottom attached large buttons">
@@ -24,5 +47,4 @@
 			<i class="save icon"></i>
 		</button>
 	</div>
-
 </form>

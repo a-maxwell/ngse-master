@@ -13,7 +13,7 @@ from models import (
 	ApplicantAttribute
 )
 
-from utils import encode, decode, log, generateError, generateSuccess, generateToken, is_past
+from utils import encode, decode, log, generateError, generateSuccess, generateToken, is_past, word
 
 import bcrypt
 
@@ -237,7 +237,8 @@ def get_elements(request):
 			'name': element.name,
 			'text': element.text,
 			'klass': element.klass,
-			'kind': element.kind
+			'kind': element.kind,
+			'width': word(element.width)
 		}
 
 		if (element.klass == 'question'):
