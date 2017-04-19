@@ -54,11 +54,11 @@ def create_resource(resource, primary, secondary='', extra=[]):
 ###############################################################################
 # changes in daisy
 
-view_answers_url = '/v1/users/answers'
+# view_answers_url = '/v1/users/answers' #new : users/answers/show
 update_answer_url = 'v1/users/update_answer'
 update_application_status_url = 'v1/users/update_a_status'
 
-view_status_url = 'v1/users/status'
+# view_status_url = 'v1/users/status'
 update_validation_status_url = 'v1/users/update_v_status'
 reset_database_url = 'v1/delete_all'
 # view_answers = Service(name='view_answers', path=view_answers_url, description="view answers")

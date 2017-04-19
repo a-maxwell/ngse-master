@@ -35,12 +35,16 @@ def show_user(request):
 		'user_type_id': user.user_type_id
 	}
 
+
 	if (user.user_type_id in [4,5]):
-		d['application_status'] = user.application_status
+		# d['application_status'] = user.application_status
+		_user = session.query(ApplicantAttribute).filter(ApplicantAttribute.applicant_id==_id).one()
+		d['validation_status'] = _user.validation_status
+		d['application_status'] = _user.application_status
 
 	if (user.user_type_id in [3,4,5]):
 		answers = session.query(Answer)\
-			.filter(Answer.user_id == id)\
+			.filter(Answer.user_id == _id)\
 			.all()
 
 		d['answers'] = []
@@ -49,7 +53,7 @@ def show_user(request):
 			d['answers'].append({
 				'id': answer.id,
 				'element_id': answer.element_id,
-				'name': answer.name
+				'name': answer.text
 			})
 
 	return d
@@ -424,9 +428,21 @@ def create_user(request):
 	session.add(u)
 	session.commit()
 
-	if int(level) in [4,5]:
+	if int(level) in [3,4,5]:
 
 		print 'HUH'
+		#######
+		# add a row in ApplicantAttribute Table
+		if level == '4':
+			row = ApplicantAttribute(scholarship = False, applicant_id=u.id)
+		elif level == '5':
+			row = ApplicantAttribute(scholarship = True, applicant_id=u.id)
+		
+		if int(level) in [4,5]:
+			session.add(row)
+			session.commit()
+		#######
+
 		# create answer} 
 		form_type = session.query(FormType).filter(FormType.user_type_id == u.user_type_id).one()
 		# forms = session.query(Form).filter(Form.form_type_id == form_type.id).all()
@@ -521,6 +537,7 @@ def update_application_status(request):
 
 
 #returns application and validation status of applicant
+''' edit: this is already in show_user function
 def view_status(request): 
 	user_id = request.params['user_id']
 	app = session.query(ApplicantAttribute).filter(ApplicantAttribute.applicant_id == user_id).first()
@@ -529,7 +546,7 @@ def view_status(request):
 	user = session.query(User).filter(User.id == user_id).first()					
 
 	return{ 'name': user.name, 'application status': app.application_status, 'validation_status': app.validation_status}
-
+'''
 def update_validation_status(request):
 	user_id = request.params['user_id']
 	status = request.params['v_status'] # complete, incomplete, not yet submitted

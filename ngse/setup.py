@@ -9,8 +9,8 @@ from models import (
 	Answer,
 	UserType,
 	User,
-	form_category_association
-	# ApplicantAttribute
+	form_category_association,
+	ApplicantAttribute
 )
 import json
 import os
@@ -37,8 +37,20 @@ def setup(session):
 		# 	'user_type_id': 5
 		# },
 		# {
-		# 	'name': 'rec',
-		# 	'email': 'rec@upd.edu.ph',
+		# 	'name': 'rec1',
+		# 	'email': 'rec1@upd.edu.ph',
+		# 	'password': 'ngse',
+		# 	'user_type_id': 3
+		# },
+		# {
+		# 	'name': 'rec2',
+		# 	'email': 'rec2@upd.edu.ph',
+		# 	'password': 'ngse',
+		# 	'user_type_id': 3
+		# },
+		# {
+		# 	'name': 'rec3',
+		# 	'email': 'rec3@upd.edu.ph',
 		# 	'password': 'ngse',
 		# 	'user_type_id': 3
 		# }
@@ -215,7 +227,31 @@ def setup(session):
 						element_id = element_id,
 						user_id = user.id
 					))
+	def setup_applicant_attrs(users):
+			for u in users:
+				if u['user_type_id'] in [4,5]:
+					_u = session.query(User)\
+					.filter(User.name == u['name'])\
+					.one()
+					try:
+						session.query(ApplicantAttribute)\
+						.filter(ApplicantAttribute.applicant_id == _u.id)\
+						.one()
+					except NoResultFound as e:
+						if u['user_type_id'] == 4:	
+							add(ApplicantAttribute(
+								recommender_a = 3,
+								recommender_b = 4,
+								applicant_id = _u.id
+							))
 
+						else:
+							add(ApplicantAttribute(
+								scholarship = True,
+								recommender_a = 5,
+								applicant_id = _u.id
+							))
 	setup_categories()
 	setup_users(users)
 	setup_forms(forms)
+	# setup_applicant_attrs(users)
