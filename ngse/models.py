@@ -160,8 +160,8 @@ class ApplicantAttribute(Base):
 	last_modified = Column(DateTime, nullable=False, server_default=func.now(), onupdate=func.now())
 
 	scholarship = Column(Boolean, nullable=False, default=False)
-	application_status = Column(Text, nullable=False, default='none')
-	validation_status = Column(Text, nullable=False, default='incomplete')
+	application_status = Column(Text, nullable=False, default='None')
+	validation_status = Column(Text, nullable=False, default='None')
 
 	# recommender_A = Column(Integer, ForeignKey('user_types.id'))
 	# recommender_B = Column(Integer, ForeignKey('user_types.id'))
