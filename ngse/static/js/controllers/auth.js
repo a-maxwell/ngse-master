@@ -12,9 +12,9 @@ app.controller('authController', function($rootScope, $scope, $location, authSer
         data = {'email': l.email, 'password': l.password}
         authService.login(data, function(data) {
             if (data.success === true) {
-                if (authService.authorize(1)) $location.path('/admin');
-                if (authService.authorize(4) ||  authService.authorize(5)) $location.path('/application');
-                else $location.path('/recommendation');
+                if (authService.getLevel() === 1 || authService.getLevel() === 2) $location.path('/admin');
+                else if (authService.getLevel() === 3) $location.path('/recommendation');
+                else $location.path('/application');
             }
             else l.message = data.message;
             l.loading = false;

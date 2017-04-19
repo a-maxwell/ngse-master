@@ -10,5 +10,7 @@ app.controller('navController', function($rootScope, $scope, $cookies, $location
 
     $scope.loggedIn = authService.isLoggedIn;
 
+	$scope.getLevel = authService.getLevel;
+
     $scope.logout = authService.logout;
 });

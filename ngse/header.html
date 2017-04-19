@@ -7,9 +7,17 @@
 			<i class="home icon"></i>
 			<span>Home</span>
 		</a>
-		<a class="item" href="#!application" ng-show="loggedIn()">
+		<a class="item" href="#!application" ng-show="getLevel() == 3">
+			<i class="browser icon"></i>
+			<span>Recommendation</span>
+		</a>
+		<a class="item" href="#!application" ng-show="getLevel() > 3">
 			<i class="browser icon"></i>
 			<span>Application</span>
+		</a>
+		<a class="item" href="#!application" ng-show="getLevel() < 3 && getLevel() > 0">
+			<i class="browser icon"></i>
+			<span>Admin Panel</span>
 		</a>
 		<a class="item" ng-click="logout()" ng-show="loggedIn()">
 			<i class="sign out icon"></i>
