@@ -62,6 +62,15 @@ app.config(function($routeProvider) {
         templateUrl: "/templates/application.html",
         resolve: {auth: _user}
     })
+    .when("/recommendation", {
+        templateUrl: "/templates/category.html",
+        resolve: {auth: _user}
+    })
+    .when("/recommendation/:id", {
+        templateUrl: "/templates/application.html",
+        controller: "formController",
+        resolve: {auth: _user}
+    })
     .when("/application/category", {
         templateUrl: "/templates/category.html",
         resolve: {auth: _user}
@@ -77,17 +86,6 @@ app.config(function($routeProvider) {
     })
     .otherwise({redirectTo: '/'});
 });
-
-// app.directive('backButton', ['$window', function($window) {
-//     return {
-//         restrict: 'A',
-//         link: function (scope, elem, attrs) {
-//             elem.bind('click', function () {
-//                 $window.history.back();
-//             });
-//         }
-//     };
-// }]);
 
 app.run(["$rootScope", "$location", function($rootScope, $location) {
     $rootScope.debug = true;
