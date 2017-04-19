@@ -58,6 +58,10 @@ app.config(function($routeProvider) {
         templateUrl: "/templates/home.html",
         resolve: {auth: _user}
     })
+    .when("/admin", {
+        templateUrl: "/templates/admin.html",
+        resolve: {auth: _user}
+    })
     .when("/application", {
         templateUrl: "/templates/application.html",
         resolve: {auth: _user}
