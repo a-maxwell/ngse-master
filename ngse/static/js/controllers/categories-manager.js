@@ -1,11 +1,11 @@
-app.controller('applicantManagerController', function($rootScope, $scope, $routeParams, adminService, authService) {
+app.controller('categoryManagerController', function($rootScope, $scope, $routeParams, adminService, authService) {
 
     initController();
 
     function initController() {
         $scope.loading = true;
-        adminService.fetchApplicants(function(a) {
-        	$scope.applicants = a;
+        adminService.fetchCategories(function(c) {
+        	$scope.categories = c;
             $scope.loading = false;
         });
     };

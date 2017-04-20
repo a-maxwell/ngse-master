@@ -24,27 +24,38 @@ app.factory('adminService', function($rootScope, $http, $cookies, $location) {
     }
 
     methods.fetchForms = function(callback) {
-        getData('/v1/users', undefined, callback);
+        getData('/v1/forms', undefined, callback);
     }
 
     methods.fetchCategories = function(callback) {
-        var forms = [];
         methods.fetchForms(function(f) {
+            var forms = [];
+
             for (var i = 0; i < f.length; i++) {
                 if (f[i].status == "ongoing") forms.push(f[i]);
             }
+
+            var categories = new Set();
+
+            var c;
+
+            for (var i = 0; i < forms.length; i++) {
+                getData('/v1/forms/categories', {'form_id': forms[i].id}, function(cats) {
+                    for (var j = 0; j < cats.length; j++) {
+                        categories.add(cats[j]);
+                    }
+
+                    c = Array.from(categories);
+                })
+            }
+            
+            callback(c);
+
+                
         })
 
-        var categories = [];
 
-        for (var i = 0; i < forms.length; i++) {
-            var c = [];
-            getData('/v1/forms/categories', {'form_id': forms[i].id}, function(cats) {
-                for (var j = 0; j < cats.length; j++) {
-                    break;
-                }
-            })
-        }
+
     }
 
     methods.fetchApplicants = function(callback) {
