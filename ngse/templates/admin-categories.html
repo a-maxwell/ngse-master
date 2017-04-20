@@ -1,0 +1,32 @@
+<div class="ui vertical segment" ng-controller="categoryManagerController" ng-class="{loading: loading}">
+
+	<table class="ui celled table">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>E-mail</th>
+				<th>Type</th>
+				<th>Application Status</th>
+				<th>Validation Status</th>
+				<th>Date Registered</th>
+				<th>Recommender 1</th>
+				<th>Recommender 2</th>
+				<th>Recommender 3</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="applicant in applicants track by applicant.id">
+				<td>{{applicant.name}}</td>
+				<td>{{applicant.email}}</td>
+				<td>{{applicant.user_type}}</td>
+				<td>-</td>
+				<td>-</td>
+				<td>{{applicant.date_created}}</td>
+				<td>-</td>
+				<td>-</td>
+				<td>-</td>
+			</tr>
+		</tbody>
+	</table>
+
+</div>

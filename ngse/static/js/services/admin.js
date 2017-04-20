@@ -23,6 +23,30 @@ app.factory('adminService', function($rootScope, $http, $cookies, $location) {
         });
     }
 
+    methods.fetchForms = function(callback) {
+        getData('/v1/users', undefined, callback);
+    }
+
+    methods.fetchCategories = function(callback) {
+        var forms = [];
+        methods.fetchForms(function(f) {
+            for (var i = 0; i < f.length; i++) {
+                if (f[i].status == "ongoing") forms.push(f[i]);
+            }
+        })
+
+        var categories = [];
+
+        for (var i = 0; i < forms.length; i++) {
+            var c = [];
+            getData('/v1/forms/categories', {'form_id': forms[i].id}, function(cats) {
+                for (var j = 0; j < cats.length; j++) {
+                    break;
+                }
+            })
+        }
+    }
+
     methods.fetchApplicants = function(callback) {
         getData('/v1/users', undefined, function(users) {
             var applicants = [];
