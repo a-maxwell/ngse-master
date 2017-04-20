@@ -123,6 +123,7 @@ def setup(session):
 				# make new entry if not found
 				except NoResultFound as e:
 					q = Element(name=element['name'], category_id=category.id, klass=element['klass'], kind=element['kind'], text=element['text'])
+					q.width = element.get('width', 16)
 					q.required = element.get('required', None)
 					q.choices = element.get('choices', None)
 					add(q)

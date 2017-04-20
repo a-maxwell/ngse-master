@@ -4,6 +4,7 @@
 		"text": "Last Name",
 		"klass": "question",
 		"kind": "text",
+		"width": 4,
 		"required": true
 	},
 	{
@@ -11,6 +12,7 @@
 		"text": "Given Name",
 		"klass": "question",
 		"kind": "text",
+		"width": 8,
 		"required": true
 	},
 	{
@@ -18,6 +20,16 @@
 		"text": "Middle/Maiden Name",
 		"klass": "question",
 		"kind": "text",
+		"width": 4,
+		"required": true
+	},
+	{
+		"name": "sex",
+		"text": "Sex",
+		"klass": "question",
+		"kind": "dropdown",
+		"width": 3,
+		"choices": ["Male", "Female"],
 		"required": true
 	}
 ]

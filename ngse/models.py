@@ -86,6 +86,7 @@ class Element(Base):
 	text = Column(Text, nullable=False)
 	klass = Column(Text, nullable=False, default='question')
 	kind = Column(Text, nullable=False, default='text')
+	width = Column(Integer, nullable=False, default=16)
 	choices = Column(ARRAY(Text))
 	required = Column(Boolean)
 
