@@ -1,5 +1,6 @@
 body {
 	padding-top: 96px;
+	background: #cf5300;
 }
 
 .ui.grid>.column+.divider, .ui.grid>.row>.column+.divider {
@@ -8,14 +9,14 @@ body {
 
 main.ui.raised.vertical.segment {
 	padding: 1rem 0;
-}
-
-div.ui.centered.grid {
+	margin-bottom: 5rem;
+	background: #faebd7;
 	min-height: calc(100vh - 96px);
 }
 
 header {
 	height: 96px;
+	box-shadow: 0 1px 2px 0 rgba(34,36,38,.15) !important;
 }
 
 header.ui.menu > a.item > .ui.image {
@@ -52,7 +53,7 @@ and (max-device-width: 991px) {
 		padding-top: 72px;
 	}
 
-	div.ui.centered.grid {
+	main.ui.raised.vertical.segment {
 		min-height: calc(100vh - 72px);
 	}
 
@@ -80,7 +81,7 @@ and (max-width: 991px) {
 		padding-top: 72px;
 	}
 
-	div.ui.centered.grid {
+	main.ui.raised.vertical.segment {
 		min-height: calc(100vh - 72px);
 	}
 
