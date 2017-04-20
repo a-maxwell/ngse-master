@@ -62,6 +62,10 @@ app.config(function($routeProvider) {
         templateUrl: "/templates/admin.html",
         resolve: {auth: _user}
     })
+    .when("/admin/applicants", {
+        templateUrl: "/templates/admin-applicants.html",
+        resolve: {auth: _user}
+    })
     .when("/application", {
         templateUrl: "/templates/application.html",
         resolve: {auth: _user}
