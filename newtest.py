@@ -5,106 +5,269 @@ from ngse import main
 # from cornice import Service
 import sys
 
-class ConditionTests(unittest.TestCase):
-	def test_invalid_user_id(self):
+login_TestCases=[
+	['ngse@coe.upd.edu.ph', 'ngse', True],
+	['wrongEmail@coe.upd.edu.ph', 'ngse', False],
+	['ngse@coe.upd.edu.ph', 'wrongPassword', False],
+	['wrongEmail@coe.upd.edu.ph', 'wrongPassword', False]
+]
+
+createUser_TestCases = [
+	['new1@email.com', 'Lastname', 'Firstname', 'MidName', '3', True],
+	['new2@email.com', 'Lastname', 'Firstname', 'MidName', '4', True],
+	['new3@email.com', 'Lastname', 'Firstname', 'MidName', '5', True],
+	['new1@email.com', 'Lastname', 'Firstname', 'MidName', '5', False],
+	['new2@email.com', 'Lastname', 'Firstname', 'MidName', '3', False],
+	['new3@email.com', 'Lastname', 'Firstname', 'MidName', '4', False],
+]
+
+deleteUser_TestCases = [
+	['14', '2', False],
+	['15', '3', False],
+	['16', '4', False],
+	# ['14', '1', True],
+	# ['15', '1', True],
+	# ['16', '1', True],
+]
+
+
+updateAstatus_TestCases = [
+	['2','Accepted', True],
+	['8','Accepted', False],
+]
+
+updateVstatus_TestCases=[
+	['2', 'Complete', True],
+	['8', 'Complete', False]
+]
+
+updateAnswer_TestCases = [
+	['2', 'newname', 1, True]
+]
+
+
+class Test_Functional(unittest.TestCase):
+	def test_Login(self):
+		app=TestApp(main({}))
+		for item in login_TestCases:
+			e = item[0]
+			p = item[1]
+			o = item[2]
+			request = app.post('/v1/users/login', dict(email=e, password=p))
+			# print request.json['success']
+			self.assertEqual(request.json['success'], o)
+
+	# def test_CreateUser(self):
+	# 	app = TestApp(main({}))
+	# 	for item in createUser_TestCases:
+	# 		request = app.post('/v1/users/create', dict(email=item[0], last=item[1], given=item[2], middlemaiden=item[3], level=item[4]))
+	# 		self.assertEqual(request.json['success'], item[5])
+
+	def test_DeleteUser(self):
 		app = TestApp(main({}))
-		data = 'yes'
-		request = app.get('/v1/users/delete', dict(user_id=data, id=2, step=1))
-		self.assertEqual(request.json['message'], 'user_id is invalid')
+		for item in deleteUser_TestCases:
+			request = app.get('/v1/users/delete', dict(user_id=item[0], id=item[1]))
+			self.assertEqual(request.json['success'], item[2])
+
+	def test_UpdateAstatus(self):
+		app = TestApp(main({}))
+		for item in updateAstatus_TestCases:
+			request = app.get('/v1/users/update_a_status', dict(user_id=item[0], a_status=item[1]))
+			self.assertEqual(request.json['success'], item[2])
+
+	def test_UpdateVstatus(self):
+		app = TestApp(main({}))
+		for item in updateVstatus_TestCases:
+			request = app.get('/v1/users/update_v_status', dict(user_id=item[0], v_status=item[1]))
+			self.assertEqual(request.json['success'], item[2])
+	def test_UpdateAnswer(self):
+		app = TestApp(main({}))
+		for item in updateAnswer_TestCases:
+			request = app.post('/v1/users/answers/update', dict(user_id=item[0], data=item[1], length=item[2]))
+			self.assertEqual(request.json['success'], item[3])
+'''
+class Test_UpdateApplicationStatus(unittest.TestCase):
+	def test_dataFlow1(self):
+		app = TestApp(main({}))
+		request = app.get('/v1/users/update_a_status', dict(user_id=2, a_status='Accepted'))
+		self.assertEqual(request.json['id'], '2')
+
+	def test_dataFlow2(self):
+		app = TestApp(main({}))
+		request = app.get('/v1/users/update_a_status', dict(user_id=2, a_status='Accepted'))
+		self.assertEqual(request.json['status'], 'Accepted')
+
+	def test_dataFlow3(self):
+		app = TestApp(main({}))
+		request = app.get('/v1/users/update_a_status', dict(user_id=2, a_status='Accepted'))
+		self.assertEqual(request.json['old_status'], 'None')
+
+	def test_ConditionTest_Pass1(self):
+		app = TestApp(main({}))
+		request = app.get('/v1/users/update_a_status', dict(user_id=1, a_status='Accepted'))
+		self.assertEqual(request.json['success'], False)
+
+	def test_ConditionTest_Pass2(self):
+		app = TestApp(main({}))
+		request = app.get('/v1/users/update_a_status', dict(user_id=4, a_status='Accepted'))
+		self.assertEqual(request.json['success'], False)
+
+	def test_ConditionTest_Fail(self):
+		app = TestApp(main({}))
+		request = app.get('/v1/users/update_a_status', dict(user_id=2, a_status='Accepted'))
+		self.assertEqual(request.json['success'], True)
+
+	def test_dataFlow4(self):
+		app = TestApp(main({}))
+		request = app.get('/v1/users/update_a_status', dict(user_id=2, a_status='Accepted'))
+		self.assertEqual(request.json['new_status'], 'Accepted')
+
+	def test_dataFlow5(self):
+		app = TestApp(main({}))
+		request = app.get('/v1/users/update_a_status', dict(user_id=2, a_status='Accepted'))
+		self.assertEqual(request.json['success'], True)
+
+class Test_UpdateValidationStatus(unittest.TestCase):
+	def test_dataFlow1(self):
+		app = TestApp(main({}))
+		request = app.get('/v1/users/update_v_status', dict(user_id=2, v_status='Submitted'))
+		self.assertEqual(request.json['id'], '2')
+
+	def test_dataFlow2(self):
+		app = TestApp(main({}))
+		request = app.get('/v1/users/update_v_status', dict(user_id=2, v_status='Submitted'))
+		self.assertEqual(request.json['status'], 'Submitted')
+
+	def test_dataFlow3(self):
+		app = TestApp(main({}))
+		request = app.get('/v1/users/update_v_status', dict(user_id=2, v_status='Submitted'))
+		self.assertEqual(request.json['old_status'], 'None')
+
+	def test_ConditionTest_Pass1(self):
+		app = TestApp(main({}))
+		request = app.get('/v1/users/update_v_status', dict(user_id=1, v_status='Submitted'))
+		self.assertEqual(request.json['success'], False)
+
+	def test_ConditionTest_Pass2(self):
+		app = TestApp(main({}))
+		request = app.get('/v1/users/update_v_status', dict(user_id=4, v_status='Submitted'))
+		self.assertEqual(request.json['success'], False)
+
+	def test_ConditionTest_Fail(self):
+		app = TestApp(main({}))
+		request = app.get('/v1/users/update_v_status', dict(user_id=2, v_status='Submitted'))
+		self.assertEqual(request.json['success'], True)
+
+	def test_dataFlow4(self):
+		app = TestApp(main({}))
+		request = app.get('/v1/users/update_v_status', dict(user_id=2, v_status='Submitted'))
+		self.assertEqual(request.json['new_status'], 'Submitted')
+
+	def test_dataFlow5(self):
+		app = TestApp(main({}))
+		request = app.get('/v1/users/update_v_status', dict(user_id=2, v_status='Submitted'))
+		self.assertEqual(request.json['success'], True)
+'''
+# class ConditionTests(unittest.TestCase):
+# 	def test_invalid_user_id(self):
+# 		app = TestApp(main({}))
+# 		data = 'yes'
+# 		request = app.get('/v1/users/delete', dict(user_id=data, id=2, step=1))
+# 		self.assertEqual(request.json['message'], 'user_id is invalid')
 		
-	def test_no_user_id(self):
-		app = TestApp(main({}))
-		request = app.get('/v1/users/delete', dict(id=2, step=1))	
-		self.assertEqual(request.json['message'], 'user_id is missing')
+# 	def test_no_user_id(self):
+# 		app = TestApp(main({}))
+# 		request = app.get('/v1/users/delete', dict(id=2, step=1))	
+# 		self.assertEqual(request.json['message'], 'user_id is missing')
 
-	def test_valid_user_id(self):
-		app = TestApp(main({}))
-		data = 1
-		request = app.get('/v1/users/delete', dict(user_id=data, id=2, step=1))	
-		self.assertEqual(request.json['message'], 'user_id is valid')
+# 	def test_valid_user_id(self):
+# 		app = TestApp(main({}))
+# 		data = 1
+# 		request = app.get('/v1/users/delete', dict(user_id=data, id=2, step=1))	
+# 		self.assertEqual(request.json['message'], 'user_id is valid')
 
-	def test_invalid_id(self):
-		app = TestApp(main({}))
-		data = 'yes'
-		request = app.get('/v1/users/delete', dict(user_id=1, id=data, step=2))
-		self.assertEqual(request.json['message'], 'id is invalid')
+# 	def test_invalid_id(self):
+# 		app = TestApp(main({}))
+# 		data = 'yes'
+# 		request = app.get('/v1/users/delete', dict(user_id=1, id=data, step=2))
+# 		self.assertEqual(request.json['message'], 'id is invalid')
 
-	def test_no_id(self):
-		app = TestApp(main({}))
-		request = app.get('/v1/users/delete', dict(user_id=1, step=2))
-		self.assertEqual(request.json['message'], 'id is missing')
+# 	def test_no_id(self):
+# 		app = TestApp(main({}))
+# 		request = app.get('/v1/users/delete', dict(user_id=1, step=2))
+# 		self.assertEqual(request.json['message'], 'id is missing')
 
-	def test_valid_id(self):
-		app = TestApp(main({}))
-		data = 2
-		request = app.get('/v1/users/delete', dict(user_id=1, id=data, step=2))
-		self.assertEqual(request.json['message'], 'id is valid')
+# 	def test_valid_id(self):
+# 		app = TestApp(main({}))
+# 		data = 2
+# 		request = app.get('/v1/users/delete', dict(user_id=1, id=data, step=2))
+# 		self.assertEqual(request.json['message'], 'id is valid')
 
-	def test_if_user_accessing_exists(self):
-		app = TestApp(main({}))
-		data = 1
-		request = app.get('/v1/users/delete', dict(user_id=data, id=2, step=3))
-		self.assertEqual(request.json['message'], 'user exists')
+# 	def test_if_user_accessing_exists(self):
+# 		app = TestApp(main({}))
+# 		data = 1
+# 		request = app.get('/v1/users/delete', dict(user_id=data, id=2, step=3))
+# 		self.assertEqual(request.json['message'], 'user exists')
 
-	def test_if_user_accessing_does_not_exist(self):
-		app = TestApp(main({}))
-		data = 100
-		request = app.get('/v1/users/delete', dict(user_id=data, id=2, step=3))
-		self.assertEqual(request.json['message'], 'user does not exist')
+# 	def test_if_user_accessing_does_not_exist(self):
+# 		app = TestApp(main({}))
+# 		data = 100
+# 		request = app.get('/v1/users/delete', dict(user_id=data, id=2, step=3))
+# 		self.assertEqual(request.json['message'], 'user does not exist')
 
-	def test_if_not_admin_but_same_id(self):
-		app = TestApp(main({}))
-		data = 2
-		request = app.get('/v1/users/delete', dict(user_id=data, id=data, step=4))
-		self.assertEqual(request.json['message'], 'user not admin but same id')
+# 	def test_if_not_admin_but_same_id(self):
+# 		app = TestApp(main({}))
+# 		data = 2
+# 		request = app.get('/v1/users/delete', dict(user_id=data, id=data, step=4))
+# 		self.assertEqual(request.json['message'], 'user not admin but same id')
 
-	def test_if_not_admin_but_diff_id(self):
-		app = TestApp(main({}))
-		data = 2
-		request = app.get('/v1/users/delete', dict(user_id=data, id=1, step=4))
-		self.assertEqual(request.json['message'], 'user not admin but diff id')
+# 	def test_if_not_admin_but_diff_id(self):
+# 		app = TestApp(main({}))
+# 		data = 2
+# 		request = app.get('/v1/users/delete', dict(user_id=data, id=1, step=4))
+# 		self.assertEqual(request.json['message'], 'user not admin but diff id')
 	
-	def test_if_admin_but_diff_id(self):
-		app = TestApp(main({}))
-		data = 1
-		request = app.get('/v1/users/delete', dict(user_id=data, id=2, step=4))
-		self.assertEqual(request.json['message'], 'admin trying to delete other account')
+# 	def test_if_admin_but_diff_id(self):
+# 		app = TestApp(main({}))
+# 		data = 1
+# 		request = app.get('/v1/users/delete', dict(user_id=data, id=2, step=4))
+# 		self.assertEqual(request.json['message'], 'admin trying to delete other account')
 	
-	def test_if_admin_but_same_id(self):
-		app = TestApp(main({}))
-		data = 1
-		request = app.get('/v1/users/delete', dict(user_id=data, id=data, step=4))
-		self.assertEqual(request.json['message'], 'admin trying to delete admin account')
+# 	def test_if_admin_but_same_id(self):
+# 		app = TestApp(main({}))
+# 		data = 1
+# 		request = app.get('/v1/users/delete', dict(user_id=data, id=data, step=4))
+# 		self.assertEqual(request.json['message'], 'admin trying to delete admin account')
 
-	def test_other_user_does_not_exist(self):
-		app = TestApp(main({}))
-		data = 100
-		request = app.get('/v1/users/delete', dict(user_id=1, id=data, step=5))
-		self.assertEqual(request.json['message'], 'other user does not exist')
+# 	def test_other_user_does_not_exist(self):
+# 		app = TestApp(main({}))
+# 		data = 100
+# 		request = app.get('/v1/users/delete', dict(user_id=1, id=data, step=5))
+# 		self.assertEqual(request.json['message'], 'other user does not exist')
 
-	def test_other_user_exists(self):
-		app = TestApp(main({}))
-		data = 2
-		request = app.get('/v1/users/delete', dict(user_id=1, id=data, step=5))
-		self.assertEqual(request.json['message'], 'other user exists')
+# 	def test_other_user_exists(self):
+# 		app = TestApp(main({}))
+# 		data = 2
+# 		request = app.get('/v1/users/delete', dict(user_id=1, id=data, step=5))
+# 		self.assertEqual(request.json['message'], 'other user exists')
 
-	def test_bva_min_1(self):
-		app = TestApp(main({}))
-		data = 0
-		request = app.get('/v1/users/delete', dict(user_id=1, id=data, step=2))
-		self.assertEqual(request.json['message'], 'id must not be less than 1')
+# 	def test_bva_min_1(self):
+# 		app = TestApp(main({}))
+# 		data = 0
+# 		request = app.get('/v1/users/delete', dict(user_id=1, id=data, step=2))
+# 		self.assertEqual(request.json['message'], 'id must not be less than 1')
 
-	def test_bva_between(self):
-		app = TestApp(main({}))
-		data = 2
-		request = app.get('/v1/users/delete', dict(user_id=1, id=data, step=2))
-		self.assertEqual(request.json['message'], 'id is valid')
+# 	def test_bva_between(self):
+# 		app = TestApp(main({}))
+# 		data = 2
+# 		request = app.get('/v1/users/delete', dict(user_id=1, id=data, step=2))
+# 		self.assertEqual(request.json['message'], 'id is valid')
 
-	def test_bva_max_1(self):
-		app = TestApp(main({}))
-		data = 2147483648
-		request = app.get('/v1/users/delete', dict(user_id=1, id=data, step=2))
-		self.assertEqual(request.json['message'], 'id is too large')
+# 	def test_bva_max_1(self):
+# 		app = TestApp(main({}))
+# 		data = 2147483648
+# 		request = app.get('/v1/users/delete', dict(user_id=1, id=data, step=2))
+# 		self.assertEqual(request.json['message'], 'id is too large')
 
 # class Test(unittest.TestCase):
 	# def test_1(self): #test that val is what's expected
