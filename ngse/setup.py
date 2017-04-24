@@ -126,6 +126,7 @@ def setup(session):
 					q.width = element.get('width', 16)
 					q.required = element.get('required', None)
 					q.choices = element.get('choices', None)
+					q.default = element.get('default', None)
 					add(q)
 
 	def setup_forms(forms):

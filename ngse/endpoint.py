@@ -244,12 +244,15 @@ def get_elements(request):
 			'kind': element.kind,
 			'width': word(element.width)
 		}
-
+ 
 		if (element.klass == 'question'):
 			q['required'] = element.required
 
 		if (element.choices):
 			q['choices'] = element.choices
+
+		if (element.default):
+			q['default'] = element.default
 		
 		result.append(q)
 
@@ -465,9 +468,11 @@ def create_user(request):
 
 		for question in questions:
 			answer = Answer(text='', element_id=question.id, user_id=u.id)
+			if question.default:
+				answer.text = question.default
 			session.add(answer)
 			session.commit()
-
+ 
 	return generateSuccess('Welcome, {}!'.format(fullname), {'token': generateToken(u)})
 
 def delete_user(request):

@@ -88,6 +88,7 @@ class Element(Base):
 	kind = Column(Text, nullable=False, default='text')
 	width = Column(Integer, nullable=False, default=16)
 	choices = Column(ARRAY(Text))
+	default = Column(Text)
 	required = Column(Boolean)
 
 	meta = Column(JSON)

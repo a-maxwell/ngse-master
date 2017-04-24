@@ -1,4 +1,4 @@
-app.controller('formController', function($rootScope, $scope, $routeParams, formService, authService) {
+app.controller('formController', function($rootScope, $scope, $routeParams, $location, formService, authService) {
 
     $scope.id = $routeParams.id;
 	$scope.category = formService.getCategory($scope.id);
@@ -6,6 +6,13 @@ app.controller('formController', function($rootScope, $scope, $routeParams, form
     initController();
     
     $scope.save = save;
+    $scope.back = back;
+
+    function back() {
+        var data = $location.path().split('/', 3);
+        var location = '/' + data[1] + '/' + data[2];
+        $location.path(location);
+    }
 
     function save() {
         answers = [];
@@ -17,6 +24,7 @@ app.controller('formController', function($rootScope, $scope, $routeParams, form
 
         formService.saveAnswers(function(d) {
             if ($rootScope.debug) console.log(d);
+            back();
         }, authService.getUserID(), answers);
     }
 
@@ -45,7 +53,7 @@ app.controller('formController', function($rootScope, $scope, $routeParams, form
                 setTimeout(function() {
                     $(".ui.dropdown").dropdown();
                     console.log("AYOKO NA");
-                }, 100);
+                }, 0);
 
         	}, authService.getUserID(), $scope.id);
         }, $scope.id);

@@ -28,8 +28,206 @@
 		"text": "Sex",
 		"klass": "question",
 		"kind": "dropdown",
-		"width": 3,
+		"width": 4,
 		"choices": ["Male", "Female"],
+		"default": "Male",
 		"required": true
+	},
+	{
+		"name": "birthdate",
+		"text": "Birth Date",
+		"klass": "question",
+		"kind": "date",
+		"width": 4,
+		"required": true
+	},
+	{
+		"name": "birthpalce",
+		"text": "Birth Place",
+		"klass": "question",
+		"kind": "text",
+		"width": 4,
+		"required": true
+	},
+	{
+		"name": "civilstatus",
+		"text": "Civil Status",
+		"klass": "question",
+		"kind": "text",
+		"width": 4,
+		"required": true
+	},
+	{
+		"name": "countryoforigin",
+		"text": "Country of Origin",
+		"klass": "question",
+		"kind": "dropdown",
+		"width": 8,
+		"choices": ["Philippines", "Japan", "Korea", "Singapore"],
+		"default": "Philippines",
+		"required": true
+	},
+	{
+		"name": "citizenship",
+		"text": "Citizenship",
+		"klass": "question",
+		"kind": "text",
+		"width": 8,
+		"required": true
+	},
+	{
+		"name": "rule-1",
+		"text": "",
+		"klass": "decor",
+		"kind": "rule",
+		"width": 16
+	},
+	{
+		"name": "currentaddress",
+		"text": "Current Address",
+		"klass": "question",
+		"kind": "textarea",
+		"row": 4,
+		"width": 16,
+		"required": true
+	},
+	{
+		"name": "currentpostal",
+		"text": "Postal Code",
+		"klass": "question",
+		"kind": "text",
+		"width": 4,
+		"required": true
+	},
+	{
+		"name": "currentcountry",
+		"text": "Country",
+		"klass": "question",
+		"kind": "dropdown",
+		"width": 4,
+		"choices": ["Philippines", "Japan", "Korea", "Singapore"],
+		"default": "Philippines",
+		"required": true
+	},
+	{
+		"name": "permanentaddress",
+		"text": "Permanent Address",
+		"klass": "question",
+		"kind": "textarea",
+		"row": 4,
+		"width": 16,
+		"required": true
+	},
+	{
+		"name": "permanentpostal",
+		"text": "Postal Code",
+		"klass": "question",
+		"kind": "text",
+		"width": 4,
+		"required": true
+	},
+	{
+		"name": "permanentcountry",
+		"text": "Country",
+		"klass": "question",
+		"kind": "dropdown",
+		"width": 4,
+		"choices": ["Philippines", "Japan", "Korea", "Singapore"],
+		"default": "Philippines",
+		"required": true
+	},
+	{
+		"name": "rule-2",
+		"text": "",
+		"klass": "decor",
+		"kind": "rule",
+		"width": 16
+	},
+	{
+		"name": "telephonenumber",
+		"text": "Telephone Number",
+		"klass": "question",
+		"kind": "text",
+		"width": 4,
+		"required": true
+	},
+	{
+		"name": "faxnumber",
+		"text": "Fax Number",
+		"klass": "question",
+		"kind": "text",
+		"width": 4,
+		"required": false
+	},
+	{
+		"name": "emailaddress",
+		"text": "E-mail Address",
+		"klass": "question",
+		"kind": "text",
+		"width": 4,
+		"required": true
+	},
+	{
+		"name": "fathersname",
+		"text": "Father's Name",
+		"klass": "question",
+		"kind": "text",
+		"width": 8,
+		"required": true
+	},
+	{
+		"name": "mothersname",
+		"text": "Mother's Name",
+		"klass": "question",
+		"kind": "text",
+		"width": 8,
+		"required": true
+	},
+	{
+		"name": "rule-3",
+		"text": "",
+		"klass": "decor",
+		"kind": "rule",
+		"width": 16
+	},
+	{
+		"name": "emergencyname",
+		"text": "Emergency Contact Person's Name",
+		"klass": "question",
+		"kind": "text",
+		"width": 8,
+		"required": true
+	},
+	{
+		"name": "emergencyaddress",
+		"text": "Address",
+		"klass": "question",
+		"kind": "textarea",
+		"row": 4,
+		"width": 16,
+		"required": true
+	},
+	{
+		"name": "emergencyrelationship",
+		"text": "Relationship",
+		"klass": "question",
+		"kind": "text",
+		"width": 4,
+		"required": true
+	},
+	{
+		"name": "emergencynumber",
+		"text": "Contact Number",
+		"klass": "question",
+		"kind": "text",
+		"width": 4,
+		"required": true
+	},
+	{
+		"name": "rule-4",
+		"text": "",
+		"klass": "decor",
+		"kind": "rule",
+		"width": 16
 	}
 ]

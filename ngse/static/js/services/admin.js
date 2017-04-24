@@ -1,6 +1,10 @@
 app.factory('adminService', function($rootScope, $http, $cookies, $location) {
     methods = {};
 
+    var forms;
+
+    var categories;
+
     function postData(url, data, callback) {
         return $http.post(url, data)
         .then(function successCallback(response) {
@@ -24,7 +28,9 @@ app.factory('adminService', function($rootScope, $http, $cookies, $location) {
     }
 
     methods.fetchForms = function(callback) {
-        getData('/v1/forms', undefined, callback);
+        getData('/v1/forms', undefined, function(d) {
+            
+        });
     }
 
     methods.fetchCategories = function(callback) {
