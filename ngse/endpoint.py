@@ -301,43 +301,9 @@ def update_answer(request):
 			.one()
 		answer.text = text
 	
-		########
-		'''
-		if answer.element_id in [47, 51, 55]:
-			attr = session.query(ApplicantAttribute)\
-				.filter(ApplicantAttribute.applicant_id == user_id).one()
-
-			# if 
-			password = bcrypt.hashpw('password', bcrypt.gensalt())
-			# EDIT: FIX THE EMAIL PART
-
-			rec = User(name=text, email='sample@email.com', password=password, user_type_id='3')
-			# session.add(rec)
-			# session.commit()
-
-			print answer.element_id
-			
-			if answer.element_id == 46 and attr.recommender_a == None:	
-				print "heycfvfknsovu"			
-				session.add(rec)
-				session.commit()
-				attr.recommender_a = rec.id
-				session.commit()
-			elif answer.element_id == 50 and attr.recommender_b == None:
-				session.add(rec)
-				session.commit()
-				attr.recommender_b = rec.id
-				session.commit()
-			elif answer.element_id == 54 and attr.recommender_c == None:
-				session.add(rec)
-				session.commit()
-				attr.recommender_c = rec.id
-				session.commit()
-		'''
 		
 		if answer.element_id in [46, 47, 51, 52, 54, 55] and text != '':
 			
-			# check if existing/nagbago sya ng laman/dapat ba cant be edited na yun?
 			# if hindi pa existing create a new recommender
 			if answer.element_id in [46, 51, 56]:
 				recName = text;
