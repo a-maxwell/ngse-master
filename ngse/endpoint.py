@@ -357,7 +357,7 @@ def update_answer(request):
 
 		########
 	session.commit()
-	return generateSuccess('Successfully updated answer')
+return generateSuccess('Successfully updated answer')
 
 
 
