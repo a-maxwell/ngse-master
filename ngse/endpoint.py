@@ -302,7 +302,7 @@ def update_answer(request):
 		answer.text = text
 	
 		
-		if answer.element_id in [46, 47, 51, 52, 54, 55] and text != '':
+		if answer.element_id in [46, 47, 51, 52, 56, 57] and text != '':
 			
 			# if hindi pa existing create a new recommender
 			if answer.element_id in [46, 51, 56]:
@@ -357,7 +357,7 @@ def update_answer(request):
 
 		########
 	session.commit()
-return generateSuccess('Successfully updated answer')
+	return generateSuccess('Successfully updated answer')
 
 
 
