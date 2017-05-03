@@ -7,6 +7,13 @@
 		"required": true
 	},
 	{
+		"name": "rec1email",
+		"text": "Recommender E-mail",
+		"klass": "question",
+		"kind": "text",
+		"required": true
+	},
+	{
 		"name": "company1name",
 		"text": "Company of Affiliton",
 		"klass": "question",
@@ -35,6 +42,13 @@
 		"required": true
 	},
 	{
+		"name": "rec2email",
+		"text": "Recommender E-mail",
+		"klass": "question",
+		"kind": "text",
+		"required": true
+	},
+	{
 		"name": "company2name",
 		"text": "Company of Affiliton",
 		"klass": "question",
@@ -58,6 +72,13 @@
 	{
 		"name": "rec3name",
 		"text": "Recommender Name",
+		"klass": "question",
+		"kind": "text",
+		"required": true
+	},
+	{
+		"name": "rec3email",
+		"text": "Recommender E-mail",
 		"klass": "question",
 		"kind": "text",
 		"required": true

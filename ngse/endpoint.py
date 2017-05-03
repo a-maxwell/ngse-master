@@ -302,9 +302,66 @@ def update_answer(request):
 			.one()
 		answer.text = text
 	
-	session.commit()
+		
+		if answer.element_id in [46, 47, 51, 52, 56, 57] and text != '':
+			
+			# if hindi pa existing create a new recommender
+			if answer.element_id in [46, 51, 56]:
+				recName = text;
 
+			elif answer.element_id in [47, 52, 57]:
+				attr = session.query(ApplicantAttribute)\
+					.filter(ApplicantAttribute.applicant_id == user_id).one()
+
+				password = bcrypt.hashpw('password', bcrypt.gensalt())
+				# EDIT: FIX THE EMAIL PART
+
+				rec = User(name=recName, email=text, password=password, user_type_id='3')
+				# session.add(rec)
+				# session.commit()
+
+				print answer.element_id
+				success = False
+
+				if answer.element_id == 47 and attr.recommender_a == None:	
+					print "heycfvfknsovu"			
+					session.add(rec)
+					session.commit()
+					attr.recommender_a = rec.id
+					session.commit()
+					success = True
+				elif answer.element_id == 52 and attr.recommender_b == None:
+					session.add(rec)
+					session.commit()
+					attr.recommender_b = rec.id
+					session.commit()
+					success = True
+				elif answer.element_id == 57 and attr.recommender_c == None:
+					session.add(rec)
+					session.commit()
+					attr.recommender_c = rec.id
+					session.commit()
+					success = True
+				if(success):
+					form_type = session.query(FormType).filter(FormType.user_type_id == rec.user_type_id).one()
+					category_ids = form_type.page_sequence
+					questions = []
+					for category_id in category_ids:
+						toadd = session.query(Element).filter(Element.klass == 'question').filter(Element.category_id == category_id).all()
+						for entry in toadd:
+							questions.append(entry)
+
+					for question in questions:
+						answer = Answer(text='', element_id=question.id, user_id=rec.id)
+						session.add(answer)
+						session.commit()			
+
+		########
+	session.commit()
 	return generateSuccess('Successfully updated answer')
+
+
+
 
 	# db_ans = session.query(Answer)\
 	# 		.filter(Answer.element_id == q_id)\
