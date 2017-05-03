@@ -292,8 +292,6 @@ def update_answer(request):
 	data = request.params.get('data')
 	length = request.params.get('length')
 
-	print request.params
-
 	for i in range(int(length)):
 		answer_id = request.params.get('data[{}][id]'.format(i))
 		text = request.params.get('data[{}][text]'.format(i))
@@ -433,7 +431,6 @@ def create_user(request):
 
 	if int(level) in [3,4,5]:
 
-		print 'HUH'
 		#######
 		# add a row in ApplicantAttribute Table
 		if level == '4':

@@ -93,3 +93,5 @@ ENV/
 
 # differs from system to system
 load_data.sql
+semantic/
+node_modules/

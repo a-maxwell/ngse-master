@@ -1,0 +1,44 @@
+[
+	{
+		"name": "Master of Science",
+		"choices": [
+			"CE",
+			"ChE",
+			"CS",
+			"EE",
+			"EgyE",
+			"EnE",
+			"GmE",
+			"IE",
+			"ME",
+			"MetE",
+			"MSE"
+		]
+	},
+	{
+		"name": "Doctor of Philosophy",
+		"choices": [
+			"CE",
+			"ChE",
+			"EEE",
+			"EnE",
+			"EgyE",
+			"MSE"
+		]
+	},
+	{
+		"name": "Master of Engineering",
+		"choices": [
+			"EE",
+			"IE"
+		]
+	},
+	{
+		"name": "Doctor of Engineering",
+		"choices": [
+			"ChE",
+			"EEE",
+			"EgyE"
+		]
+	}
+]

@@ -9,10 +9,10 @@
 					<ng-switch on="element.kind" class="field">
 						<label ng-switch-when="text|dropdown|textarea" ng-switch-when-separator="|">{{element.text}}</label>
 						<input ng-switch-when="text" type="text" name="{{element.name}}" ng-model="element.answer.text" required="{{element.required}}">
-						<select ng-switch-when="dropdown" ng-model="element.answer.text" title="element.name" class="ui dropdown" required="{{element.required}}">
+						<select ng-switch-when="dropdown" ng-model="element.answer.text" title="{{element.name}}" class="ui dropdown" required="{{element.required}}">
 							<option ng-repeat="choice in element.choices" value="{{choice}}">{{choice}}</option>
 						</select>
-						<textarea ng-switch-when="textarea" ng-model="element.answer.text" rows="{{element.rows}}" title="element.name" required="{{element.required}}"></textarea>
+						<textarea ng-switch-when="textarea" ng-model="element.answer.text" rows="{{element.rows}}" title="{{element.name}}" required="{{element.required}}"></textarea>
 					</ng-switch>
 				</div>
 				<div ng-switch-when="decor">
