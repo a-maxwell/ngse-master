@@ -4,30 +4,38 @@
 	</div>
 	<div class="content">
 		<div class="ui grid">
-			<!-- <div class="sixteen wide column field">
-				<label>Degree Level</label>
-				<sm-radio-group ng-model="level">
-					<sm-radio-button ng-repeat="l in levels" value="{{l}}" ng-class="{'orange active': level === l}">{{l}}</sm-radio-button>
-				</sm-radio-group>
-			</div> -->
 			<div class="sixteen wide column field">
-				<label>Degree Program</label>
-				<sm-radio-group ng-model="program">
-					<sm-radio-button ng-repeat="p in programs" value="{{p}}" ng-class="{'orange active': program === p, disabled: !availableProgram(p)}">{{p}}</sm-radio-button>
+				<label>Degree Level</label>
+				<sm-radio-group ng-model="user.level">
+					<sm-radio-button ng-repeat="l in levels" value="{{l}}" ng-class="{'orange active': user.level === l}">{{l}}</sm-radio-button>
 				</sm-radio-group>
 			</div>
-			<div class="eight wide column inline field">
+			<div class="sixteen wide column field">
+				<label>Degree Program</label>
+				<sm-radio-group ng-model="user.program">
+					<sm-radio-button ng-repeat="p in programs" value="{{p}}" ng-class="{'orange active': user.program === p, disabled: !availableProgram(p)}">{{p}}</sm-radio-button>
+				</sm-radio-group>
+			</div>
+			<div class="sixteen wide column ui dividier">
+				<div class="ui divider"></div>
+			</div>
+			<div class="sixteen wide column" ng-if="!thesisOption()">
+				<div class="ui visible warning message">
+					Non-thesis option is for MS CE-G, MS CE-S, MS CE-W, MS ChE, and MS MSE only
+				</div>
+			</div>
+			<div class="sixteen wide column inline field">
 				<label for="option">Program Type</label>
-				<sm-radio-group ng-model="option">
+				<sm-radio-group ng-model="user.program_type">
 					<sm-radio-button value="thesis" ng-class="{'orange active': thesisOption()}">Thesis</sm-radio-button>
 					<sm-radio-button value="nonthesis" ng-class="{'orange active': !thesisOption(), disabled: !nonThesisOption()}">Non Thesis</sm-radio-button>
 				</sm-radio-group>
 			</div>
-			<div class="eight wide column inline field">
+			<div class="sixteen wide column inline field">
 				<label for="time">Student Type</label>
-				<sm-radio-group ng-model="time">
-					<sm-radio-button value="full" ng-class="{'orange active': time === 'full'}">Full Time</sm-radio-button>
-					<sm-radio-button value="part" ng-class="{'orange active': time === 'part'}">Part Time</sm-radio-button>
+				<sm-radio-group ng-model="user.student_type">
+					<sm-radio-button value="full" ng-class="{'orange active': user.student_type === 'full'}">Full Time</sm-radio-button>
+					<sm-radio-button value="part" ng-class="{'orange active': user.student_type === 'part'}">Part Time</sm-radio-button>
 				</sm-radio-group>
 			</div>
 			<div ng-show="thesisOption()" class="sixteen wide column field">
@@ -35,49 +43,52 @@
 				<div class="three fields">
 					<div class="field">
 						<label>1st Choice</label>
-						<select class="ui dropdown" ng-model="c1" ng-options="item for item in fields[program]">
+						<select class="ui dropdown" ng-model="user.choice_1" ng-options="item for item in fields[program]" ng-required="thesisOption()">
 						</select>
 					</div>
 					<div class="field">
 						<label>2nd Choice</label>
-						<select class="ui dropdown" ng-model="c2" ng-options="item for item in filter_c2()" ng-class="{disabled: check_c2()}">
+						<select class="ui dropdown" ng-model="user.choice_2" ng-options="item for item in filter_c2()" ng-required="thesisOption()">
 						</select>
 					</div>
 					<div class="field">
 						<label>3rd Choice</label>
-						<select class="ui dropdown" ng-model="c3" ng-options="item for item in filter_c3()" ng-class="{disabled: check_c3()}">
+						<select class="ui dropdown" ng-model="user.choice_3" ng-options="item for item in filter_c3()" ng-required="thesisOption()">
 						</select>
 					</div>
 				</div>
 			</div>
 			<div ng-show="thesisOption()" class="sixteen wide column field">
-				<label>For Thesis Option: Indicate the name of the potential research adviser (list provided in the brochure of the UP COE website</label>
-				<input type="text" name="adviser" ng-model="adviser">
+				<label>For Thesis: Indicate the name of the potential research adviser (list provided in the brochure of the UP COE website</label>
+				<input type="text" name="adviser" ng-model="user.adviser" ng-required="thesisOption()">
 			</div>
-			<div class="eight wide column inline field">
+			<div class="sixteen wide column ui dividier">
+				<div class="ui divider"></div>
+			</div>
+			<div class="sixteen wide column inline field">
 				<label>Intended start of study</label>
-				<sm-radio-group ng-model="start">
-					<sm-radio-button value="first" ng-class="{'orange active': start === 'first'}">First Semester</sm-radio-button>
-					<sm-radio-button value="second" ng-class="{'orange active': start === 'second'}">Second Semester</sm-radio-button>
+				<sm-radio-group ng-model="user.start_of_study">
+					<sm-radio-button value="first" ng-class="{'orange active': user.start_of_study === 'first'}">First Semester</sm-radio-button>
+					<sm-radio-button value="second" ng-class="{'orange active': user.start_of_study === 'second'}">Second Semester</sm-radio-button>
 				</sm-radio-group>
 			</div>
-			<div class="eight wide column inline field">
+			<div class="sixteen wide column inline field">
 				<label>Academic Year</label>
-				<select class="ui dropdown" ng-model="year" ng-options="item for item in years"></select>
+				<select class="ui dropdown" ng-model="user.year" ng-options="item for item in years" required></select>
 			</div>
 			<div class="sixteen wide column inline field">
 				<label>Are you applying for another scholarship/grant?</label>
-				<sm-radio-group ng-model="scholarship">
-					<sm-radio-button value="yes" ng-class="{'orange active': scholarship === 'yes'}">Yes</sm-radio-button>
-					<sm-radio-button value="no" ng-class="{'orange active': scholarship === 'no'}">No</sm-radio-button>
+				<sm-radio-group ng-model="user.other_scholarship">
+					<sm-radio-button value="yes" ng-class="{'orange active': user.other_scholarship === 'yes'}">Yes</sm-radio-button>
+					<sm-radio-button value="no" ng-class="{'orange active': user.other_scholarship === 'no'}">No</sm-radio-button>
 				</sm-radio-group>
 			</div>
 			<div ng-show="otherScholarship()" class="sixteen wide column field">
 				<label>What is the name of the scholarship program which you are applying for?</label>
-				<input type="text" name="scholarship_name" ng-model="scholarship_name">
+				<input type="text" name="scholarship_name" ng-model="user.other_scholarship_name" ng-required="otherScholarship()">
 			</div>
 			<div class="sixteen wide column">
-				<div class="ui button" ng-click="debug()">Debug</div>
+				<div class="ui primary button" ng-click="submit()">Submit</div>
 			</div>
 		</div>
 	</div>

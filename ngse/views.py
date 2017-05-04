@@ -92,10 +92,7 @@ user_show = user['actions']['show']
 show_user = user_show.get()(show_user)
 
 user_update = user['actions']['update']
-@user_update.post()
-def update_user(request):
-	log.debug('{}'.format(request.params))
-	return {'hello': 'yes'}
+update_user = user_update.post()(update_user)
 
 
 

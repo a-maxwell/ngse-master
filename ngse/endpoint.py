@@ -21,10 +21,10 @@ import bcrypt
 '''users'''
 
 def show_user(request):
-	_id = request.params['id']
+	user_id = request.params['user_id']
 
 	user = session.query(User)\
-		.filter(User.id == _id)\
+		.filter(User.id == user_id)\
 		.one()
 
 	d = {
@@ -38,13 +38,26 @@ def show_user(request):
 
 	if (user.user_type_id in [4,5]):
 		# d['application_status'] = user.application_status
-		_user = session.query(ApplicantAttribute).filter(ApplicantAttribute.applicant_id==_id).one()
-		d['validation_status'] = _user.validation_status
-		d['application_status'] = _user.application_status
+		attrib = session.query(ApplicantAttribute).filter(ApplicantAttribute.applicant_id==user_id).one()
+		d['validation_status'] = attrib.validation_status
+		d['application_status'] = attrib.application_status
+
+		d['level'] = attrib.level
+		d['program'] = attrib.program
+		d['program_type'] = attrib.program_type
+		d['student_type'] = attrib.student_type
+		d['choice_1'] = attrib.choice_1
+		d['choice_2'] = attrib.choice_2
+		d['choice_3'] = attrib.choice_3
+		d['adviser'] = attrib.adviser
+		d['start_of_study'] = attrib.start_of_study
+		d['year'] = attrib.year
+		d['other_scholarship'] = attrib.other_scholarship
+		d['other_scholarship_name'] = attrib.other_scholarship_name
 
 	if (user.user_type_id in [3,4,5]):
 		answers = session.query(Answer)\
-			.filter(Answer.user_id == _id)\
+			.filter(Answer.user_id == user_id)\
 			.all()
 
 		d['answers'] = []
@@ -58,7 +71,67 @@ def show_user(request):
 
 	return d
 
+def update_user(request):
+	token = request.authorization[1]
+	payload = decode(token)
+	user_id = payload['sub']
 
+	user = session.query(User)\
+		.filter(User.id == user_id)\
+		.one()
+
+	user_attribs = session.query(ApplicantAttribute)\
+		.filter(ApplicantAttribute.applicant_id == user_id)\
+		.one()
+
+	attribs = [
+		'level',
+		'program',
+		'program_type',
+		'student_type',
+		'choice_1',
+		'choice_2',
+		'choice_3',
+		'adviser',
+		'start_of_study',
+		'year',
+		'other_scholarship',
+		'other_scholarship_name'
+	]
+
+	for key in attribs:
+		value = request.params.get('user[{}]'.format(key))
+		print key
+		print value
+		if (key == 'level'):
+			user_attribs.level = value
+		if (key == 'program'):
+			user_attribs.program = value
+		if (key == 'program_type'):
+			user_attribs.program_type = value
+		if (key == 'student_type'):
+			user_attribs.student_type = value
+		if (key == 'choice_1'):
+			user_attribs.choice_1 = value
+		if (key == 'choice_2'):
+			user_attribs.choice_2 = value
+		if (key == 'choice_3'):
+			user_attribs.choice_3 = value
+		if (key == 'adviser'):
+			user_attribs.adviser = value
+		if (key == 'start_of_study'):
+			user_attribs.start_of_study = value
+		if (key == 'year'):
+			user_attribs.year = value
+		if (key == 'other_scholarship'):
+			user_attribs.other_scholarship = value
+		if (key == 'other_scholarship_name'):
+			user_attribs.other_scholarship_name = value
+
+	session.commit()
+
+	# log.debug('{}'.format(request.params))
+	return {'hello': 'yes'}
 
 
 

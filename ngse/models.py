@@ -165,6 +165,20 @@ class ApplicantAttribute(Base):
 	application_status = Column(Text, nullable=False, default='None')
 	validation_status = Column(Text, nullable=False, default='None')
 
+	level = Column(Text)
+	program = Column(Text)
+	program_type = Column(Text)
+	student_type = Column(Text)
+	choice_1 = Column(Text)
+	choice_2 = Column(Text)
+	choice_3 = Column(Text)
+	adviser = Column(Text)
+
+	start_of_study = Column(Text)
+	year = Column(Text)
+	other_scholarship = Column(Text)
+	other_scholarship_name = Column(Text)
+
 	# recommender_A = Column(Integer, ForeignKey('user_types.id'))
 	# recommender_B = Column(Integer, ForeignKey('user_types.id'))
 	# recommender_C = Column(Integer, ForeignKey('user_types.id'))
