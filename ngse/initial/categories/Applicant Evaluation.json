@@ -1,9 +1,34 @@
 [
 	{
-		"name": "essay",
-		"text": "essay",
+		"name": "essay1",
+		"text": "How long have you known the applicant?",
 		"klass": "question",
-		"kind": "textbox",
+		"kind": "text",
+		"required": true
+	},
+	{
+		"name": "essay2",
+		"text": "In what capacity have you known the applicant?",
+		"klass": "question",
+		"kind": "text",
+		"width": 16,
+		"required": true
+	},
+	{
+		"name": "essay3",
+		"text": "If the applicant was a student in some of your classes, what were these subjects?",
+		"klass": "question",
+		"kind": "text",
+		"width": 16,
+		"required": true
+	},
+	{
+		"name": "ques1",
+		"text": "Intellectual ability",
+		"klass": "question",
+		"kind": "dropdown",
+		"choices": ["Excellent", "Above average", "Average", "Below Average", "No Basis", "-"],
+		"width": 8,
 		"required": true
 	}
 ]
