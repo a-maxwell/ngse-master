@@ -376,13 +376,13 @@ def update_answer(request):
 		answer.text = text
 	
 		
-		if answer.element_id in [46, 47, 51, 52, 56, 57] and text != '':
+		if answer.element_id in [70, 71, 75, 76, 80, 81] and text != '':
 			
 			# if hindi pa existing create a new recommender
-			if answer.element_id in [46, 51, 56]:
+			if answer.element_id in [70, 75, 80]:
 				recName = text;
 
-			elif answer.element_id in [47, 52, 57]:
+			elif answer.element_id in [71, 76, 81]:
 				attr = session.query(ApplicantAttribute)\
 					.filter(ApplicantAttribute.applicant_id == user_id).one()
 
@@ -396,20 +396,20 @@ def update_answer(request):
 				print answer.element_id
 				success = False
 
-				if answer.element_id == 47 and attr.recommender_a == None:	
+				if answer.element_id == 71 and attr.recommender_a == None:	
 					print "heycfvfknsovu"			
 					session.add(rec)
 					session.commit()
 					attr.recommender_a = rec.id
 					session.commit()
 					success = True
-				elif answer.element_id == 52 and attr.recommender_b == None:
+				elif answer.element_id == 76 and attr.recommender_b == None:
 					session.add(rec)
 					session.commit()
 					attr.recommender_b = rec.id
 					session.commit()
 					success = True
-				elif answer.element_id == 57 and attr.recommender_c == None:
+				elif answer.element_id == 81 and attr.recommender_c == None:
 					session.add(rec)
 					session.commit()
 					attr.recommender_c = rec.id
