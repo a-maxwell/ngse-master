@@ -20,6 +20,17 @@
 						<div ng-switch-when="rule" class="ui divider"></div>
 					</ng-switch>
 				</div>
+<!-- 
+
+ -->
+ 				<div ng-switch-when="text">
+					<ng-switch on="element.kind">
+						<strong>{{element.text}}</strong>
+						<!-- <div ng-switch-when="rule" class="ui divider"></div> -->
+					</ng-switch>
+				</div>
+<!-- 
+  -->
 			</div>
 		</div>
 	</div>
