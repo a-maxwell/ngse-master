@@ -1,17 +1,96 @@
 <div class="ui equal width centered grid" ng-controller="summaryController">
 	<div class="row">
 		<div class="column">
-			<div class="ui very padded center aligned segment">
-				<div class="ui huge header">Your Application Summary</div>
+			<div class="ui padded center aligned segment">
+				<div class="ui large header">Your Application Summary</div>
 			</div>
 		</div>
 	</div>
-
-
 	<div class="row">
-		<a href="#!application/category" class="ui button">
-			Go to List of Sections
-		</a>
+		<div class="column">
+			<div class="ui fluid card">
+				<div class="content">
+					<table class="ui very basic celled table">
+						<thead>
+							<tr>
+								<th>Category</th>
+								<th>Status</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><a href="#!study">Program of Study <i class="share icon"></i></a></td>
+								<td>{{user.answered_pos ? 'Answered' : 'Unanswered'}}</td>
+							</tr>
+							<tr ng-repeat="category in categories">
+								<td><a href="#!application/category/{{category.id}}">{{category.name}} <i class="share icon"></i></a></td>
+								<td>{{status(category.id)}}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="column">
+			<div class="ui grid">
+				<div class="row">
+					<div class="eight wide column">
+						<div class="ui fluid card">
+							<div class="content">
+								<div class="header">Application Status</div>
+								<div class="description">
+									<p>{{application_status()}}</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="eight wide column">
+						<div class="ui fluid card">
+							<div class="content">
+								<div class="header">Validation Status</div>
+								<div class="description">
+									<p>{{validation_status()}}</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="ui equal width grid">
+				<div class="row">
+					<div class="column">
+						<div class="ui fluid card">
+							<div class="content">
+								<div class="header">Recommender</div>
+								<div class="description">
+									<p>Not yet assigned</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="column">
+						<div class="ui fluid card">
+							<div class="content">
+								<div class="header">Recommender</div>
+								<div class="description">
+									<p>Not yet assigned</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="column">
+						<div class="ui fluid card">
+							<div class="content">
+								<div class="header">Recommender</div>
+								<div class="description">
+									<p>Not yet assigned</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 	<div class="row">
 		<div class="ui button" ng-click="debug()">debug</div>
