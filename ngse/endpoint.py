@@ -493,6 +493,13 @@ def update_answer(request):
 						session.add(answer)
 						session.commit()			
 
+								# initialize all status of categories_answered to False
+					for category_id in category_ids:
+						category_status = CategoryStatus(user_id=rec.id, category_id=category_id)
+						session.add(category_status)
+
+					session.commit()
+
 		########
 	session.commit()
 	return generateSuccess('Successfully updated answer')
