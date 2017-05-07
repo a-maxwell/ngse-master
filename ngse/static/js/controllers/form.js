@@ -10,7 +10,7 @@ app.controller('formController', function($rootScope, $scope, $routeParams, $loc
 
     function back() {
         var data = $location.path().split('/', 3);
-        var location = '/' + data[1] + '/' + data[2];
+        var location = '/' + data[1];
         $location.path(location);
     }
 
