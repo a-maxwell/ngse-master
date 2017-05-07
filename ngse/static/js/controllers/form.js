@@ -1,4 +1,4 @@
-app.controller('formController', function($rootScope, $scope, $routeParams, $location, formService, authService) {
+app.controller('formController', function($rootScope, $scope, $routeParams, $location, formService, authService, userService) {
 
     $scope.id = $routeParams.id;
 	$scope.category = formService.getCategory($scope.id);
@@ -24,6 +24,9 @@ app.controller('formController', function($rootScope, $scope, $routeParams, $loc
 
         formService.saveAnswers(function(d) {
             if ($rootScope.debug) console.log(d);
+            userService.fetchUser(function(data) {
+                console.log(data);
+            })
             back();
         }, authService.getUserID(), answers, $scope.id);
     }

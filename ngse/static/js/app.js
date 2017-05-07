@@ -194,6 +194,7 @@ app.config(function($routeProvider) {
     })
     .when("/application", {
         templateUrl: "/templates/application.html",
+        controller: "summaryController",
         resolve: {auth: _user}
     })
     .when("/recommendation", {

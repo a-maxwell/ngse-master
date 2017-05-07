@@ -58,41 +58,30 @@ def show_user(request):
 		d['other_scholarship'] = attrib.other_scholarship
 		d['other_scholarship_name'] = attrib.other_scholarship_name
 
-		# get recommender statuses
-		if (attrib.recommender_a == None):
-			d['recommender_a_status'] = 'Unassigned'
+		# get recommender info
+		
+		d['recommenders'] = []
+		if (attrib.recommender_a is None or attrib.recommender_b is None or attrib.recommender_c is None):
+			for i in range(3):
+				d['recommenders'].append({'name': 'Not yet assigned'})
 		else:
-			d['recommender_a_status'] = 'Submitted'
-			category_statuses = session.query(CategoryStatus)\
-				.filter(CategoryStatus.user_id == attrib.recommender_a)\
-				.all()
-			for category_status in category_statuses:
-				print category_status
-				if category_status.status is False:
-					d['recommender_a_status'] = 'Not yet finished'
+			for recommender in [(attrib.recommender_a, attrib.rec_a), (attrib.recommender_b, attrib.rec_b), (attrib.recommender_c, attrib.rec_c)]:
+				info = {
+					'id': recommender[0],
+					'name': recommender[1].name,
+					'status': True
+				}
 
-		if (attrib.recommender_b == None):
-			d['recommender_b_status'] = 'Unassigned'
-		else:
-			d['recommender_b_status'] = 'Submitted'
-			category_statuses = session.query(CategoryStatus)\
-				.filter(CategoryStatus.user_id == attrib.recommender_b)\
-				.all()
-			for category_status in category_statuses:
-				if category_status.status is False:
-					d['recommender_b_status'] = 'Not yet finished'
+				category_statuses = session.query(CategoryStatus)\
+					.filter(CategoryStatus.user_id == recommender[0])\
+					.all()
 
-		if (attrib.recommender_c == None):
-			d['recommender_c_status'] = 'Unassigned'
-		else:
-			d['recommender_c_status'] = 'Submitted'
-			category_statuses = session.query(CategoryStatus)\
-				.filter(CategoryStatus.user_id == attrib.recommender_c)\
-				.all()
-			for category_status in category_statuses:
-				if category_status.status is False:
-					d['recommender_c_status'] = 'Not yet finished'
+				for category_status in category_statuses:
+					if not category_status.status:
+						info['status'] = False
+						break
 
+				d['recommenders'].append(info)
 
 	if (user.user_type_id in [3,4,5]):
 		categories = session.query(CategoryStatus)\

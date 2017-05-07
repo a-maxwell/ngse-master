@@ -13,6 +13,12 @@ app.factory('authService', function($rootScope, $http, $cookies, $location) {
         if ($rootScope.debug) console.log($http.defaults.headers.common.Authorization);
     }
 
+    function onRefresh() {
+        var token = $cookies.get('token');
+        if (token === undefined) return;
+        $http.defaults.headers.common.Authorization = 'Bearer ' + token;
+    }
+
     function sendData(url, data, callback) {
         return $http.post(url, data)
         .then(function successCallback(response) {
@@ -30,7 +36,7 @@ app.factory('authService', function($rootScope, $http, $cookies, $location) {
     }
 
     methods.getUserID = function() {
-        token = $cookies.get('token');
+        var token = $cookies.get('token');
         if (token === undefined) return 0;
         else return jwt_decode(token).sub;        
     }
@@ -69,6 +75,8 @@ app.factory('authService', function($rootScope, $http, $cookies, $location) {
         $http.defaults.headers.common.Authorization = '';
         if ($location.path() != '/auth') $location.path('/auth');
     }
+
+    onRefresh();
 
     return methods;
 });

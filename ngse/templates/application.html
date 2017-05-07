@@ -1,4 +1,4 @@
-<div class="ui equal width centered grid" ng-controller="summaryController">
+<div class="ui equal width centered grid">
 	<div class="row">
 		<div class="column">
 			<div class="ui padded center aligned segment">
@@ -20,10 +20,17 @@
 						<tbody>
 							<tr>
 								<td><a href="#!study">Program of Study <i class="share icon"></i></a></td>
-								<td>{{user.answered_pos ? 'Answered' : 'Unanswered'}}</td>
+								<td>{{user().answered_pos ? 'Answered' : 'Unanswered'}}</td>
 							</tr>
 							<tr ng-repeat="category in categories">
-								<td><a href="#!application/category/{{category.id}}">{{category.name}} <i class="share icon"></i></a></td>
+								<td>
+									<div ng-if="user().answered_pos && (category.name != 'References' || (category.name == 'References' && status(category.id) == 'Unanswered'))">
+										<a href="#!application/category/{{category.id}}">{{category.name}} <i class="share icon"></i></a>
+									</div>
+									<div ng-if="!(user().answered_pos) || (category.name == 'References' && status(category.id) == 'Answered')">
+										{{category.name}}
+									</div>
+								</td>
 								<td>{{status(category.id)}}</td>
 							</tr>
 						</tbody>
@@ -33,6 +40,32 @@
 		</div>
 		<div class="column">
 			<div class="ui grid">
+				<div ng-if="!(user().answered_pos)" class="row">
+					<div class="sixteen wide column">
+						<div class="ui warning icon message">
+							<i class="warning icon"></i>
+							<div class="content">
+								<div class="header">
+									Notice
+								</div>
+								<p>You must fill up the Program of Study section before continuing with the rest of the application form.</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="sixteen wide column">
+						<div class="ui info icon message">
+							<i class="warning icon"></i>
+							<div class="content">
+								<div class="header">
+									Notice
+								</div>
+								<p>You may not change the information of your references after submission.</p>
+							</div>
+						</div>
+					</div>
+				</div>
 				<div class="row">
 					<div class="eight wide column">
 						<div class="ui fluid card">
@@ -58,34 +91,24 @@
 			</div>
 			<div class="ui equal width grid">
 				<div class="row">
-					<div class="column">
+					<div class="column" ng-repeat="recommender in user().recommenders">
 						<div class="ui fluid card">
 							<div class="content">
-								<div class="header">Recommender</div>
+								<div class="header">Reference</div>
 								<div class="description">
-									<p>Not yet assigned</p>
+									<p><strong ng-if="recommender.name != 'Not yet assigned'">Name:</strong> {{recommender.name}}</p>
+									<p ng-if="recommender.name != 'Not yet assigned'"><strong>Status:</strong> {{(recommender.status) ? 'Submitted' : 'Not yet submitted'}}</p>
 								</div>
 							</div>
 						</div>
 					</div>
-					<div class="column">
-						<div class="ui fluid card">
-							<div class="content">
-								<div class="header">Recommender</div>
-								<div class="description">
-									<p>Not yet assigned</p>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="column">
-						<div class="ui fluid card">
-							<div class="content">
-								<div class="header">Recommender</div>
-								<div class="description">
-									<p>Not yet assigned</p>
-								</div>
-							</div>
+				</div>
+			</div>
+			<div class="ui grid">
+				<div class="row">
+					<div class="sixteen wide column">
+						<div class="ui primary button" ng-class="{disabled: !allAnswered()}" ng-click="debug()">
+							Submit Application
 						</div>
 					</div>
 				</div>
