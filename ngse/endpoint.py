@@ -58,6 +58,42 @@ def show_user(request):
 		d['other_scholarship'] = attrib.other_scholarship
 		d['other_scholarship_name'] = attrib.other_scholarship_name
 
+		# get recommender statuses
+		if (attrib.recommender_a == None):
+			d['recommender_a_status'] = 'Unassigned'
+		else:
+			d['recommender_a_status'] = 'Submitted'
+			category_statuses = session.query(CategoryStatus)\
+				.filter(CategoryStatus.user_id == attrib.recommender_a)\
+				.all()
+			for category_status in category_statuses:
+				print category_status
+				if category_status.status is False:
+					d['recommender_a_status'] = 'Not yet finished'
+
+		if (attrib.recommender_b == None):
+			d['recommender_b_status'] = 'Unassigned'
+		else:
+			d['recommender_b_status'] = 'Submitted'
+			category_statuses = session.query(CategoryStatus)\
+				.filter(CategoryStatus.user_id == attrib.recommender_b)\
+				.all()
+			for category_status in category_statuses:
+				if category_status.status is False:
+					d['recommender_b_status'] = 'Not yet finished'
+
+		if (attrib.recommender_c == None):
+			d['recommender_c_status'] = 'Unassigned'
+		else:
+			d['recommender_c_status'] = 'Submitted'
+			category_statuses = session.query(CategoryStatus)\
+				.filter(CategoryStatus.user_id == attrib.recommender_c)\
+				.all()
+			for category_status in category_statuses:
+				if category_status.status is False:
+					d['recommender_c_status'] = 'Not yet finished'
+
+
 	if (user.user_type_id in [3,4,5]):
 		categories = session.query(CategoryStatus)\
 			.filter(CategoryStatus.user_id == user_id)\
