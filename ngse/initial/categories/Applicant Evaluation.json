@@ -49,8 +49,8 @@
 	{
 		"name": "instructions",
 		"text": "Please rate the applicant on the following characteristics in comparison with other students in the same disciplines who are known to you and who have had more or less the same amount of training and experience.  Indicate size of the group with which applicant is being compared and its educational level.",
-		"klass": "text",
-		"kind": "rule",
+		"klass": "decor",
+		"kind": "text",
 		"width": 16
 	},
 	{
