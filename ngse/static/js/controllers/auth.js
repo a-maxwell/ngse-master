@@ -1,4 +1,4 @@
-app.controller('authController', function($rootScope, $scope, $location, authService) {
+app.controller('authController', function($rootScope, $scope, $location, authService, userService) {
 
     initController();
 
@@ -12,9 +12,12 @@ app.controller('authController', function($rootScope, $scope, $location, authSer
         data = {'email': l.email, 'password': l.password}
         authService.login(data, function(data) {
             if (data.success === true) {
+                userService.fetchUser(function(d) {
+                    console.log(d);
+                })
                 if (authService.getLevel() === 1 || authService.getLevel() === 2) $location.path('/admin');
                 else if (authService.getLevel() === 3) $location.path('/recommendation');
-                else $location.path('/application');
+                else $location.path('/');
             }
             else l.message = data.message;
             l.loading = false;
@@ -28,7 +31,12 @@ app.controller('authController', function($rootScope, $scope, $location, authSer
         r.loading = true;
         data = {'last': r.last, 'given': r.given, 'middlemaiden': r.middlemaiden, 'email': r.email, 'scholarship': r.scholarship}
         authService.register(data, function(data) {
-            if (data['success'] === true) $location.path('/');
+            if (data['success'] === true) {
+                userService.fetchUser(function(d) {
+                    console.log(d);
+                })
+                $location.path('/');
+            }
             else r.message = data.message;
             r.loading = false;
         });

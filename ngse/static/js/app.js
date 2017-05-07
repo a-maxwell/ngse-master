@@ -42,67 +42,6 @@
         return angular.isObject(data) && String(data) !== '[object File]' ? param(data) : data;
     }];
 });
-
-app.config(function($routeProvider) {
-
-    var _user = ["$q", "authService", function($q, authService) {
-        if (!authService.authorize(10)) return $q.reject({"authorized": false});
-    }];
-
-    var _loggedIn = ["$q", "authService", function($q, authService) {
-        if (authService.isLoggedIn()) return $q.reject({"authorized": true});
-    }]
-
-    $routeProvider
-    .when("/", {
-        templateUrl: "/templates/home.html",
-        resolve: {auth: _user}
-    })
-    .when("/admin", {
-        templateUrl: "/templates/admin.html",
-        resolve: {auth: _user}
-    })
-    .when("/admin/applicants", {
-        templateUrl: "/templates/admin-applicants.html",
-        resolve: {auth: _user}
-    })
-    .when("/admin/categories", {
-        templateUrl: "/templates/admin-categories.html",
-        resolve: {auth: _user}
-    })
-    .when("/application", {
-        templateUrl: "/templates/application.html",
-        resolve: {auth: _user}
-    })
-    .when("/recommendation", {
-        templateUrl: "/templates/category.html",
-        resolve: {auth: _user}
-    })
-    .when("/recommendation/:id", {
-        templateUrl: "/templates/application.html",
-        controller: "formController",
-        resolve: {auth: _user}
-    })
-    .when("/application/category", {
-        templateUrl: "/templates/category.html",
-        resolve: {auth: _user}
-    })
-    .when("/application/category/:id", {
-        templateUrl: "/templates/form.html",
-        controller: "formController",
-        resolve: {auth: _user}
-    })
-    .when("/auth", {
-        templateUrl: "/templates/lounge.html",
-        resolve: {auth: _loggedIn,}
-    })
-    .when("/study", {
-        templateUrl: "/templates/study.html",
-        resolve: {auth: _user}
-    })
-    .otherwise({redirectTo: '/'});
-});
-
 app.directive('smRadioGroup', smRadioGroup).directive('smRadioButton', smRadioButton);
 app.directive('select', function() {
   return {
@@ -116,66 +55,65 @@ app.directive('select', function() {
 });
 
 function smRadioGroup() {
-    return {
-      restrict: 'E',
-      replace: true,
-      require: ['smRadioGroup', '?ngModel'],
-      transclude: true,
-      controller: smRadioGroupController,
-      link: function(scope, element, attrs, ctrls) {
-        var smRadioGroupCtrl = ctrls[0];
-        var ngModelCtrl = ctrls[1];
+  return {
+    restrict: 'E',
+    replace: true,
+    require: ['smRadioGroup', '?ngModel'],
+    transclude: true,
+    controller: smRadioGroupController,
+    link: function(scope, element, attrs, ctrls) {
+      var smRadioGroupCtrl = ctrls[0];
+      var ngModelCtrl = ctrls[1];
 
-        if (!ngModelCtrl) { return; }
+      if (!ngModelCtrl) { return; }
 
-        smRadioGroupCtrl.setNgModelCtrl(ngModelCtrl);
-      },
-      template: '<div class="ui buttons" ng-transclude></div>'
+      smRadioGroupCtrl.setNgModelCtrl(ngModelCtrl);
+    },
+    template: '<div class="ui buttons" ng-transclude></div>'
+  };
+
+  function smRadioGroupController() {
+    /*jshint validthis: true */
+    this._radioBtnElements = [];
+    this._radioBtnFns = [];
+
+    this.setNgModelCtrl = function(ngModelCtrl) {
+      this._ngModelCtrl = ngModelCtrl;
+      this._ngModelCtrl.$render = angular.bind(this, this.render);
     };
 
-    function smRadioGroupController() {
-      /*jshint validthis: true */
-      this._radioBtnElements = [];
-      this._radioBtnFns = [];
+    this.registerBtnElement = function(element) {
+      this._radioBtnElements.push(element);
+    };
 
-      this.setNgModelCtrl = function(ngModelCtrl) {
-        this._ngModelCtrl = ngModelCtrl;
-        this._ngModelCtrl.$render = angular.bind(this, this.render);
-      };
+    this.addBtn = function(renderFn) {
+      this._radioBtnFns.push(renderFn);
+    };
 
-      this.registerBtnElement = function(element) {
-        this._radioBtnElements.push(element);
-      };
+    this.removeBtn = function(renderFn) {
+      var btnIndex = this._radioBtnFns.indexOf(renderFn);
+      if (btnIndex !== -1) {
+        this._radioBtnFns.splice(btnIndex, 1);
+      }
+    };
 
-      this.addBtn = function(renderFn) {
-        this._radioBtnFns.push(renderFn);
-      };
+    this.render = function() {
+      this._radioBtnFns.forEach(function(renderFn) {
+        renderFn();
+      });
+    };
 
-      this.removeBtn = function(renderFn) {
-        var btnIndex = this._radioBtnFns.indexOf(renderFn);
-        if (btnIndex !== -1) {
-          this._radioBtnFns.splice(btnIndex, 1);
-        }
-      };
+    this.setViewValue = function(value, event) {
+      this._ngModelCtrl.$setViewValue(value, event);
+      this.render();
+    };
 
-      this.render = function() {
-        this._radioBtnFns.forEach(function(renderFn) {
-          renderFn();
-        });
-      };
-
-      this.setViewValue = function(value, event) {
-        this._ngModelCtrl.$setViewValue(value, event);
-        this.render();
-      };
-
-      this.getViewValue = function() {
-        return this._ngModelCtrl.$viewValue;
-      };
-
-    }
+    this.getViewValue = function() {
+      return this._ngModelCtrl.$viewValue;
+    };
 
   }
+}
 
   function smRadioButton($animate) {
     return {
@@ -222,11 +160,77 @@ function smRadioGroup() {
     };
   }
 
+
+app.config(function($routeProvider) {
+
+    var _user = ["$q", "authService", function($q, authService) {
+        if (!authService.authorize(10)) return $q.reject({"authorized": false});
+    }];
+
+    var _loggedIn = ["$q", "authService", function($q, authService) {
+        if (authService.isLoggedIn()) return $q.reject({"authorized": true});
+    }]
+
+    var _decided = ["$q", "userService", function($q, userService) {
+        if (!userService.answered()) return $q.reject({"answered": false});
+    }]
+
+    $routeProvider
+    .when("/", {
+        templateUrl: "/templates/home.html",
+        resolve: {auth: _user}
+    })
+    .when("/admin", {
+        templateUrl: "/templates/admin.html",
+        resolve: {auth: _user}
+    })
+    .when("/admin/applicants", {
+        templateUrl: "/templates/admin-applicants.html",
+        resolve: {auth: _user}
+    })
+    .when("/admin/categories", {
+        templateUrl: "/templates/admin-categories.html",
+        resolve: {auth: _user}
+    })
+    .when("/application", {
+        templateUrl: "/templates/application.html",
+        resolve: {auth: _user, answered: _decided}
+    })
+    .when("/recommendation", {
+        templateUrl: "/templates/category.html",
+        resolve: {auth: _user}
+    })
+    .when("/recommendation/:id", {
+        templateUrl: "/templates/application.html",
+        controller: "formController",
+        resolve: {auth: _user}
+    })
+    .when("/application/category", {
+        templateUrl: "/templates/category.html",
+        resolve: {auth: _user, answered: _decided}
+    })
+    .when("/application/category/:id", {
+        templateUrl: "/templates/form.html",
+        controller: "formController",
+        resolve: {auth: _user, answered: _decided}
+    })
+    .when("/auth", {
+        templateUrl: "/templates/lounge.html",
+        resolve: {auth: _loggedIn,}
+    })
+    .when("/study", {
+        templateUrl: "/templates/study.html",
+        resolve: {auth: _user}
+    })
+    .otherwise({redirectTo: '/'});
+});
+
+
 app.run(["$rootScope", "$location", function($rootScope, $location) {
     $rootScope.debug = true;
 
     $rootScope.$on("$routeChangeError", function(event, current, previous, eventObj) {
-        if (eventObj.authorized === false) $location.path('/auth');
-        else $location.path('/')
+      if (eventObj.authorized === false) $location.path('/auth');
+      if (eventObj.answered === false) $location.path('/study');
     });
 }]);

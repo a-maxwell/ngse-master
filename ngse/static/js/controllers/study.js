@@ -36,6 +36,16 @@ app.controller('studyController', function($rootScope, $scope, $routeParams, $lo
     def.other_scholarship = "no";
     def.other_scholarship_name = "";
 
+    function initWatch() {
+        $scope.$watch('user["program"]', function(newValue, oldValue, scope) {
+            if (newValue != oldValue) {
+                $scope.user.choice_1 = "";
+                $scope.user.choice_2 = "";
+                $scope.user.choice_3 = "";
+            }
+        });
+    }
+
     function initController() {
         if (userService.getUser() === {}) {
             userService.fetchUser(function(data) {
@@ -43,11 +53,13 @@ app.controller('studyController', function($rootScope, $scope, $routeParams, $lo
                 $scope.user = data;
                 filterUser();
                 console.log($scope.user);
+                initWatch();
             });
         } else {
             $scope.user = userService.getUser();
             filterUser();
             console.log($scope.user);
+            initWatch();
         }
     };
 
@@ -59,18 +71,6 @@ app.controller('studyController', function($rootScope, $scope, $routeParams, $lo
     $scope.user = def;
     initController();
 
-    $scope.level = $scope.levels[0];
-    $scope.program = $scope.data[$scope.level][0];
-    $scope.option = "thesis";
-    $scope.time = "full";
-    // $scope.c1 = "";
-    // $scope.c2 = "";
-    // $scope.c3 = "";
-    // $scope.adviser = "";
-    $scope.start = "first";
-    // $scope.year = "";
-    $scope.scholarship = "no";
-    // $scope.scholarship_name = "";
     $scope.availableProgram = availableProgram;
     $scope.nonThesisOption = nonThesisOption;
     $scope.thesisOption = thesisOption;
@@ -82,41 +82,42 @@ app.controller('studyController', function($rootScope, $scope, $routeParams, $lo
     $scope.debug = debug;
     $scope.submit = submit;
 
+    $scope.resetLabs = resetLabs;
+
     $scope.always = true;
 
     function submit() {
         $scope.debug();
         userService.saveAnswers(function(data) {
+            $scope.user = userService.getUser();
             console.log(data);
+            if (data.success) $location.path('/application');
         }, $scope.user);
     }
 
     function debug() {
-        console.log($scope.user.level);
-        console.log($scope.user.program);
-        console.log($scope.user.program_type);
-        console.log($scope.user.student_type);
-        console.log($scope.user.choice_1);
-        console.log($scope.user.choice_2);
-        console.log($scope.user.choice_3);
-        console.log($scope.user.adviser);
-        console.log($scope.user.start_of_study);
-        console.log($scope.user.year);
-        console.log($scope.user.other_scholarship);
-        console.log($scope.user.other_scholarship_name);
+        console.log($scope.user);
+        console.log(userService.answered());
+    }
+
+    function resetLabs() {
+        user.choice_1 = "";
+        user.choice_2 = "";
+        user.choice_3 = "";
     }
 
     function check_c3() {
-        // console.log($scope.user.choice_1 != "" && $scope.user.choice_2 != "");
-        return ($scope.user.choice_1 != "" && $scope.user.choice_2 != "");
+        if ($scope.user.choice_2 === "") return "disabled";
     }
 
     function check_c2() {
-        console.log($scope.user.choice_1 != "");
-        return ($scope.user.choice_1 != "");
+        console.log($scope.user.choice_1);
+        if ($scope.user.choice_1 === "") return "disabled";
+        return "";
     }
 
     function filter_c3() {
+        if ($scope.user.choice_2 === "") return [];
         var labs = [];
         for (var i = 0; i < $scope.fields[$scope.user.program].length; i++) {
             if ($scope.fields[$scope.user.program][i] != $scope.user.choice_1 && $scope.fields[$scope.user.program][i] != $scope.user.choice_2) {
@@ -127,6 +128,7 @@ app.controller('studyController', function($rootScope, $scope, $routeParams, $lo
     }
 
     function filter_c2() {
+        if ($scope.user.choice_1 === "") return [];
         var labs = [];
         for (var i = 0; i < $scope.fields[$scope.user.program].length; i++) {
             if ($scope.fields[$scope.user.program][i] != $scope.user.choice_1) {

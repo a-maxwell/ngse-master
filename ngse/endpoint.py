@@ -10,7 +10,8 @@ from models import (
 	UserType,
 	User,
 	form_category_association,
-	ApplicantAttribute
+	ApplicantAttribute,
+	CategoryStatus
 )
 
 from utils import encode, decode, log, generateError, generateSuccess, generateToken, is_past, word
@@ -41,6 +42,7 @@ def show_user(request):
 		attrib = session.query(ApplicantAttribute).filter(ApplicantAttribute.applicant_id==user_id).one()
 		d['validation_status'] = attrib.validation_status
 		d['application_status'] = attrib.application_status
+		d['answered_pos'] = attrib.answered_pos
 
 		d['level'] = attrib.level
 		d['program'] = attrib.program
@@ -56,6 +58,19 @@ def show_user(request):
 		d['other_scholarship_name'] = attrib.other_scholarship_name
 
 	if (user.user_type_id in [3,4,5]):
+		categories = session.query(CategoryStatus)\
+			.filter(CategoryStatus.user_id == user_id)\
+			.all()
+
+		d['answered'] = []
+
+		for category in categories:
+			d['answered'].append({
+				'id': category.id,
+				'category_id': category.category_id,
+				'status': category.status	
+			})
+
 		answers = session.query(Answer)\
 			.filter(Answer.user_id == user_id)\
 			.all()
@@ -65,6 +80,7 @@ def show_user(request):
 		for answer in answers:
 			d['answers'].append({
 				'id': answer.id,
+				'category_id': answer.element.category_id,
 				'element_id': answer.element_id,
 				'name': answer.text
 			})
@@ -101,8 +117,6 @@ def update_user(request):
 
 	for key in attribs:
 		value = request.params.get('user[{}]'.format(key))
-		print key
-		print value
 		if (key == 'level'):
 			user_attribs.level = value
 		if (key == 'program'):
@@ -128,10 +142,11 @@ def update_user(request):
 		if (key == 'other_scholarship_name'):
 			user_attribs.other_scholarship_name = value
 
+	user_attribs.answered_pos = True
+
 	session.commit()
 
-	# log.debug('{}'.format(request.params))
-	return {'hello': 'yes'}
+	return {'success': True}
 
 
 
@@ -599,6 +614,13 @@ def create_user(request):
 				answer.text = question.default
 			session.add(answer)
 			session.commit()
+
+		# initialize all status of categories_answered to False
+		for category_id in category_ids:
+			category_status = CategoryStatus(user_id=u.id, category_id=category_id)
+			session.add(category_status)
+
+		session.commit()
  
 	return generateSuccess('Welcome, {}!'.format(fullname), {'token': generateToken(u)})
 

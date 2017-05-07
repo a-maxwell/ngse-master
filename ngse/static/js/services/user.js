@@ -3,8 +3,8 @@ app.factory('userService', function($rootScope, $http, $cookies, $location, auth
 
     var user = {};
 
-    methods.userAnswered = function() {
-        return (user != {});
+    methods.answered = function() {
+        return user.answered_pos;
     }
 
     methods.fetchUser = function(callback) {
@@ -15,9 +15,13 @@ app.factory('userService', function($rootScope, $http, $cookies, $location, auth
             user = d;
             callback(d);
         }, function errorCallback(response) {
-            callback(false);
+            callback({success: false});
         });
     }
+
+    if (authService.isLoggedIn()) methods.fetchUser(function(data) {
+        console.log(data);
+    })
 
     methods.getUser = function() {
         return user;
@@ -29,10 +33,11 @@ app.factory('userService', function($rootScope, $http, $cookies, $location, auth
         $http.post('/v1/users/update', {'user_id': user_id, 'user': user_controller})
         .then(function successCallback(response) {
             user = user_controller;
+            user.answered_pos = true;
             var d = response.data;
             callback(d);
         }, function errorCallback(response) {
-            callback(false);
+            callback({success: false});
         });
     }
 

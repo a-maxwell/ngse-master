@@ -153,6 +153,20 @@ class User(Base):
 	# applicant_attr = relationship("ApplicantAttribute")
 	answers = relationship("Answer", back_populates="user")
 
+class CategoryStatus(Base):
+	__tablename__ = 'category_status'
+
+	id = Column(Integer, primary_key=True)
+	date_created = Column(DateTime, nullable=False, server_default=func.now())
+	last_modified = Column(DateTime, nullable=False, server_default=func.now(), onupdate=func.now())
+
+	status = Column(Boolean, nullable=False, default=False)
+
+	user_id = Column(Integer, ForeignKey('users.id')) # parent
+	# user = relationship("User", back_populates='answers') # parent relationship
+
+	category_id = Column(Integer, ForeignKey('categories.id')) # parent
+	# category = relationship("Category", back_populates="elements") #parent relationship
 
 class ApplicantAttribute(Base):
 	__tablename__ = 'applicant_attrs'
@@ -178,6 +192,8 @@ class ApplicantAttribute(Base):
 	year = Column(Text)
 	other_scholarship = Column(Text)
 	other_scholarship_name = Column(Text)
+
+	answered_pos = Column(Boolean, default=False)
 
 	# recommender_A = Column(Integer, ForeignKey('user_types.id'))
 	# recommender_B = Column(Integer, ForeignKey('user_types.id'))
