@@ -1,5 +1,5 @@
 from database import session
-from sqlalchemy.orm.exc import NoResultFound
+from sqlalchemy.orm.exc import (NoResultFound, MultipleResultsFound)
 from models import (
 	Base,
 	FormType,
@@ -21,6 +21,7 @@ import bcrypt
 
 '''users'''
 
+from sqlalchemy import func
 def show_user(request):
 	user_id = request.params['user_id']
 
@@ -147,8 +148,6 @@ def update_user(request):
 	session.commit()
 
 	return {'success': True}
-
-
 
 
 
@@ -390,14 +389,16 @@ def update_answer(request):
 			.one()
 		answer.text = text
 	
-		
-		if answer.element_id in [46, 47, 51, 52, 56, 57] and text != '':
-			
+		e = session.query(Element).filter(Element.id == answer.element_id).one()
+		# if answer.element_id in [70, 71, 75, 76, 80, 81] and text != '':
+		if (e.text == "Recommender Name" or e.text == "Recommender E-mail" ) and (text != ""):	
 			# if hindi pa existing create a new recommender
-			if answer.element_id in [46, 51, 56]:
+			# if answer.element_id in [70, 75, 80]:
+			if e.text == "Recommender Name":
 				recName = text;
 
-			elif answer.element_id in [47, 52, 57]:
+			# elif answer.element_id in [71, 76, 81]:
+			elif e.text == "Recommender E-mail":
 				attr = session.query(ApplicantAttribute)\
 					.filter(ApplicantAttribute.applicant_id == user_id).one()
 
@@ -411,20 +412,22 @@ def update_answer(request):
 				print answer.element_id
 				success = False
 
-				if answer.element_id == 47 and attr.recommender_a == None:	
-					print "heycfvfknsovu"			
+				# if answer.element_id == 71 and attr.recommender_a == None:
+				if e.name == "rec1email" and attr.recommender_a == None:	
 					session.add(rec)
 					session.commit()
 					attr.recommender_a = rec.id
 					session.commit()
 					success = True
-				elif answer.element_id == 52 and attr.recommender_b == None:
+				# elif answer.element_id == 76 and attr.recommender_b == None:
+				elif e.name == "rec2email" and attr.recommender_b == None:
 					session.add(rec)
 					session.commit()
 					attr.recommender_b = rec.id
 					session.commit()
 					success = True
-				elif answer.element_id == 57 and attr.recommender_c == None:
+				# elif answer.element_id == 81 and attr.recommender_c == None:
+				elif e.name == "rec3email" and attr.recommender_c == None:				
 					session.add(rec)
 					session.commit()
 					attr.recommender_c = rec.id
@@ -530,17 +533,28 @@ def login_user(request):
 	password = request.params.get('password', None)
 
 	if email is None or password is None:
-		return generateError('Invalid email/password')
+		return generateError('Invalid email and password combination')
 
 	try:
 		user = session.query(User).filter(User.email == email).one()
+		pwd = bcrypt.hashpw(password.encode('UTF_8'), user.password.encode('UTF_8'))
+
+		if (pwd != user.password):
+			return generateError('Invalid email and password combination')
+	except MultipleResultsFound:
+		users = session.query(User).filter(User.email == email).all()
+		user = None
+		for u in users:
+			pwd = bcrypt.hashpw(password.encode('UTF_8'), u.password.encode('UTF_8'))
+			if (pwd == u.password):
+				user = u
+				break
+		if user == None:  
+			return generateError('Invalid email and password combination')
+
 	except NoResultFound:
-		return generateError('Invalid email')
+		return generateError('Invalid email and password combination')
 
-	pwd = bcrypt.hashpw(password.encode('UTF_8'), user.password.encode('UTF_8'))
-
-	if (pwd != user.password):
-		return generateError('Invalid password')
 
 	return generateSuccess('Welcome, {}!'.format(user.name), {'token': generateToken(user)})
 
