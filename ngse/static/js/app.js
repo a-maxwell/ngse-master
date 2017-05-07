@@ -197,11 +197,11 @@ app.config(function($routeProvider) {
         resolve: {auth: _user}
     })
     .when("/recommendation", {
-        templateUrl: "/templates/category.html",
+        templateUrl: "/templates/category-recommender.html",
         resolve: {auth: _user}
     })
     .when("/recommendation/:id", {
-        templateUrl: "/templates/application.html",
+        templateUrl: "/templates/form-recommender.html",
         controller: "formController",
         resolve: {auth: _user}
     })

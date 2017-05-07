@@ -1,0 +1,53 @@
+<form role="category-submission" class="ui fluid form card">
+	<div class="content">
+		<div class="header">{{category.name}}</div>
+	</div>
+	<div class="content">
+		<div class="ui grid">
+			<div ng-repeat="element in elements track by element.id" class="{{element.width}} wide column" ng-switch="element.klass">
+				<div ng-switch-when="question">
+					<ng-switch on="element.kind" class="field">
+						<label ng-switch-when="text|dropdown|textarea|date" ng-switch-when-separator="|">{{element.text}}</label>
+						<input ng-switch-when="text" type="text" name="{{element.name}}" ng-model="element.answer.text" required="{{element.required}}">
+						<select ng-switch-when="dropdown" ng-model="element.answer.text" title="{{element.name}}" class="ui dropdown" required="{{element.required}}">
+							<option ng-repeat="choice in element.choices" value="{{choice}}">{{choice}}</option>
+						</select>
+						<textarea ng-switch-when="textarea" ng-model="element.answer.text" rows="{{element.rows}}" title="{{element.name}}" required="{{element.required}}"></textarea>
+						<div ng-switch-when="date" class="ui calendar">
+							<div class="ui input left icon">
+								<i class="calendar icon"></i>
+								<input type="text" placeholder="Date" name="{{element.name}}" ng-model="element.answer.text" required="{{element.required}}">
+							</div>
+						</div>
+					</ng-switch>
+				</div>
+				<div ng-switch-when="decor">
+					<ng-switch on="element.kind">
+						<div ng-switch-when="rule" class="ui divider"></div>
+						<strong ng-switch-when="text">{{element.text}}</strong>
+					</ng-switch>
+				</div>
+<!-- 
+merged above
+ -->
+ 				<!-- <div ng-switch-when="text">
+					<ng-switch on="element.kind">
+						<strong>{{element.text}}</strong>
+					</ng-switch>
+				</div> -->
+<!-- 
+  -->
+			</div>
+		</div>
+	</div>
+	<div class="ui bottom attached large buttons">
+		<a href="#!recommendation" class="ui labeled icon button">
+			<i class="chevron left icon"></i>
+			Back to Sections
+		</a>
+		<button class="ui right labeled icon primary button" ng-click="save()">
+			Save
+			<i class="save icon"></i>
+		</button>
+	</div>
+</form>

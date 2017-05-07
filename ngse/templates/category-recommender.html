@@ -1,0 +1,14 @@
+<div class="ui vertical segment" ng-controller="categoryController" ng-class="{loading: loading}">
+
+	<div class="ui four cards">
+		<a href="#!recommendation/{{category.id}}" ng-repeat="category in categories track by category.id" class="card">
+			<div class="image">
+				<i class="idea icon"></i>
+			</div>
+			<div class="center aligned content">
+				{{category.name}}
+			</div>
+		</a>
+	</div>
+	
+</div>
