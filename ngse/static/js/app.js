@@ -194,7 +194,7 @@ app.config(function($routeProvider) {
     })
     .when("/application", {
         templateUrl: "/templates/application.html",
-        resolve: {auth: _user, answered: _decided}
+        resolve: {auth: _user}
     })
     .when("/recommendation", {
         templateUrl: "/templates/category.html",

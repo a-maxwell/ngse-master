@@ -376,8 +376,18 @@ def get_answers(request): # new
 
 def update_answer(request):
 	user_id = request.params.get('user_id')
+	category_id = request.params.get('category_id')
 	data = request.params.get('data')
 	length = request.params.get('length')
+
+	# change category status to answered
+	category_status = session.query(CategoryStatus)\
+		.filter(CategoryStatus.user_id == user_id)\
+		.filter(CategoryStatus.category_id == category_id)\
+		.one()
+
+	category_status.status = True
+	session.commit()
 
 	for i in range(int(length)):
 		answer_id = request.params.get('data[{}][id]'.format(i))

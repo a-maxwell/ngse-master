@@ -64,7 +64,7 @@ app.factory('formService', function($rootScope, $http, $cookies, $location, auth
         });
     }
 
-    methods.saveAnswers = function(callback, user_id, answers) {
+    methods.saveAnswers = function(callback, user_id, answers, category_id) {
 
         data = [];
         for (var i = 0; i < answers.length; i++) {
@@ -74,7 +74,7 @@ app.factory('formService', function($rootScope, $http, $cookies, $location, auth
             });
         }
 
-        $http.post('/v1/users/answers/update', {'user_id': user_id, 'data': data, 'length': data.length})
+        $http.post('/v1/users/answers/update', {'user_id': user_id, 'category_id': category_id, 'data': data, 'length': data.length})
         .then(function successCallback(response) {
             var d = response.data;
             callback(d);

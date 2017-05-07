@@ -25,7 +25,7 @@ app.controller('formController', function($rootScope, $scope, $routeParams, $loc
         formService.saveAnswers(function(d) {
             if ($rootScope.debug) console.log(d);
             back();
-        }, authService.getUserID(), answers);
+        }, authService.getUserID(), answers, $scope.id);
     }
 
     function initController() {
@@ -52,6 +52,9 @@ app.controller('formController', function($rootScope, $scope, $routeParams, $loc
 
                 setTimeout(function() {
                     $(".ui.dropdown").dropdown();
+                    $(".ui.calendar").calendar({
+                        type: "date"
+                    });
                     console.log("AYOKO NA");
                 }, 0);
 
