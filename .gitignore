@@ -95,3 +95,6 @@ ENV/
 load_data.sql
 semantic/
 node_modules/
+
+#form
+form.pdf
