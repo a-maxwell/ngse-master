@@ -67,7 +67,7 @@ reset_database_url = 'v1/delete_all'
 
 # view_status = Service(name='view_v_status', path=view_status_url, description="view user's form validation status and application status")
 # update_v_status = Service(name='update_v_status', path=update_validation_status_url, description="update user's form validation status")
-# reset_db = Service(name='reset_db', path=reset_database_url, description="truncate tables in database")
+reset_db = Service(name='reset_db', path=reset_database_url, description="truncate tables in database")
 
 ###############################################################################
 
@@ -97,7 +97,7 @@ update_user = user_update.post()(update_user)
 
 
 # update_validation_status = update_v_status.get()(update_validation_status)
-# reset_database = reset_db.get()(reset_database)
+reset_database = reset_db.get()(reset_database)
 
 ###############################################################################
 

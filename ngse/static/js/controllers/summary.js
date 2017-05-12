@@ -29,6 +29,12 @@ app.controller('summaryController', function($rootScope, $scope, $routeParams, $
     $scope.application_status = application_status;
     $scope.validation_status = validation_status;
 
+    $scope.convertToID = convertToID;
+
+    function convertToID(str) {
+        return str.toLowerCase().replace(" ", "-");
+    }
+
     function validation_status() {
         return $scope.user().validation_status;
     }

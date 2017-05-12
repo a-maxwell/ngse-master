@@ -1,4 +1,4 @@
-app.controller('studyController', function($rootScope, $scope, $routeParams, $location, formService, authService, userService) {
+app.controller('studyController', function($rootScope, $scope, $routeParams, $location, formService, authService, userService, messageService) {
 
     $scope.data = {
         "Master of Science": ["CE", "ChE", "CS", "EE", "EgyE", "EnE", "GmE", "IE", "ME", "MetE", "MSE"],
@@ -91,7 +91,13 @@ app.controller('studyController', function($rootScope, $scope, $routeParams, $lo
         userService.saveAnswers(function(data) {
             $scope.user = userService.getUser();
             console.log(data);
-            if (data.success) $location.path('/application');
+            if (data.success) {
+                messageService.pushMessage({
+                    text: 'Program of Study saved',
+                    type: 'info'
+                });
+                $location.path('/application');
+            }
         }, $scope.user);
     }
 

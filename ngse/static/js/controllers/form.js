@@ -1,4 +1,4 @@
-app.controller('formController', function($rootScope, $scope, $routeParams, $location, formService, authService, userService) {
+app.controller('formController', function($rootScope, $scope, $routeParams, $location, formService, authService, userService, messageService) {
 
     $scope.id = $routeParams.id;
 	$scope.category = formService.getCategory($scope.id);
@@ -27,6 +27,10 @@ app.controller('formController', function($rootScope, $scope, $routeParams, $loc
             userService.fetchUser(function(data) {
                 console.log(data);
             })
+            messageService.pushMessage({
+                text: $scope.category.name + ' saved',
+                type: 'info'
+            });
             back();
         }, authService.getUserID(), answers, $scope.id);
     }
@@ -54,7 +58,7 @@ app.controller('formController', function($rootScope, $scope, $routeParams, $loc
         		if ($rootScope.debug) console.log($scope.elements);
 
                 setTimeout(function() {
-                    $(".ui.dropdown").dropdown();
+                    // $(".ui.dropdown").dropdown();
                     $(".ui.calendar").calendar({
                         type: "date"
                     });

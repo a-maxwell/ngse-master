@@ -1,8 +1,8 @@
 <div class="ui two column middle aligned centered grid" ng-controller="authController">
 	<div class="column" style="height: 100%; padding-right: 5rem; display: flex; flex-direction: column; align-content: center;">
-		<div class="ui error message" ng-show="registration.message != undefined">
+		<!-- <div class="ui error message" ng-show="registration.message != undefined">
 			<p>{{registration.message}}</p>
-		</div>
+		</div> -->
 		<form role="registration" class="ui fluid form raised card" ng-class="{loading: registration.loading}">
 			<div class="content">
 				<div class="header">Applicant Registration</div>
@@ -36,7 +36,7 @@
 			<div class="content">
 				<div class="right floated">
 					<!-- <img ng-if="registration.loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" /> -->
-					<input class="ui button" type="submit" ng-disabled="registration.loading" ng-click="register()" value="Register">
+					<input class="ui button" name="register" type="submit" ng-disabled="registration.loading" ng-click="register()" value="Register">
 				</div>
 			</div>
 		</form>
@@ -45,9 +45,9 @@
 		Or
 	</div>
 	<div class="column" style="padding-left: 5rem;">
-		<div class="ui error message" ng-show="login.message != undefined">
+		<!-- <div class="ui error message" ng-show="login.message != undefined">
 			<p>{{login.message}}</p>
-		</div>
+		</div> -->
 		<form role="login" class="ui fluid form raised card" ng-class="{loading: login.loading}">
 			<div class="content">
 				<div class="header">Applicant/Recommender Login</div>
@@ -59,13 +59,13 @@
 				</div>
 				<div class="field">
 					<label>Password</label>
-					<input type="password" name="email" placeholder="Password" ng-model="login.password" required>
+					<input type="password" name="password" placeholder="Password" ng-model="login.password" required>
 				</div>
 			</div>
 			<div class="content">
 				<div class="right floated">
 					<!-- <img ng-if="login.loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" /> -->
-					<input type="submit" class="ui button" ng-disabled="login.loading" ng-click="signin()" value="Login">
+					<input type="submit" name="login" class="ui button" ng-disabled="login.loading" ng-click="signin()" value="Login">
 				</div>
 			</div>
 		</form>

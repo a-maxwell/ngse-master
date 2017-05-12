@@ -772,12 +772,14 @@ def reset_database(request):
 	# if admin
 
 	# problem: does not delete the id sequence
-	session.query(Answer).delete()
-	session.commit()
-	session.query(ApplicantAttribute).delete()
-	session.commit()
-	users = session.query(User).filter(User.id > 1).all()
-	for user in users:
+	for answer in session.query(Answer).all():
+		session.delete(answer)
+	for attrib in session.query(ApplicantAttribute).all():
+		session.delete(attrib)
+	for status in session.query(CategoryStatus).all():
+		session.delete(status)
+	for user in session.query(User).filter(User.id > 2).all():
 		session.delete(user)
-		session.commit()
-# 	return {'success': True}
+
+	session.commit()
+	return {'success': True}

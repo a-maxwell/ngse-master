@@ -7,35 +7,30 @@ Documentation     A resource file with reusable keywords and variables.
 Library           ExtendedSelenium2Library
 
 *** Variables ***
-${HOST}                     localhost:6543/#!
-${BROWSER}                  Chrome
-${LOGIN URL}                /auth
-${REGISTRATION URL}         /auth
-${APPLICATION STATUS URL}   /application
+${HOST}           localhost:6543/#!
+${BROWSER}        Chrome
+${LOGIN URL}      /auth
+${REGISTRATION URL}    /auth
+${APPLICATION STATUS URL}    /application
+${DEFAULT PASSWORD}    password
 
 *** Keywords ***
 Login
-    [Arguments]     ${username}             ${password}
-    Input Text      model=login.email       ${username}
-    Input Text      model=login.password    ${password}
-    Click Element   name=login
+    [Arguments]    ${email}    ${password}
+    Input Text    model=login.email    ${email}
+    Input Text    model=login.password    ${password}
+    Click Element    name=login
 
 Register
-    [Arguments]     ${first}    ${middlemaiden}     ${last}     ${email}
-    Input Text      model=login.last                ${last}
-    Input Text      model=login.first               ${first}
-    Input Text      model=login.middlemaiden        ${middlemaiden}
-    Input Text      model=login.email               ${email}
-    Click Element   name=register
-
-Register ERDT
-    [Arguments]     ${first}    ${middlemaiden}     ${last}     ${email}
-    Register        ${first}    ${middlemaiden}     ${last}     ${email}
-    Click Element   name=scholarship
-
-Register NonERDT
-    [Arguments]     ${first}    ${middlemaiden}     ${last}     ${email}
-    Register        ${first}    ${middlemaiden}     ${last}     ${email}
+    [Arguments]    ${first}    ${middlemaiden}    ${last}    ${email}
+    Input Text    model=registration.last    ${last}
+    Input Text    model=registration.given    ${first}
+    Input Text    model=registration.middlemaiden    ${middlemaiden}
+    Input Text    model=registration.email    ${email}
+    Click Element    name=register
 
 Reset Database
-    Go To   ${HOST}/v1/delete_all
+    Go To    http://${HOST}/v1/delete_all
+
+Setup
+    Open Browser    ${HOST}    ${BROWSER}

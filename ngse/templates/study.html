@@ -43,19 +43,19 @@
 				<div class="three fields">
 					<div class="field">
 						<label>1st Choice</label>
-						<select class="ui dropdown" ng-model="user.choice_1" ng-options="item for item in fields[user.program]" ng-required="thesisOption()">
+						<select class="ui dropdown" id="c1" ng-model="user.choice_1" ng-options="item for item in fields[user.program]" ng-required="thesisOption()">
 							<option value="">1st Choice</option>
 						</select>
 					</div>
 					<div class="field">
 						<label>2nd Choice</label>
-						<select class="ui dropdown" ng-model="user.choice_2" ng-options="item for item in filter_c2()" ng-required="thesisOption()">
+						<select class="ui dropdown" id="c2" ng-model="user.choice_2" ng-options="item for item in filter_c2()" ng-required="thesisOption()">
 							<option value="">2nd Choice</option>
 						</select>
 					</div>
 					<div class="field">
 						<label>3rd Choice</label>
-						<select class="ui dropdown" ng-model="user.choice_3" ng-options="item for item in filter_c3()" ng-required="thesisOption()">
+						<select class="ui dropdown" id="c3" ng-model="user.choice_3" ng-options="item for item in filter_c3()" ng-required="thesisOption()">
 							<option value="">3rd Choice</option>
 						</select>
 					</div>
@@ -77,9 +77,10 @@
 			</div>
 			<div class="sixteen wide column inline field">
 				<label>Academic Year</label>
-				<select class="ui dropdown" ng-model="user.year" ng-options="item for item in years" required>
+				<!-- <select class="ui dropdown" id="year" ng-model="user.year" ng-options="item for item in years" required>
 					<option value="">Academic Year</option>
-				</select>
+				</select> -->
+				<input type="text" name="year" ng-model="user.year" required>
 			</div>
 			<div class="sixteen wide column inline field">
 				<label>Are you applying for another scholarship/grant?</label>
@@ -93,7 +94,7 @@
 				<input type="text" name="scholarship_name" ng-model="user.other_scholarship_name" ng-required="otherScholarship()">
 			</div>
 			<div class="sixteen wide column">
-				<div class="ui primary button" ng-click="submit()">Submit</div>
+				<div id="submit" class="ui primary button" ng-click="submit()">Submit</div>
 			</div>
 		</div>
 	</div>

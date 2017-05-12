@@ -1,4 +1,4 @@
-app.controller('authController', function($rootScope, $scope, $location, authService, userService) {
+app.controller('authController', function($rootScope, $scope, $location, authService, userService, messageService) {
 
     initController();
 
@@ -15,11 +15,19 @@ app.controller('authController', function($rootScope, $scope, $location, authSer
                 userService.fetchUser(function(d) {
                     console.log(d);
                 })
+                messageService.pushMessage({
+                    text: 'Successfully logged in',
+                    type: 'info'
+                });
+                console.log(messageService.getMessages());
                 if (authService.getLevel() === 1 || authService.getLevel() === 2) $location.path('/admin');
                 else if (authService.getLevel() === 3) $location.path('/recommendation');
                 else $location.path('/');
             }
-            else l.message = data.message;
+            else messageService.pushMessage({
+                text: data.message,
+                type: 'error'
+            });
             l.loading = false;
         });
 
@@ -35,9 +43,16 @@ app.controller('authController', function($rootScope, $scope, $location, authSer
                 userService.fetchUser(function(d) {
                     console.log(d);
                 })
+                messageService.pushMessage({
+                    text: 'Successfully registered',
+                    type: 'info'
+                });
                 $location.path('/');
             }
-            else r.message = data.message;
+            else messageService.pushMessage({
+                text: data.message,
+                type: 'error'
+            });
             r.loading = false;
         });
 
