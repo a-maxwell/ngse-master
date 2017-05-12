@@ -54,6 +54,9 @@ def create_resource(resource, primary, secondary='', extra=[]):
 ###############################################################################
 # changes in daisy
 
+print_form_url = 'v1/print'
+print_form = Service(name='print_form', path=print_form_url, description="print form")
+forms = print_form.get()(forms)
 # view_answers_url = '/v1/users/answers' #new : users/answers/show
 update_answer_url = 'v1/users/update_answer'
 update_application_status_url = 'v1/users/update_a_status'

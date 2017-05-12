@@ -42,7 +42,7 @@
 		"required": true
 	},
 	{
-		"name": "birthpalce",
+		"name": "birthplace",
 		"text": "Birth Place",
 		"klass": "question",
 		"kind": "text",

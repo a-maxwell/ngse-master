@@ -195,12 +195,6 @@ class ApplicantAttribute(Base):
 
 	answered_pos = Column(Boolean, default=False)
 
-	# recommender_A = Column(Integer, ForeignKey('user_types.id'))
-	# recommender_B = Column(Integer, ForeignKey('user_types.id'))
-	# recommender_C = Column(Integer, ForeignKey('user_types.id'))
-
-	# applicant_id = Column(Integer, ForeignKey('user_types.id'))
-
 	recommender_a = Column(Integer, ForeignKey('users.id'))
 	recommender_b = Column(Integer, ForeignKey('users.id'))
 	
