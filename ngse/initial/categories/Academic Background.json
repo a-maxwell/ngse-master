@@ -1,59 +1,133 @@
 [
 	{
-		"name": "title",
-		"text": "Title",
+		"name": "instructions1",
+		"text": "SECONDARY EDUCATION",
+		"klass": "decor",
+		"kind": "text",
+		"width": 16
+	},
+	{
+		"name": "instructions1.1",
+		"text": "Last High School Attended",
+		"klass": "decor",
+		"kind": "text",
+		"width": 16
+	},
+	{
+		"name": "secondaryeducschoolname",
+		"text": "School Name",
 		"klass": "question",
-		"kind": "dropdown",
-		"choices": ["-", "Engr.", "Dr.", "Prof."],
+		"kind": "text",
+		"width": 16,
 		"required": true
 	},
 	{
-		"name": "givenname",
-		"text": "Given Name",
+		"name": "secondaryeducschooladdress",
+		"text": "School Address",
 		"klass": "question",
 		"kind": "text",
+		"width": 16,
 		"required": true
 	},
 	{
-		"name": "middleinitial",
-		"text": "Middle Initial",
+		"name": "secondaryeducdatestarted",
+		"text": "Date Started",
 		"klass": "question",
-		"kind": "text",
+		"kind": "date",
+		"width": 8,
 		"required": true
 	},
 	{
-		"name": "lastname",
-		"text": "Last Name",
+		"name": "secondaryeducdategraduated",
+		"text": "Date Graduated",
 		"klass": "question",
-		"kind": "text",
+		"kind": "date",
+		"width": 8,
 		"required": true
 	},
+	
 	{
-		"name": "attainment",
-		"text": "Highest Educational Attainment",
-		"klass": "question",
-		"kind": "text",
-		"required": true
+		"name": "rule-2",
+		"text": "",
+		"klass": "decor",
+		"kind": "rule",
+		"width": 16
 	},
 	{
-		"name": "orgname",
-		"text": "Affiliated Organization Name",
-		"klass": "question",
+		"name": "instructions2",
+		"text": "TERTIARY EDUCATION",
+		"klass": "decor",
 		"kind": "text",
-		"required": true
+		"width": 16
 	},
 	{
-		"name": "positioninorg",
-		"text": "Position in Organization",
-		"klass": "question",
-		"kind": "text",
-		"required": true
+		"name": "rule-3",
+		"text": "",
+		"klass": "decor",
+		"kind": "rule",
+		"width": 16
 	},
 	{
-		"name": "orgaddress",
-		"text": "Address of Organization",
-		"klass": "question",
+		"name": "instructions3",
+		"text": "POST-GRADUATE STUDIES",
+		"klass": "decor",
 		"kind": "text",
-		"required": true
+		"width": 16
+	},
+	{
+		"name": "rule-4",
+		"text": "",
+		"klass": "decor",
+		"kind": "rule",
+		"width": 16
+	},
+	{
+		"name": "instructions4",
+		"text": "SCHOLASTIC HONORS AND AWARDS RECEIVED",
+		"klass": "decor",
+		"kind": "text",
+		"width": 16
+	},
+	{
+		"name": "rule-5",
+		"text": "",
+		"klass": "decor",
+		"kind": "rule",
+		"width": 16
+	},
+	{
+		"name": "instructions5",
+		"text": "RECENT SCIENTIFIC PUBLICATIONS",
+		"klass": "decor",
+		"kind": "text",
+		"width": 16
+	},
+	{
+		"name": "rule-6",
+		"text": "",
+		"klass": "decor",
+		"kind": "rule",
+		"width": 16
+	},
+	{
+		"name": "instructions6",
+		"text": "RECENT SCIENTIFIC CONFERENCE PRESENTATIONS",
+		"klass": "decor",
+		"kind": "text",
+		"width": 16
+	},
+	{
+		"name": "rule-7",
+		"text": "",
+		"klass": "decor",
+		"kind": "rule",
+		"width": 16
+	},
+	{
+		"name": "instructions7",
+		"text": "OTHER QUALIFICATIONS",
+		"klass": "decor",
+		"kind": "text",
+		"width": 16
 	}
 ]

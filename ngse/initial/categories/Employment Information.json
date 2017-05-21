@@ -1,23 +1,173 @@
 [
 	{
-		"name": "lastname",
-		"text": "Last Name",
+		"name": "curremploymentstatus",
+		"text": "Current Employment Status",
 		"klass": "question",
-		"kind": "text",
+		"kind": "dropdown",
+		"choices": ["Self-Employed", "Employed Full-Time", "Employed Part-Time", "Unemployed"],
 		"required": true
 	},
 	{
-		"name": "givenname",
-		"text": "Given Name",
+		"name": "rule-1",
+		"text": "",
+		"klass": "decor",
+		"kind": "rule",
+		"width": 16
+	},
+	{
+		"name": "instructions1",
+		"text": "For Currently Employed Applicants (Full-Time/Part-Time)",
+		"klass": "decor",
+		"kind": "text",
+		"width": 16
+	},
+	{
+		"name": "position",
+		"text": "Position",
 		"klass": "question",
 		"kind": "text",
+		"width": 8,
 		"required": true
 	},
 	{
-		"name": "middlename",
-		"text": "Middle/Maiden Name",
+		"name": "lengthofservice",
+		"text": "Length of Service",
 		"klass": "question",
 		"kind": "text",
+		"width": 8,
 		"required": true
+	},
+	{
+		"name": "companyname",
+		"text": "Company Name",
+		"klass": "question",
+		"kind": "text",
+		"width": 8,
+		"required": true
+	},
+	{
+		"name": "companytelenum",
+		"text": "Telephone Number",
+		"klass": "question",
+		"kind": "text",
+		"width": 8,
+		"required": true
+	},
+	{
+		"name": "officeaddr",
+		"text": "Office Address",
+		"klass": "question",
+		"kind": "text",
+		"width": 8,
+		"required": true
+	},
+	{
+		"name": "faxnum",
+		"text": "Fax Number",
+		"klass": "question",
+		"kind": "text",
+		"width": 8,
+		"required": true
+	},
+	{
+		"name": "companyemail",
+		"text": "E-mail Address",
+		"klass": "question",
+		"kind": "text",
+		"width": 8,
+		"required": true
+	},
+	{
+		"name": "companywebsite",
+		"text": "Company Website",
+		"klass": "question",
+		"kind": "text",
+		"width": 8,
+		"required": true
+	},
+	{
+		"name": "rule-2",
+		"text": "",
+		"klass": "decor",
+		"kind": "rule",
+		"width": 16
+	},
+	{
+		"name": "instructions2",
+		"text": "For Self Employed Applicants",
+		"klass": "decor",
+		"kind": "text",
+		"width": 16
+	},
+	{
+		"name": "businessname",
+		"text": "Business Name",
+		"klass": "question",
+		"kind": "text",
+		"width": 16,
+		"required": true
+	},
+	{
+		"name": "businessaddress",
+		"text": "Business Address",
+		"klass": "question",
+		"kind": "text",
+		"width": 16,
+		"required": true
+	},
+	{
+		"name": "businessemail",
+		"text": "Email",
+		"klass": "question",
+		"kind": "text",
+		"width": 8,
+		"required": true
+	},
+	{
+		"name": "businesswebsite",
+		"text": "Website",
+		"klass": "question",
+		"kind": "text",
+		"width": 8,
+		"required": true
+	},
+	{
+		"name": "businesstype",
+		"text": "Type of Business",
+		"klass": "question",
+		"kind": "text",
+		"width": 8,
+		"required": true
+	},
+	{
+		"name": "yearsofoper",
+		"text": "Years of Operation",
+		"klass": "question",
+		"kind": "text",
+		"width": 8,
+		"required": true
+	},
+	{
+		"name": "businesstelnum",
+		"text": "Telephone Number",
+		"klass": "question",
+		"kind": "text",
+		"width": 16,
+		"required": true
+	},
+	{
+		"name": "rule-3",
+		"text": "",
+		"klass": "decor",
+		"kind": "rule",
+		"width": 16
+	},
+	{
+		"name": "instructions3",
+		"text": "Employment History",
+		"klass": "decor",
+		"kind": "text",
+		"width": 16
 	}
+	
 ]

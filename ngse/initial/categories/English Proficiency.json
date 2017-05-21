@@ -1,23 +1,62 @@
 [
 	{
-		"name": "lastname",
-		"text": "Last Name",
+		"name": "instructions",
+		"text": "This section is for foreign applicants only.",
+		"klass": "decor",
+		"kind": "text",
+		"width": 16
+	},
+	{
+		"name": "firstlang",
+		"text": "First Language",
 		"klass": "question",
 		"kind": "text",
 		"required": true
 	},
 	{
-		"name": "givenname",
-		"text": "Given Name",
+		"name": "instructions1",
+		"text": "Primary Medium of Instruction",
+		"klass": "decor",
+		"kind": "text",
+		"width": 16
+	},
+	{
+		"name": "mediumofinstruction2nd",
+		"text": "Secondary Level",
 		"klass": "question",
 		"kind": "text",
+		"width": 8,
 		"required": true
 	},
 	{
-		"name": "middlename",
-		"text": "Middle/Maiden Name",
+		"name": "mediumofinstruction3rd",
+		"text": "Tertiary Level",
 		"klass": "question",
 		"kind": "text",
+		"width": 8,
+		"required": true
+	},
+	{
+		"name": "instructions2",
+		"text": "Test of English Language Proficiency. (Must attach TOEFL Official Score Certificate)",
+		"klass": "decor",
+		"kind": "text",
+		"width": 16
+	},
+	{
+		"name": "engproficiencydatetaken",
+		"text": "Date Taken",
+		"klass": "question",
+		"kind": "date",
+		"width": 8,
+		"required": true
+	},
+	{
+		"name": "engproficiencyscore",
+		"text": "Exam Score",
+		"klass": "question",
+		"kind": "text",
+		"width": 8,
 		"required": true
 	}
 ]

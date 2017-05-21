@@ -1,16 +1,39 @@
 [
 	{
+		"name": "instructions",
+		"text": "Please provide the needed information of your three recommender below. A recommender is someone who provides a character reference for you.",
+		"klass": "decor",
+		"kind": "text",
+		"width": 16
+	},
+	{
+		"name": "rule-1",
+		"text": "",
+		"klass": "decor",
+		"kind": "rule",
+		"width": 16
+	},
+	{
+		"name": "instructions1",
+		"text": "FIRST RECOMMENDER",
+		"klass": "decor",
+		"kind": "text",
+		"width": 16
+	},
+	{
 		"name": "rec1name",
-		"text": "Recommender Name",
+		"text": "Name",
 		"klass": "question",
 		"kind": "text",
+		"width": 8,
 		"required": true
 	},
 	{
 		"name": "rec1email",
-		"text": "Recommender E-mail",
+		"text": "E-mail",
 		"klass": "question",
 		"kind": "text",
+		"width": 8,
 		"required": true
 	},
 	{
@@ -18,6 +41,7 @@
 		"text": "Company of Affiliton",
 		"klass": "question",
 		"kind": "text",
+		"width": 16,
 		"required": true
 	},
 	{
@@ -25,27 +49,37 @@
 		"text": "Company Address",
 		"klass": "question",
 		"kind": "text",
+		"width": 16,
 		"required": true
 	},
 	{
-		"name": "company1contact",
-		"text": "Company Contact Number",
-		"klass": "question",
+		"name": "rule-2",
+		"text": "",
+		"klass": "decor",
+		"kind": "rule",
+		"width": 16
+	},
+	{
+		"name": "instructions2",
+		"text": "SECOND RECOMMENDER",
+		"klass": "decor",
 		"kind": "text",
-		"required": true
+		"width": 16
 	},
 	{
 		"name": "rec2name",
-		"text": "Recommender Name",
+		"text": "Name",
 		"klass": "question",
 		"kind": "text",
+		"width": 8,
 		"required": true
 	},
 	{
 		"name": "rec2email",
-		"text": "Recommender E-mail",
+		"text": "E-mail",
 		"klass": "question",
 		"kind": "text",
+		"width": 8,
 		"required": true
 	},
 	{
@@ -53,6 +87,7 @@
 		"text": "Company of Affiliton",
 		"klass": "question",
 		"kind": "text",
+		"width": 16,
 		"required": true
 	},
 	{
@@ -60,27 +95,37 @@
 		"text": "Company Address",
 		"klass": "question",
 		"kind": "text",
+		"width": 16,
 		"required": true
 	},
 	{
-		"name": "company2contact",
-		"text": "Company Contact Number",
-		"klass": "question",
+		"name": "rule-3",
+		"text": "",
+		"klass": "decor",
+		"kind": "rule",
+		"width": 16
+	},
+	{
+		"name": "instructions3",
+		"text": "THIRD RECOMMENDER",
+		"klass": "decor",
 		"kind": "text",
-		"required": true
+		"width": 16
 	},
 	{
 		"name": "rec3name",
-		"text": "Recommender Name",
+		"text": "Name",
 		"klass": "question",
 		"kind": "text",
+		"width": 8,		
 		"required": true
 	},
 	{
 		"name": "rec3email",
-		"text": "Recommender E-mail",
+		"text": "E-mail",
 		"klass": "question",
 		"kind": "text",
+		"width": 8,
 		"required": true
 	},
 	{
@@ -88,6 +133,7 @@
 		"text": "Company of Affiliton",
 		"klass": "question",
 		"kind": "text",
+		"width": 16,
 		"required": true
 	},
 	{
@@ -95,13 +141,7 @@
 		"text": "Company Address",
 		"klass": "question",
 		"kind": "text",
-		"required": true
-	},
-	{
-		"name": "company3contact",
-		"text": "Company Contact Number",
-		"klass": "question",
-		"kind": "text",
+		"width": 16,
 		"required": true
 	}
 ]
