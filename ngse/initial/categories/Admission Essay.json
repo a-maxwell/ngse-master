@@ -1,9 +1,72 @@
 [
 	{
+		"name": "instructions",
+		"text": "Write an essay about the following topics:",
+		"klass": "decor",
+		"kind": "text",
+		"width": 16
+	},
+	{
+		"name": "rule-1",
+		"text": "",
+		"klass": "decor",
+		"kind": "rule",
+		"width": 16
+	},
+	{
+		"name": "instructions1",
+		"text": "For CS: Discuss in at least 300 to a maximum of 500 words about yourself, your qualifications relevant to your application to the graduate program, and your future plans with respect to your chosen plan of study.",
+		"klass": "decor",
+		"kind": "text",
+		"width": 16
+	},
+	{
+		"name": "rule-2",
+		"text": "",
+		"klass": "decor",
+		"kind": "rule",
+		"width": 16
+	},
+	{
+		"name": "instructions2",
+		"text": "For EE: Discuss details of your other qualifications (e.g. membership in professional bodies, certificates, scholastic honors received) that are relevant to your application to the graduate program, past or ongoing research & development work/experience, research areas of interest, and reasons for applying for the graduate program.  You may also indicate professors and/or research laboratories in the department whose work you are interested in joining.  If you plan to be a part-time student, discuss the relationship of your planned graduate studies to your present employment and the support, if any, of your present employer for your planned graduate studies.",
+		"klass": "decor",
+		"kind": "text",
+		"width": 16
+	},
+	{
+		"name": "rule-3",
+		"text": "",
+		"klass": "decor",
+		"kind": "rule",
+		"width": 16
+	},
+	{
+		"name": "instructions3",
+		"text": "For EgyE: For MS: In at least 200 words, discuss why you would like to take MS EgyE. For PhD: In at least 400 words, discuss why you would like to take PhD EgyE and what area of interest you would like to pursue.",
+		"klass": "decor",
+		"kind": "text",
+		"width": 16
+	},
+	{
+		"name": "rule-4",
+		"text": "",
+		"klass": "decor",
+		"kind": "rule",
+		"width": 16
+	},
+	{
+		"name": "instructions4",
+		"text": "For EnE: For MS: In at least 200 words, discuss why you would like to take MS EnE. For PhD: In at least 400 words, discuss why you would like to take PhD EnE and what area of interest you would like to pursue.",
+		"klass": "decor",
+		"kind": "text",
+		"width": 16
+	},
+	{
 		"name": "essay",
-		"text": "essay",
+		"text": "Essay",
 		"klass": "question",
-		"kind": "textbox",
+		"kind": "textarea",
 		"required": true
 	}
 ]

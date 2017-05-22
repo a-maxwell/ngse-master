@@ -7,6 +7,13 @@
 		"width": 16
 	},
 	{
+		"name": "rule-1",
+		"text": "",
+		"klass": "decor",
+		"kind": "rule",
+		"width": 16
+	},
+	{
 		"name": "firstlang",
 		"text": "First Language",
 		"klass": "question",
@@ -35,6 +42,13 @@
 		"kind": "text",
 		"width": 8,
 		"required": true
+	},
+	{
+		"name": "rule-2",
+		"text": "",
+		"klass": "decor",
+		"kind": "rule",
+		"width": 16
 	},
 	{
 		"name": "instructions2",

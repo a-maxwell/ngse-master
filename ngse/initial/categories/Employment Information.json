@@ -168,6 +168,206 @@
 		"klass": "decor",
 		"kind": "text",
 		"width": 16
+	},
+	{
+		"name": "periodfrom1",
+		"text": "From (MM/YYYY)",
+		"klass": "question",
+		"kind": "text",
+		"width": 2,
+		"required": true
+	},
+	{
+		"name": "periodto1",
+		"text": "To (MM/YYYY)",
+		"klass": "question",
+		"kind": "text",
+		"width": 2,
+		"required": true
+	},
+	{
+		"name": "fullorparttime1",
+		"text": "Full/Part-Time",
+		"klass": "question",
+		"kind": "text",
+		"width": 2,
+		"required": true
+	},
+	{
+		"name": "nameofemployer1",
+		"text": "Name of Employer",
+		"klass": "question",
+		"kind": "text",
+		"width": 5,
+		"required": true
+	},
+	{
+		"name": "titleorposition1",
+		"text": "Title/Position",
+		"klass": "question",
+		"kind": "text",
+		"width": 5,
+		"required": true
+	},
+	{
+		"name": "periodfrom2",
+		"text": "From (MM/YYYY)",
+		"klass": "question",
+		"kind": "text",
+		"width": 2,
+		"required": true
+	},
+	{
+		"name": "periodto2",
+		"text": "To (MM/YYYY)",
+		"klass": "question",
+		"kind": "text",
+		"width": 2,
+		"required": true
+	},
+	{
+		"name": "fullorparttime2",
+		"text": "Full/Part-Time",
+		"klass": "question",
+		"kind": "text",
+		"width": 2,
+		"required": true
+	},
+	{
+		"name": "nameofemployer2",
+		"text": "Name of Employer",
+		"klass": "question",
+		"kind": "text",
+		"width": 5,
+		"required": true
+	},
+	{
+		"name": "titleorposition2",
+		"text": "Title/Position",
+		"klass": "question",
+		"kind": "text",
+		"width": 5,
+		"required": true
+	},
+	{
+		"name": "periodfrom3",
+		"text": "From (MM/YYYY)",
+		"klass": "question",
+		"kind": "text",
+		"width": 2,
+		"required": true
+	},
+	{
+		"name": "periodto3",
+		"text": "To (MM/YYYY)",
+		"klass": "question",
+		"kind": "text",
+		"width": 2,
+		"required": true
+	},
+	{
+		"name": "fullorparttime3",
+		"text": "Full/Part-Time",
+		"klass": "question",
+		"kind": "text",
+		"width": 2,
+		"required": true
+	},
+	{
+		"name": "nameofemployer3",
+		"text": "Name of Employer",
+		"klass": "question",
+		"kind": "text",
+		"width": 5,
+		"required": true
+	},
+	{
+		"name": "titleorposition3",
+		"text": "Title/Position",
+		"klass": "question",
+		"kind": "text",
+		"width": 5,
+		"required": true
+	},
+	{
+		"name": "periodfrom4",
+		"text": "From (MM/YYYY)",
+		"klass": "question",
+		"kind": "text",
+		"width": 2,
+		"required": true
+	},
+	{
+		"name": "periodto4",
+		"text": "To (MM/YYYY)",
+		"klass": "question",
+		"kind": "text",
+		"width": 2,
+		"required": true
+	},
+	{
+		"name": "fullorparttime4",
+		"text": "Full/Part-Time",
+		"klass": "question",
+		"kind": "text",
+		"width": 2,
+		"required": true
+	},
+	{
+		"name": "nameofemployer4",
+		"text": "Name of Employer",
+		"klass": "question",
+		"kind": "text",
+		"width": 5,
+		"required": true
+	},
+	{
+		"name": "titleorposition4",
+		"text": "Title/Position",
+		"klass": "question",
+		"kind": "text",
+		"width": 5,
+		"required": true
+	},
+	{
+		"name": "periodfrom5",
+		"text": "From (MM/YYYY)",
+		"klass": "question",
+		"kind": "text",
+		"width": 2,
+		"required": true
+	},
+	{
+		"name": "periodto5",
+		"text": "To (MM/YYYY)",
+		"klass": "question",
+		"kind": "text",
+		"width": 2,
+		"required": true
+	},
+	{
+		"name": "fullorparttime5",
+		"text": "Full/Part-Time",
+		"klass": "question",
+		"kind": "text",
+		"width": 2,
+		"required": true
+	},
+	{
+		"name": "nameofemployer5",
+		"text": "Name of Employer",
+		"klass": "question",
+		"kind": "text",
+		"width": 5,
+		"required": true
+	},
+	{
+		"name": "titleorposition5",
+		"text": "Title/Position",
+		"klass": "question",
+		"kind": "text",
+		"width": 5,
+		"required": true
 	}
 	
 ]

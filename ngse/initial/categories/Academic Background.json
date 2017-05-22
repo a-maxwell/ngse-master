@@ -1,7 +1,7 @@
 [
 	{
 		"name": "instructions1",
-		"text": "SECONDARY EDUCATION",
+		"text": "SECONDARY EDUCATION *(a)",
 		"klass": "decor",
 		"kind": "text",
 		"width": 16
@@ -45,7 +45,6 @@
 		"width": 8,
 		"required": true
 	},
-	
 	{
 		"name": "rule-2",
 		"text": "",
@@ -55,10 +54,130 @@
 	},
 	{
 		"name": "instructions2",
-		"text": "TERTIARY EDUCATION",
+		"text": "TERTIARY EDUCATION *(a)",
 		"klass": "decor",
 		"kind": "text",
 		"width": 16
+	},
+	{
+		"name": "tertiaryinstitution1",
+		"text": "Name of Institution",
+		"klass": "question",
+		"kind": "text",
+		"width": 4,
+		"required": true
+	},
+	{
+		"name": "tertiarylocation1",
+		"text": "Location",
+		"klass": "question",
+		"kind": "text",
+		"width": 4,
+		"required": true
+	},
+	{
+		"name": "tertiarydegreereceived1",
+		"text": "Degree Recieved",
+		"klass": "question",
+		"kind": "text",
+		"width": 4,
+		"required": true
+	},
+	{
+		"name": "tertiaryfrom1",
+		"text": "From (MM/YYYY)",
+		"klass": "question",
+		"kind": "text",
+		"width": 2,
+		"required": true
+	},
+	{
+		"name": "tertiaryuntil1",
+		"text": "Until (MM/YYYY)",
+		"klass": "question",
+		"kind": "text",
+		"width": 2,
+		"required": true
+	},
+	{
+		"name": "tertiaryinstitution2",
+		"text": "Name of Institution",
+		"klass": "question",
+		"kind": "text",
+		"width": 4,
+		"required": true
+	},
+	{
+		"name": "tertiarylocation2",
+		"text": "Location",
+		"klass": "question",
+		"kind": "text",
+		"width": 4,
+		"required": true
+	},
+	{
+		"name": "tertiarydegreereceived2",
+		"text": "Degree Recieved",
+		"klass": "question",
+		"kind": "text",
+		"width": 4,
+		"required": true
+	},
+	{
+		"name": "tertiaryfrom2",
+		"text": "From (MM/YYYY)",
+		"klass": "question",
+		"kind": "text",
+		"width": 2,
+		"required": true
+	},
+	{
+		"name": "tertiaryuntil2",
+		"text": "Until (MM/YYYY)",
+		"klass": "question",
+		"kind": "text",
+		"width": 2,
+		"required": true
+	},
+	{
+		"name": "tertiaryinstitution3",
+		"text": "Name of Institution",
+		"klass": "question",
+		"kind": "text",
+		"width": 4,
+		"required": true
+	},
+	{
+		"name": "tertiarylocation3",
+		"text": "Location",
+		"klass": "question",
+		"kind": "text",
+		"width": 4,
+		"required": true
+	},
+	{
+		"name": "tertiarydegreereceived3",
+		"text": "Degree Recieved",
+		"klass": "question",
+		"kind": "text",
+		"width": 4,
+		"required": true
+	},
+	{
+		"name": "tertiaryfrom3",
+		"text": "From (MM/YYYY)",
+		"klass": "question",
+		"kind": "text",
+		"width": 2,
+		"required": true
+	},
+	{
+		"name": "tertiaryuntil3",
+		"text": "Until (MM/YYYY)",
+		"klass": "question",
+		"kind": "text",
+		"width": 2,
+		"required": true
 	},
 	{
 		"name": "rule-3",
@@ -69,11 +188,132 @@
 	},
 	{
 		"name": "instructions3",
-		"text": "POST-GRADUATE STUDIES",
+		"text": "POST-GRADUATE STUDIES *(a,b)",
 		"klass": "decor",
 		"kind": "text",
 		"width": 16
 	},
+	{
+		"name": "postgradinstitution1",
+		"text": "Name of Institution",
+		"klass": "question",
+		"kind": "text",
+		"width": 4,
+		"required": true
+	},
+	{
+		"name": "postgradlocation1",
+		"text": "Location",
+		"klass": "question",
+		"kind": "text",
+		"width": 4,
+		"required": true
+	},
+	{
+		"name": "postgraddegreereceived1",
+		"text": "Degree Recieved",
+		"klass": "question",
+		"kind": "text",
+		"width": 4,
+		"required": true
+	},
+	{
+		"name": "postgradfrom1",
+		"text": "From (MM/YYYY)",
+		"klass": "question",
+		"kind": "text",
+		"width": 2,
+		"required": true
+	},
+	{
+		"name": "postgraduntil1",
+		"text": "Until (MM/YYYY)",
+		"klass": "question",
+		"kind": "text",
+		"width": 2,
+		"required": true
+	},
+	{
+		"name": "postgradinstitution2",
+		"text": "Name of Institution",
+		"klass": "question",
+		"kind": "text",
+		"width": 4,
+		"required": true
+	},
+	{
+		"name": "postgradlocation2",
+		"text": "Location",
+		"klass": "question",
+		"kind": "text",
+		"width": 4,
+		"required": true
+	},
+	{
+		"name": "postgraddegreereceived2",
+		"text": "Degree Recieved",
+		"klass": "question",
+		"kind": "text",
+		"width": 4,
+		"required": true
+	},
+	{
+		"name": "postgradfrom2",
+		"text": "From (MM/YYYY)",
+		"klass": "question",
+		"kind": "text",
+		"width": 2,
+		"required": true
+	},
+	{
+		"name": "postgraduntil2",
+		"text": "Until (MM/YYYY)",
+		"klass": "question",
+		"kind": "text",
+		"width": 2,
+		"required": true
+	},
+	{
+		"name": "postgradinstitution3",
+		"text": "Name of Institution",
+		"klass": "question",
+		"kind": "text",
+		"width": 4,
+		"required": true
+	},
+	{
+		"name": "postgradlocation3",
+		"text": "Location",
+		"klass": "question",
+		"kind": "text",
+		"width": 4,
+		"required": true
+	},
+	{
+		"name": "postgraddegreereceived3",
+		"text": "Degree Recieved",
+		"klass": "question",
+		"kind": "text",
+		"width": 4,
+		"required": true
+	},
+	{
+		"name": "postgradfrom3",
+		"text": "From (MM/YYYY)",
+		"klass": "question",
+		"kind": "text",
+		"width": 2,
+		"required": true
+	},
+	{
+		"name": "postgraduntil3",
+		"text": "Until (MM/YYYY)",
+		"klass": "question",
+		"kind": "text",
+		"width": 2,
+		"required": true
+	},
+
 	{
 		"name": "rule-4",
 		"text": "",
@@ -89,6 +329,78 @@
 		"width": 16
 	},
 	{
+		"name": "awardstitle1",
+		"text": "Title",
+		"klass": "question",
+		"kind": "text",
+		"width": 6,
+		"required": true
+	},
+	{
+		"name": "awardsinstitution1",
+		"text": "Awarding Institution",
+		"klass": "question",
+		"kind": "text",
+		"width": 6,
+		"required": true
+	},
+	{
+		"name": "awardsdate1",
+		"text": "Date Received",
+		"klass": "question",
+		"kind": "date",
+		"width": 4,
+		"required": true
+	},
+	{
+		"name": "awardstitle2",
+		"text": "Title",
+		"klass": "question",
+		"kind": "text",
+		"width": 6,
+		"required": true
+	},
+	{
+		"name": "awardsinstitution2",
+		"text": "Awarding Institution",
+		"klass": "question",
+		"kind": "text",
+		"width": 6,
+		"required": true
+	},
+	{
+		"name": "awardsdate2",
+		"text": "Date Received",
+		"klass": "question",
+		"kind": "date",
+		"width": 4,
+		"required": true
+	},
+	{
+		"name": "awardstitle3",
+		"text": "Title",
+		"klass": "question",
+		"kind": "text",
+		"width": 6,
+		"required": true
+	},
+	{
+		"name": "awardsinstitution3",
+		"text": "Awarding Institution",
+		"klass": "question",
+		"kind": "text",
+		"width": 6,
+		"required": true
+	},
+	{
+		"name": "awardsdate3",
+		"text": "Date Received",
+		"klass": "question",
+		"kind": "date",
+		"width": 4,
+		"required": true
+	},
+	{
 		"name": "rule-5",
 		"text": "",
 		"klass": "decor",
@@ -97,10 +409,81 @@
 	},
 	{
 		"name": "instructions5",
-		"text": "RECENT SCIENTIFIC PUBLICATIONS",
+		"text": "RECENT SCIENTIFIC PUBLICATIONS *(c)",
 		"klass": "decor",
 		"kind": "text",
 		"width": 16
+	},
+	{
+		"name": "publicationtitleofpaper1",
+		"text": "Title of Paper",
+		"klass": "question",
+		"kind": "text",
+		"width": 6,
+		"required": true
+	},
+	{
+		"name": "publicationtitleofpublication1",
+		"text": "Awarding Institution",
+		"klass": "question",
+		"kind": "text",
+		"width": 6,
+		"required": true
+	},
+	{
+		"name": "publicationdatepublished1",
+		"text": "Date Published",
+		"klass": "question",
+		"kind": "date",
+		"width": 4,
+		"required": true
+	},
+	{
+		"name": "publicationtitleofpaper2",
+		"text": "Title of Paper",
+		"klass": "question",
+		"kind": "text",
+		"width": 6,
+		"required": true
+	},
+	{
+		"name": "publicationtitleofpublication2",
+		"text": "Awarding Institution",
+		"klass": "question",
+		"kind": "text",
+		"width": 6,
+		"required": true
+	},
+	{
+		"name": "publicationdatepublished2",
+		"text": "Date Published",
+		"klass": "question",
+		"kind": "date",
+		"width": 4,
+		"required": true
+	},{
+		"name": "publicationtitleofpaper3",
+		"text": "Title of Paper",
+		"klass": "question",
+		"kind": "text",
+		"width": 6,
+		"required": true
+	},
+	{
+		"name": "publicationtitleofpublication3",
+		"text": "Awarding Institution",
+		"klass": "question",
+		"kind": "text",
+		"width": 6,
+		"required": true
+	},
+	{
+		"name": "publicationdatepublished3",
+		"text": "Date Published",
+		"klass": "question",
+		"kind": "date",
+		"width": 4,
+		"required": true
 	},
 	{
 		"name": "rule-6",
@@ -111,10 +494,82 @@
 	},
 	{
 		"name": "instructions6",
-		"text": "RECENT SCIENTIFIC CONFERENCE PRESENTATIONS",
+		"text": "RECENT SCIENTIFIC CONFERENCE PRESENTATIONS *(c)",
 		"klass": "decor",
 		"kind": "text",
 		"width": 16
+	},
+	{
+		"name": "conferencetitleofpaper1",
+		"text": "Title of Paper",
+		"klass": "question",
+		"kind": "text",
+		"width": 6,
+		"required": true
+	},
+	{
+		"name": "conferencename1",
+		"text": "Name of Conference",
+		"klass": "question",
+		"kind": "text",
+		"width": 6,
+		"required": true
+	},
+	{
+		"name": "conferencedatepresented1",
+		"text": "Date Presented",
+		"klass": "question",
+		"kind": "date",
+		"width": 4,
+		"required": true
+	},
+	{
+		"name": "conferencetitleofpaper2",
+		"text": "Title of Paper",
+		"klass": "question",
+		"kind": "text",
+		"width": 6,
+		"required": true
+	},
+	{
+		"name": "conferencename2",
+		"text": "Name of Conference",
+		"klass": "question",
+		"kind": "text",
+		"width": 6,
+		"required": true
+	},
+	{
+		"name": "conferencedatepresented2",
+		"text": "Date Presented",
+		"klass": "question",
+		"kind": "date",
+		"width": 4,
+		"required": true
+	},
+	{
+		"name": "conferencetitleofpaper3",
+		"text": "Title of Paper",
+		"klass": "question",
+		"kind": "text",
+		"width": 6,
+		"required": true
+	},
+	{
+		"name": "conferencename3",
+		"text": "Name of Conference",
+		"klass": "question",
+		"kind": "text",
+		"width": 6,
+		"required": true
+	},
+	{
+		"name": "conferencedatepresented3",
+		"text": "Date Presented",
+		"klass": "question",
+		"kind": "date",
+		"width": 4,
+		"required": true
 	},
 	{
 		"name": "rule-7",
@@ -125,9 +580,77 @@
 	},
 	{
 		"name": "instructions7",
-		"text": "OTHER QUALIFICATIONS",
+		"text": "OTHER QUALIFICATIONS *(d)",
+		"klass": "decor",
+		"kind": "text",
+		"width": 16
+	},
+	{
+		"name": "others1",
+		"text": "",
+		"klass": "question",
+		"kind": "text",
+		"width": 16,
+		"required": true
+	},
+	{
+		"name": "others2",
+		"text": "",
+		"klass": "question",
+		"kind": "text",
+		"width": 16,
+		"required": true
+	},
+	{
+		"name": "others3",
+		"text": "",
+		"klass": "question",
+		"kind": "text",
+		"width": 16,
+		"required": true
+	},
+	{
+		"name": "others4",
+		"text": "",
+		"klass": "question",
+		"kind": "text",
+		"width": 16,
+		"required": true
+	},
+	{
+		"name": "rule-8",
+		"text": "",
+		"klass": "decor",
+		"kind": "rule",
+		"width": 16
+	},
+	{
+		"name": "instructions8",
+		"text": "a: Verified copies of academic documents must be attached to this application. Filipino or English translations are STRICTLY required.",
+		"klass": "decor",
+		"kind": "text",
+		"width": 16
+	},
+	{
+		"name": "instructions9",
+		"text": "b: All postgraduate studies taken, up to obtaining a master’s degree.",
+		"klass": "decor",
+		"kind": "text",
+		"width": 16
+	},
+	{
+		"name": "instructions10",
+		"text": "c: Done within the last FIVE YEARS.",
+		"klass": "decor",
+		"kind": "text",
+		"width": 16
+	},
+	{
+		"name": "instructions11",
+		"text": "d: Membership to professional organizations, eligibilities/certificates, professional licenses, etc.",
 		"klass": "decor",
 		"kind": "text",
 		"width": 16
 	}
+
 ]
