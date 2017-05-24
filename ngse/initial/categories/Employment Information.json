@@ -22,7 +22,7 @@
 		"width": 16
 	},
 	{
-		"name": "position",
+		"name": "curremployedposition",
 		"text": "Position",
 		"klass": "question",
 		"kind": "text",
@@ -30,7 +30,7 @@
 		"required": true
 	},
 	{
-		"name": "lengthofservice",
+		"name": "curremployedlengthofservice",
 		"text": "Length of Service",
 		"klass": "question",
 		"kind": "text",
@@ -38,7 +38,7 @@
 		"required": true
 	},
 	{
-		"name": "companyname",
+		"name": "curremployedcompanyname",
 		"text": "Company Name",
 		"klass": "question",
 		"kind": "text",
@@ -46,7 +46,7 @@
 		"required": true
 	},
 	{
-		"name": "companytelenum",
+		"name": "curremployedcompanytelenum",
 		"text": "Telephone Number",
 		"klass": "question",
 		"kind": "text",
@@ -54,7 +54,7 @@
 		"required": true
 	},
 	{
-		"name": "officeaddr",
+		"name": "curremployedofficeaddr",
 		"text": "Office Address",
 		"klass": "question",
 		"kind": "text",
@@ -62,7 +62,7 @@
 		"required": true
 	},
 	{
-		"name": "faxnum",
+		"name": "curremployedfaxnum",
 		"text": "Fax Number",
 		"klass": "question",
 		"kind": "text",
@@ -70,7 +70,7 @@
 		"required": true
 	},
 	{
-		"name": "companyemail",
+		"name": "curremployedcompanyemail",
 		"text": "E-mail Address",
 		"klass": "question",
 		"kind": "text",
@@ -78,7 +78,7 @@
 		"required": true
 	},
 	{
-		"name": "companywebsite",
+		"name": "curremployedcompanywebsite",
 		"text": "Company Website",
 		"klass": "question",
 		"kind": "text",
@@ -100,7 +100,7 @@
 		"width": 16
 	},
 	{
-		"name": "businessname",
+		"name": "selfemployedbusinessname",
 		"text": "Business Name",
 		"klass": "question",
 		"kind": "text",
@@ -108,7 +108,7 @@
 		"required": true
 	},
 	{
-		"name": "businessaddress",
+		"name": "selfemployedbusinessaddress",
 		"text": "Business Address",
 		"klass": "question",
 		"kind": "text",
@@ -116,7 +116,7 @@
 		"required": true
 	},
 	{
-		"name": "businessemail",
+		"name": "selfemployedbusinessemail",
 		"text": "Email",
 		"klass": "question",
 		"kind": "text",
@@ -124,7 +124,7 @@
 		"required": true
 	},
 	{
-		"name": "businesswebsite",
+		"name": "selfemployedbusinesswebsite",
 		"text": "Website",
 		"klass": "question",
 		"kind": "text",
@@ -132,7 +132,7 @@
 		"required": true
 	},
 	{
-		"name": "businesstype",
+		"name": "selfemployedbusinesstype",
 		"text": "Type of Business",
 		"klass": "question",
 		"kind": "text",
@@ -140,7 +140,7 @@
 		"required": true
 	},
 	{
-		"name": "yearsofoper",
+		"name": "selfemployedyearsofoper",
 		"text": "Years of Operation",
 		"klass": "question",
 		"kind": "text",
@@ -148,7 +148,7 @@
 		"required": true
 	},
 	{
-		"name": "businesstelnum",
+		"name": "selfemployedbusinesstelnum",
 		"text": "Telephone Number",
 		"klass": "question",
 		"kind": "text",
@@ -170,7 +170,7 @@
 		"width": 16
 	},
 	{
-		"name": "periodfrom1",
+		"name": "employmenthistoryperiodfrom1",
 		"text": "From (MM/YYYY)",
 		"klass": "question",
 		"kind": "text",
@@ -178,7 +178,7 @@
 		"required": true
 	},
 	{
-		"name": "periodto1",
+		"name": "employmenthistoryperiodto1",
 		"text": "To (MM/YYYY)",
 		"klass": "question",
 		"kind": "text",
@@ -186,7 +186,7 @@
 		"required": true
 	},
 	{
-		"name": "fullorparttime1",
+		"name": "employmenthistoryfullorparttime1",
 		"text": "Full/Part-Time",
 		"klass": "question",
 		"kind": "text",
@@ -194,7 +194,7 @@
 		"required": true
 	},
 	{
-		"name": "nameofemployer1",
+		"name": "employmenthistorynameofemployer1",
 		"text": "Name of Employer",
 		"klass": "question",
 		"kind": "text",
@@ -202,7 +202,7 @@
 		"required": true
 	},
 	{
-		"name": "titleorposition1",
+		"name": "employmenthistorytitleorposition1",
 		"text": "Title/Position",
 		"klass": "question",
 		"kind": "text",
@@ -210,7 +210,7 @@
 		"required": true
 	},
 	{
-		"name": "periodfrom2",
+		"name": "employmenthistoryperiodfrom2",
 		"text": "From (MM/YYYY)",
 		"klass": "question",
 		"kind": "text",
@@ -218,7 +218,7 @@
 		"required": true
 	},
 	{
-		"name": "periodto2",
+		"name": "employmenthistoryperiodto2",
 		"text": "To (MM/YYYY)",
 		"klass": "question",
 		"kind": "text",
@@ -226,7 +226,7 @@
 		"required": true
 	},
 	{
-		"name": "fullorparttime2",
+		"name": "employmenthistoryfullorparttime2",
 		"text": "Full/Part-Time",
 		"klass": "question",
 		"kind": "text",
@@ -234,7 +234,7 @@
 		"required": true
 	},
 	{
-		"name": "nameofemployer2",
+		"name": "employmenthistorynameofemployer2",
 		"text": "Name of Employer",
 		"klass": "question",
 		"kind": "text",
@@ -242,7 +242,7 @@
 		"required": true
 	},
 	{
-		"name": "titleorposition2",
+		"name": "employmenthistorytitleorposition2",
 		"text": "Title/Position",
 		"klass": "question",
 		"kind": "text",
@@ -250,7 +250,7 @@
 		"required": true
 	},
 	{
-		"name": "periodfrom3",
+		"name": "employmenthistoryperiodfrom3",
 		"text": "From (MM/YYYY)",
 		"klass": "question",
 		"kind": "text",
@@ -258,7 +258,7 @@
 		"required": true
 	},
 	{
-		"name": "periodto3",
+		"name": "employmenthistoryperiodto3",
 		"text": "To (MM/YYYY)",
 		"klass": "question",
 		"kind": "text",
@@ -266,7 +266,7 @@
 		"required": true
 	},
 	{
-		"name": "fullorparttime3",
+		"name": "employmenthistoryfullorparttime3",
 		"text": "Full/Part-Time",
 		"klass": "question",
 		"kind": "text",
@@ -274,7 +274,7 @@
 		"required": true
 	},
 	{
-		"name": "nameofemployer3",
+		"name": "employmenthistorynameofemployer3",
 		"text": "Name of Employer",
 		"klass": "question",
 		"kind": "text",
@@ -282,7 +282,7 @@
 		"required": true
 	},
 	{
-		"name": "titleorposition3",
+		"name": "employmenthistorytitleorposition3",
 		"text": "Title/Position",
 		"klass": "question",
 		"kind": "text",
@@ -290,7 +290,7 @@
 		"required": true
 	},
 	{
-		"name": "periodfrom4",
+		"name": "employmenthistoryperiodfrom4",
 		"text": "From (MM/YYYY)",
 		"klass": "question",
 		"kind": "text",
@@ -298,7 +298,7 @@
 		"required": true
 	},
 	{
-		"name": "periodto4",
+		"name": "employmenthistoryperiodto4",
 		"text": "To (MM/YYYY)",
 		"klass": "question",
 		"kind": "text",
@@ -306,7 +306,7 @@
 		"required": true
 	},
 	{
-		"name": "fullorparttime4",
+		"name": "employmenthistoryfullorparttime4",
 		"text": "Full/Part-Time",
 		"klass": "question",
 		"kind": "text",
@@ -314,7 +314,7 @@
 		"required": true
 	},
 	{
-		"name": "nameofemployer4",
+		"name": "employmenthistorynameofemployer4",
 		"text": "Name of Employer",
 		"klass": "question",
 		"kind": "text",
@@ -322,7 +322,7 @@
 		"required": true
 	},
 	{
-		"name": "titleorposition4",
+		"name": "employmenthistorytitleorposition4",
 		"text": "Title/Position",
 		"klass": "question",
 		"kind": "text",
@@ -330,7 +330,7 @@
 		"required": true
 	},
 	{
-		"name": "periodfrom5",
+		"name": "employmenthistoryperiodfrom5",
 		"text": "From (MM/YYYY)",
 		"klass": "question",
 		"kind": "text",
@@ -338,7 +338,7 @@
 		"required": true
 	},
 	{
-		"name": "periodto5",
+		"name": "employmenthistoryperiodto5",
 		"text": "To (MM/YYYY)",
 		"klass": "question",
 		"kind": "text",
@@ -346,7 +346,7 @@
 		"required": true
 	},
 	{
-		"name": "fullorparttime5",
+		"name": "employmenthistoryfullorparttime5",
 		"text": "Full/Part-Time",
 		"klass": "question",
 		"kind": "text",
@@ -354,7 +354,7 @@
 		"required": true
 	},
 	{
-		"name": "nameofemployer5",
+		"name": "employmenthistorynameofemployer5",
 		"text": "Name of Employer",
 		"klass": "question",
 		"kind": "text",
@@ -362,7 +362,7 @@
 		"required": true
 	},
 	{
-		"name": "titleorposition5",
+		"name": "employmenthistorytitleorposition5",
 		"text": "Title/Position",
 		"klass": "question",
 		"kind": "text",

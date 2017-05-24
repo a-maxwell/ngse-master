@@ -16,15 +16,15 @@
 		</thead>
 		<tbody>
 			<tr ng-repeat="applicant in applicants track by applicant.id">
-				<td>{{applicant.name}}</td>
+				<td> <a href=''>{{applicant.name}}</a> </td>
 				<td>{{applicant.email}}</td>
 				<td>{{applicant.user_type}}</td>
-				<td>-</td>
-				<td>-</td>
+				<td>{{applicant.application_status}}</td>
+				<td>{{applicant.validation_status}}</td>
 				<td>{{applicant.date_created}}</td>
-				<td>-</td>
-				<td>-</td>
-				<td>-</td>
+				<td><a href=''>{{applicant.recommender1}} </a> </td>
+				<td>{{applicant.recommender2}}</td>
+				<td>{{applicant.recommender3}}</td>
 			</tr>
 		</tbody>
 	</table>

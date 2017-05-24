@@ -224,27 +224,27 @@ def EmploymentInfo(c, ans):
     c.drawString(40, 195, "III.  EMPLOYMENT INFORMATION")
     c.setFont('Helvetica', 10)
     c.drawString(50, 175, "3.a.")
-    c.drawString(100, 175, "Current Employment Status:")
+    c.drawString(100, 175, "Current Employment Status: " + ans['curremploymentstatus'])
 
     c.drawString(50, 155, "3.b.")
     c.drawString(100, 155, "Current Employed Applicants(Full-Time/Part-Time)")
-    c.drawString(100, 140, "Position:")
-    c.drawString(100, 125, "Company Name:")
-    c.drawString(100, 110, "Office Address:")
-    c.drawString(100, 95, "E-mail Address:")
-    c.drawString(350, 140, "Length of Service:")
-    c.drawString(350, 125, "Telephone Number:")
-    c.drawString(350, 110, "Fax Number:")
-    c.drawString(350, 95, "Company Website:")
+    c.drawString(100, 140, "Position:" + ans['curremployedposition'])
+    c.drawString(100, 125, "Company Name: " + ans['curremployedcompanyname'])
+    c.drawString(100, 110, "Office Address: " + ans['curremployedofficeaddr'])
+    c.drawString(100, 95, "E-mail Address: " + ans['curremployedcompanyemail'])
+    c.drawString(350, 140, "Length of Service: " + ans['curremployedlengthofservice'])
+    c.drawString(350, 125, "Telephone Number: " + ans['curremployedcompanytelenum'])
+    c.drawString(350, 110, "Fax Number: " + ans['curremployedfaxnum'])
+    c.drawString(350, 95, "Company Website: " + ans['curremployedcompanywebsite'])
 
     c.drawString(50, 75, "3.c.")
     c.drawString(100, 75, "Self-Employed Applicants")
-    c.drawString(100, 60, "Business Name:")
-    c.drawString(100, 45, "Business Address:")
-    c.drawString(100, 30, "E-mail/Website:")
-    c.drawString(350, 60, "Type of Business:")
-    c.drawString(350, 45, "Telephone Number:")
-    c.drawString(350, 30, "Years of Operation:")
+    c.drawString(100, 60, "Business Name: " + ans['selfemployedbusinessname'])
+    c.drawString(100, 45, "Business Address:" + ans['selfemployedbusinessaddress'])
+    c.drawString(100, 30, "E-mail/Website: "  + ans['selfemployedbusinessemail'])
+    c.drawString(350, 60, "Type of Business: "  + ans['selfemployedbusinesstype'] )
+    c.drawString(350, 45, "Telephone Number: "  + ans['selfemployedbusinesstelnum'])
+    c.drawString(350, 30, "Years of Operation: "  + ans['selfemployedyearsofoper'])
 
     ################Page 3###############
 
@@ -264,14 +264,16 @@ def AcadBg(c, ans):
     c.drawString(50, 610, "4.a")
     c.drawString(100, 610, "Secondary Education")
     c.drawString(100, 595, "Last High School Attended")
-    c.drawString(100, 580, "School Name:")
-    c.drawString(100, 565, "School Address:")
-    c.drawString(350, 610, "Date Started:")
-    c.drawString(350, 595, "Date Graduated:")
+    c.drawString(100, 580, "School Name: "  + ans['secondaryeducschoolname'])
+    c.drawString(100, 565, "School Address: "  + ans['secondaryeducschooladdress'])
+    c.drawString(350, 610, "Date Started: "  + ans['secondaryeducdatestarted'])
+    c.drawString(350, 595, "Date Graduated: "  + ans['secondaryeducdategraduated'])
 
     c.drawString(50, 550, "4.b")
     c.drawString(100, 550, "Tertiary Education")
     c.rect(65, 435, 500, 100, stroke=1)
+    c.drawString(100, 525, "this is me")
+
 
     c.drawString(50, 415, "4.c")
     c.drawString(100, 415, "Post-Graduate Studies")
@@ -304,14 +306,14 @@ def EnglishProf(c, ans):
     c.drawString(40, 490, "V. ENGLISH PROFICIENCY")
     c.setFont('Helvetica', 10)
 
-    c.drawString(50, 470, "First Language:")
+    c.drawString(50, 470, "First Language: "  + ans['firstlang'])
     c.drawString(50, 455, "Primary Medium of Instruction")
-    c.drawString(100, 440, "Secondary Level:")
-    c.drawString(100, 425, "Tertiary Level:")
+    c.drawString(100, 440, "Secondary Level: "  + ans['mediumofinstruction2nd'])
+    c.drawString(100, 425, "Tertiary Level: "  + ans['mediumofinstruction3rd'])
 
     c.drawString(50, 410, "Test of English Proficiency")
-    c.drawString(100, 395, "Date Taken:")
-    c.drawString(100, 380, "Exam Score:")
+    c.drawString(100, 395, "Date Taken: "  + ans['engproficiencydatetaken'])
+    c.drawString(100, 380, "Exam Score: "  + ans['engproficiencyscore'])
 
 def ProgramProf(c, ans):
     c.setFont('Helvetica-Bold', 14)
@@ -319,17 +321,17 @@ def ProgramProf(c, ans):
     c.drawString(40, 360, "VI. PROGRAMMING PROFICIENCY")
     c.setFont('Helvetica', 10)
 
-    c.drawString(100, 340, "Programming Language: 5")
-    c.drawString(100, 325, "Programming Language: 5")
-    c.drawString(100, 310, "Programming Language: 5")
-    c.drawString(100, 295, "Programming Language: 5")
-    c.drawString(100, 280, "Programming Language: 5")
+    c.drawString(100, 340, "Programming Language: "  + ans['lang1'])
+    c.drawString(100, 325, "Programming Language: "  + ans['lang2'])
+    c.drawString(100, 310, "Programming Language: "  + ans['lang3'])
+    c.drawString(100, 295, "Programming Language: "  + ans['lang4'])
+    c.drawString(100, 280, "Programming Language: "  + ans['lang5'])
 
-    c.drawString(350, 340, "Programming Language: 5")
-    c.drawString(350, 325, "Programming Language: 5")
-    c.drawString(350, 310, "Programming Language: 5")
-    c.drawString(350, 295, "Programming Language: 5")
-    c.drawString(350, 280, "Programming Language: 5")
+    c.drawString(350, 340, "Level of Proficiency: "  + ans['prof1'])
+    c.drawString(350, 325, "Level of Proficiency: "  + ans['prof2'])
+    c.drawString(350, 310, "Level of Proficiency: "  + ans['prof3'])
+    c.drawString(350, 295, "Level of Proficiency: "  + ans['prof4'])
+    c.drawString(350, 280, "Level of Proficiency: "  + ans['prof5'])
 
     c.drawString(65, 255, "Projects/Applications")
     c.rect(65, 170, 500, 80, stroke=1)
@@ -365,6 +367,175 @@ def AppDec(c, ans):
     c.line(440, 660, 500, 660)
     c.drawCentredString(470, 650,"Date")
 
+def NGSE02(c):
+    c.showPage()
+    c.setFont('Helvetica-Bold', 8)
+    c.setFillColor(gray)
+    c.drawString(58, 800, "Form NGSE-02")
+    c.setFillColor(black)
+    c.setFont('Helvetica', 9)
+    return 790, 790
+
+def page(c, ans):
+    # NGSE02(c)
+    c.setFont('Helvetica-Bold', 12)
+    c.setFillColor(black)
+    c.drawCentredString(306,790, 'National Graduate School of Engineering')
+    c.setFont('Helvetica', 10)
+    c.drawCentredString(306,778,'College of Engineering')
+    c.drawCentredString(306,766,'UNIVERSITY OF THE PHILIPPINES')
+    c.drawCentredString(306,754,'Diliman, Quezon City 1101 Philippines')
+    c.setFont('Helvetica-Bold', 18)
+    c.drawCentredString(306,720,'LETTER OF RECOMMENDATION')
+    c.setFont('Helvetica-Bold', 10)
+    c.drawCentredString(306,702,'NATIONAL GRADUATE SCHOOL OF ENGINEERING (NGSE) ADMISSION')
+    
+    c.setFont('Helvetica', 10)
+    c.rect(60, 670, 136, 20, stroke=1)
+    c.drawString(62, 677, "APPLICANT'S EVALUATION")
+    c.setFillColor(gray)
+    c.drawString(200, 677, "To be filled out by the recommender.")
+    c.setFillColor(black)
+    c.setFont('Helvetica-Bold', 9)
+    c.drawString(60, 655, "Note to Recommender: ")
+    c.setFont('Helvetica', 9)
+    c.drawString(160, 655, "Any pertinent information regarding the applicant and your evaluation of the applicant's ability to")
+    # c.drawString(540, 640, "N")
+    c.drawString(60, 645, "undertake graduate studies and research will be held in strict confidence.")
+    c.drawString(60, 620, "How long have you known applicant?")
+    
+    curlen = 605
+    tempcur = 605
+    
+    tempcur, curlen = rectangle(ans['recommenderessay1'], curlen, tempcur, c)
+    c.drawString(60, curlen, "In what capacity have you known the applicant?")
+    tempcur-=15; curlen-=15
+    if curlen <= 50:  tempcur, curlen = NGSE02(c)
+
+    tempcur, curlen = rectangle(ans['recommenderessay2'], curlen, tempcur, c)
+
+    c.drawString(60, curlen, "If the applicant was a student in some of your classes, what were these subjects?")
+    tempcur-=15; curlen-=15
+    if curlen <= 50:  tempcur, curlen = NGSE02(c)
+
+
+    tempcur, curlen = rectangle(ans['recommenderessay3'], curlen, tempcur, c)
+
+    c.drawString(60, curlen, "What do you consider as the applicant's outstanding talents or strengths in relation to graduate study")
+    tempcur-=15; curlen-=15
+    if curlen <= 50:  tempcur, curlen = NGSE02(c)
+
+    tempcur, curlen = rectangle(ans['recommenderessay4'], curlen, tempcur, c)
+
+    c.drawString(60, curlen, "What do you consider as his/her weakness or deficiencies in relation to graduate study?")
+    tempcur-=15; curlen-=15
+    if curlen <= 50:  tempcur, curlen = NGSE02(c)
+    tempcur, curlen = rectangle(ans['recommenderessay5'], curlen, tempcur, c) 
+
+    # ins = 'Please rate the applicant on the following characteristics in comparison with other students in the same disciplines who are known to you and who have had more or less the same amount of training and experience. Indicate size of the group with which applicant is being compared and its educational level.'
+
+    # tempcur, curlen = rectangle(ins , curlen, tempcur)    
+    tempcur-=20; curlen-=20
+
+    c.drawString(60, curlen, "Please rate the applicant on the following characteristics in comparison with other students in the same disciplines who are")
+    tempcur-=10; curlen-=10
+    if curlen <= 50:  tempcur, curlen = NGSE02(c)   
+
+    c.drawString(60, curlen, "known to you and who have had more or less the same amount of training and experience.  Indicate size of the group with")
+    tempcur-=10; curlen-=10
+    if curlen <= 50:  tempcur, curlen = NGSE02(c)
+
+    c.drawString(60, curlen, "which applicant is being compared and its educational level.")
+    tempcur-=20; curlen-=20
+    if curlen <= 50:  tempcur, curlen = NGSE02(c)
+
+    c.drawString(200,curlen, "Group Size: " + ans['groupSize'])
+    c.drawString(290,curlen, "Education Level: " + ans['educLevel'])
+    c.rect(250, curlen-2, 30, 10, stroke=1)
+
+    c.rect(357, curlen-2, 100, 10, stroke=1)
+
+    tempcur-=20; curlen-=20
+    if curlen <= 50:  tempcur, curlen = NGSE02(c)
+
+    c.drawString(60, curlen, "1. Intellectual ability: " + ans['recommenderq1'])
+    tempcur-=10; curlen-=10
+    if curlen <= 50:  tempcur, curlen = NGSE02(c)
+
+    c.drawString(60, curlen, "2. Academic preparation for proposed field of study: " + ans['recommenderq2'])
+    tempcur-=10; curlen-=10
+    if curlen <= 50:  tempcur, curlen = NGSE02(c)
+
+    c.drawString(60, curlen, "3. Motivation for proposed field of study: " + ans['recommenderq3'])
+    tempcur-=10; curlen-=10
+    if curlen <= 50:  tempcur, curlen = NGSE02(c)
+
+    c.drawString(60, curlen, "4. Originality, creativity, and imagination: " + ans['recommenderq4'])
+    tempcur-=10; curlen-=10
+    if curlen <= 50:  tempcur, curlen = NGSE02(c)
+
+    c.drawString(60, curlen, "5. Analytical and problem-solving ability: " + ans['recommenderq5'])
+    tempcur-=10; curlen-=10
+    if curlen <= 50:  tempcur, curlen = NGSE02(c)
+
+    c.drawString(60, curlen, "6. Initiative and independence: " + ans['recommenderq6'])
+    tempcur-=10; curlen-=10
+    if curlen <= 50:  tempcur, curlen = NGSE02(c)
+
+    c.drawString(60, curlen, "7. Honesty and Integrity: " + ans['recommenderq7'])
+    tempcur-=10; curlen-=10
+    if curlen <= 50:  tempcur, curlen = NGSE02(c)
+
+    c.drawString(60, curlen, "8. Conscientiousness and ability to work independently: " + ans['recommenderq8'])
+    tempcur-=10; curlen-=10
+    if curlen <= 50:  tempcur, curlen = NGSE02(c)   
+
+    c.drawString(60, curlen, "9. Ability to work with others: " + ans['recommenderq9'])
+    tempcur-=10; curlen-=10
+    if curlen <= 50:  tempcur, curlen = NGSE02(c)
+
+    c.drawString(60, curlen, "10. Oral communication skills: " + ans['recommenderq10'])
+    tempcur-=10; curlen-=10
+    if curlen <= 50:  tempcur, curlen = NGSE02(c)
+
+    c.drawString(60, curlen, "11. Written communication skills: " + ans['recommenderq11'])
+    tempcur-=10; curlen-=10
+    if curlen <= 50:  tempcur, curlen = NGSE02(c)
+
+    c.drawString(60, curlen, "12. Emotional Maturity: " + ans['recommenderq12'])
+    tempcur-=10; curlen-=10
+    if curlen <= 50:  tempcur, curlen = NGSE02(c)   
+
+    c.drawString(60, curlen, "13. Potential as a researcher in the discipline: " + ans['recommenderq13'])
+    tempcur-=10; curlen-=10
+    if curlen <= 50:  tempcur, curlen = NGSE02(c)
+
+    c.drawString(60, curlen, "14. Potential as a teacher in the discipline: " + ans['recommenderq14'])
+    tempcur-=30; curlen-=30
+    if curlen <= 50:  tempcur, curlen = NGSE02(c)
+
+    c.drawString(60, curlen, "Additional information and comments about the applicants.")
+    tempcur-=15; curlen-=15
+    if curlen <= 50:  tempcur, curlen = NGSE02(c)
+    tempcur, curlen = rectangle(ans['recommenderessay6'], curlen, tempcur, c) 
+
+    tempcur-=15; curlen-=15
+    c.drawString(60, curlen, "I therefore " + ans['recommendation']+ " the applicant for admission to the National Graduate School of Engineering in UP Diliman.")
+
+
+def rectangle(ans, curlen, tempcur, c):
+    start=0; end=95
+    while(start < len(ans)):
+        c.drawString(60, curlen, ans[start:end])
+        curlen-=10
+        start = end+1
+        end=end+95
+    c.rect(60, curlen, 490, tempcur-curlen+10, stroke=1)
+    curlen-=20 #this will be the new tempcur and curlen
+    if curlen <= 50:  tempcur, curlen = NGSE02(c)
+
+    return curlen, curlen
+
 ##############Main###################
 
 def forms(request):
@@ -377,26 +548,31 @@ def forms(request):
         q = session.query(Element).filter(Element.id == q_id).one()
         a = session.query(Answer).filter(Answer.element_id == q_id).filter(Answer.user_id == _id).one()
         ans[q.name] = a.text
-    print ans
-    print q.name
-    print ans['lastname']
+    _u= session.query(User).filter(User.id == _id).first()
     ####
-    c = canvas.Canvas("form.pdf")
-    c.setLineWidth(.3)
+    if _u.user_type.name == 'Recommender':
+        c = canvas.Canvas("form1.pdf")
+        c.setLineWidth(.3)
+        page(c, ans)
+        c.save()
+        return FileResponse('form1.pdf')
+    else:
+        c = canvas.Canvas("form.pdf")
+        c.setLineWidth(.3)
 
-    header(c,ans)
-    ProgramOfStudy(c, ans)
-    PersonalInfo(c, ans)
-    EmploymentInfo(c, ans)
-    AcadBg(c, ans)
-    EnglishProf(c, ans)
-    ProgramProf(c, ans)
-    Essay(c, ans)
-    References(c, ans)
-    AppDec(c, ans)
+        header(c,ans)
+        ProgramOfStudy(c, ans)
+        PersonalInfo(c, ans)
+        EmploymentInfo(c, ans)
+        AcadBg(c, ans)
+        EnglishProf(c, ans)
+        ProgramProf(c, ans)
+        Essay(c, ans)
+        References(c, ans)
+        AppDec(c, ans)
 
-    c.save()
-    return FileResponse("form.pdf")
+        c.save()
+        return FileResponse("form.pdf")
 # def main(c):
 #     CREATE_FORM(c);   
 
@@ -931,18 +1107,44 @@ def show_answer(request):
 	return result
 
 def get_users(request):
+    d = []
+    for u in session.query(User):
+        print u.name
+        if u.user_type.name == "ERDT Applicant" or u.user_type.name == "Non-ERDT Applicant":
+            _u = session.query(ApplicantAttribute).filter(ApplicantAttribute.applicant_id == u.id).first()
+            rec_a = session.query(User).filter(User.id == _u.recommender_a).all()
+            rec_b = session.query(User).filter(User.id == _u.recommender_b).all()
+            rec_c = session.query(User).filter(User.id == _u.recommender_c).all()
 
-	d = []
-	for u in session.query(User):
-		d.append({
-			'id': int(u.id),
-			'name': u.name,
-			'email': u.email,
-			'user_type': u.user_type.name,
-			'date_created': str(u.date_created),
-			'last_modified': str(u.last_modified)
-		})
-	return d
+            rec = [rec_a, rec_b, rec_c]            
+            for r in rec:
+                if r != []:
+                    rec[rec.index(r)] = r[0].name
+                else:
+                    rec[rec.index(r)] = "None"
+            d.append({
+                'id': int(u.id),
+                'name': u.name,
+                'email':u.email,
+                'user_type': u.user_type.name,
+                'application_status': _u.application_status,
+                'validation_status': _u.validation_status,
+                'recommender1': rec[0],
+                'recommender2': rec[1],
+                'recommender3': rec[2],
+                'date_created': str(u.date_created),
+                'last_modified': str(u.last_modified)
+                })
+        else:
+            d.append({
+                'id': int(u.id),
+                'name': u.name,
+                'email':u.email,
+                'user_type': u.user_type.name,
+                'date_created': str(u.date_created),
+                'last_modified': str(u.last_modified)
+            })   
+    return d
 
 def verify_user(request):
 	token = request.params.get('token', None)

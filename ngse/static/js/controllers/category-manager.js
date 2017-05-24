@@ -1,4 +1,4 @@
-app.controller('categoriesManagerController', function($rootScope, $scope, $routeParams, adminService, authService) {
+app.controller('categoryManagerController', function($rootScope, $scope, $routeParams, adminService, authService) {
 
     initController();
 
