@@ -7,7 +7,6 @@ decorator==4.0.11
 hupper==0.4.3
 Jinja2==2.9.5
 MarkupSafe==1.0
--e git+git@github.com:coarse/NGSE.git@f809dffe99b1ae70f3bf01d541d387ad01a211b0#egg=ngse
 olefile==0.44
 packaging==16.8
 PasteDeploy==1.5.2
