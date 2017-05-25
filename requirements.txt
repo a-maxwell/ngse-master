@@ -36,3 +36,4 @@ WebOb==1.7.1
 WebTest==2.0.26
 zope.deprecation==4.2.0
 zope.interface==4.3.3
+gunicorn
