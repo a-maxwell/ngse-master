@@ -1,7 +1,7 @@
 [
 	{
 		"name": "instructions",
-		"text": "This section is for foreign applicants only.",
+		"text": "This section is for foreign applicants only. Press the save button if your are not a foreign applicant.",
 		"klass": "decor",
 		"kind": "text",
 		"width": 16

@@ -2,7 +2,7 @@
 	
 	{
 		"name": "instructions",
-		"text": "This section is required for MS & PhD CS applicants; optional/additional qualification for the others.",
+		"text": "This section is required for MS & PhD CS applicants; optional/additional qualification for the others. You may opt to enter less than 5 Programming Languages and 5 Projects. Press the save button once you are done filling up this page.",
 		"klass": "decor",
 		"kind": "text",
 		"width": 16

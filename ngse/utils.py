@@ -4,6 +4,9 @@ import time
 import datetime
 log = logging.getLogger(__name__)
 
+import transaction
+from pyramid_mailer.message import Message
+
 JWT_SECRET = "NationalGraduateSchoolOfEng'g"
 
 URI = {
@@ -26,6 +29,27 @@ URI = {
 	'update': '/update',
 	'validate': '/validate'
 }
+
+def send_email(mailer, message):
+	message.sender = "upd.ngse.test@gmail.com"
+	mailer.send(message)
+	transaction.commit()
+
+def send_recommender_email(mailer, applicant_name, recipient, password):
+	message = Message(subject="NGSE Recommender Credentials",
+		recipients=[recipient],
+		body="Good day!\n\n{} has started filling up an application form for the National Graduate School of Engineering and has chosen you to be one of their references. Kindly fill up the form at http://104.198.143.20\n\nThe e-mail to be used when logging in is this e-mail and your generated password is {}".format(applicant_name, password)
+		)
+
+	send_email(mailer, message)
+
+def send_credentials_email(mailer, recipient, password):
+	message = Message(subject="NGSE Application Credentials",
+		recipients=[recipient],
+		body="Your generated password is: {}".format(password)
+		)
+
+	send_email(mailer, message)
 
 def is_past(date):
 	return datetime.datetime.strptime(date, '%Y-%m-%d %H:%M:%S') < datetime.datetime.now()

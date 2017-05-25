@@ -67,6 +67,7 @@
 		"text": "Essay",
 		"klass": "question",
 		"kind": "textarea",
+		"rows": 10,
 		"required": true
 	}
 ]
