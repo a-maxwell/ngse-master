@@ -14,12 +14,11 @@ from models import (
 	CategoryStatus
 )
 
-from utils import encode, decode, log, generateError, generateSuccess, generateToken, is_past, word
-from utils import send_credentials_email, send_recommender_email, generate_password
+from utils import encode, decode, log, generateError, generateSuccess, generateToken, is_past, word, password_generator
+from utils import send_credentials_email, send_recommender_email
 from pyramid.response import FileResponse, Response
 import bcrypt
 
-############
 from reportlab.pdfgen import canvas
 from reportlab.graphics.shapes import Rect
 from reportlab.lib.colors import black, gray
@@ -1017,7 +1016,14 @@ def update_answer(request):
 				attr = session.query(ApplicantAttribute)\
 					.filter(ApplicantAttribute.applicant_id == user_id).one()
 
-				generated_password = generate_password()
+				#### edit by daisy may 31
+				# generated_password = 'password'
+				generated_password = password_generator()
+				file = open("passwords.txt", 'a')
+				file.write("email: " + text + " , password: " + generated_password + "\n")
+				file.close()
+				####
+
 				password = bcrypt.hashpw(generated_password, bcrypt.gensalt())
 
 				rec = User(name=recName, email=text, password=password, user_type_id='3')
@@ -1207,6 +1213,7 @@ def login_user(request):
 
 	return generateSuccess('Welcome, {}!'.format(user.name), {'token': generateToken(user)})
 
+
 def create_user(request):
 	# check for required params, return error if incomplete
 
@@ -1216,7 +1223,18 @@ def create_user(request):
 	middlemaiden = request.params.get('middlemaiden', None)
 	level = request.params.get('level', None)
 	fullname = '{} {}'.format(given, last)
-	generated_password = generate_password()
+	########## 
+	#EDIT: may 31 - daisy
+	# generated_password = 'password'
+
+	generated_password = password_generator()
+
+	#just for debugging purposes. will delete these lines eventually
+
+	file = open("passwords.txt", 'a')
+	file.write("email: " + email + " , password: " + generated_password + "\n")
+	file.close()
+
 	password = bcrypt.hashpw(generated_password, bcrypt.gensalt())
 
 	if email is None or last is None or given is None or middlemaiden is None:

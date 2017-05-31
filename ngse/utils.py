@@ -2,6 +2,10 @@ import logging
 import jwt
 import time
 import datetime
+
+import string
+import random
+
 log = logging.getLogger(__name__)
 
 import transaction
@@ -32,9 +36,6 @@ URI = {
 	'update': '/update',
 	'validate': '/validate'
 }
-
-def generate_password(length=8, chars=string.ascii_uppercase + string.ascii_lowercase + string.digits):
-	return ''.join(random.SystemRandom().choice(chars) for _ in range(length))
 
 def send_email(mailer, message):
 	message.sender = "upd.ngse.test@gmail.com"
@@ -125,3 +126,7 @@ def word(n):
 	]
 
 	return words[n]
+
+def password_generator(range_size=8, char_set=string.ascii_uppercase + string.digits+string.ascii_lowercase):
+	return ''.join(random.choice(char_set) for _ in range(range_size))
+# print id_generator()
