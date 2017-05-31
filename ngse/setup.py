@@ -23,50 +23,18 @@ def setup(session):
 			'email': 'ngse@coe.upd.edu.ph',
 			'password': 'ngse',
 			'user_type_id': 1
-		},
-		# {
-		# 	'name': 'user',
-		# 	'email': 'user@upd.edu.ph',
-		# 	'password': 'ngse',
-		# 	'user_type_id': 4
-		# },
-		# {
-		# 	'name': 'erdt',
-		# 	'email': 'erdt@upd.edu.ph',
-		# 	'password': 'ngse',
-		# 	'user_type_id': 5
-		# },
-		# {
-		# 	'name': 'rec1',
-		# 	'email': 'rec1@upd.edu.ph',
-		# 	'password': 'ngse',
-		# 	'user_type_id': 3
-		# },
-		# {
-		# 	'name': 'rec2',
-		# 	'email': 'rec2@upd.edu.ph',
-		# 	'password': 'ngse',
-		# 	'user_type_id': 3
-		# },
-		# {
-		# 	'name': 'rec3',
-		# 	'email': 'rec3@upd.edu.ph',
-		# 	'password': 'ngse',
-		# 	'user_type_id': 3
-		# }
+		}
 	]
+	if not os.environ.get('GMAILUSERNAME') is None:
+		users = [
+			{
+				'name': 'NGSE Staff',
+				'email': os.environ['GMAILUSERNAME'],
+				'password': os.environ['GMAILPASSWORD'],
+				'user_type_id': 1
+			}
+		]
 	answers = {
-		# '4': {
-		# 	'1': 'Mayol',
-		# 	'2': 'Michael Pio',
-		# 	'3': 'Fortuno'
-		# },
-		# '5': {
-
-		# },
-		# '3': {
-
-		# }
 	}
 	forms = [
 		{
