@@ -1,7 +1,7 @@
-{% raw %}<div class="ui messages grid" ng-controller="messageController" style="width: 100%; display: flex; flex-direction: row-reverse; justify-content: flex-end; position: fixed; bottom: 0; right: 0; z-index: 100000; padding-bottom: 1rem;">
+{% raw %}<div class="ui messages grid" ng-controller="messageController" style="width: 100%; display: flex; flex-direction: row-reverse; justify-content: flex-end; position: fixed; bottom: 0; right: 0; z-index: 100000; padding-bottom: 1rem; pointer-events: none;">
 	<div ng-repeat="message in messages()" class="row" style="padding-top: 0;">
 		<div class="ui compact {{message.type}} message" id="message-{{message.id}}" style="margin-left: auto; margin-right: auto;">
-			<i class="close icon" ng-click="close(message.id)"></i>
+			<i class="close icon" ng-click="close(message.id)" style="pointer-events: auto;"></i>
 			<div class="header" style="margin-right: 1rem;" id="message-text">{{message.text}}</div>
 		</div>
 	</div>

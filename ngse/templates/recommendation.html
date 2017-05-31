@@ -21,7 +21,7 @@
 							<tr ng-repeat="category in categories">
 								<td>
 									<div ng-if="!(user().submitted)">
-										<a id="{{convertToID(category.name)}}" href="#!application/{{category.id}}">{{category.name}} <i class="share icon"></i></a>
+										<a id="{{convertToID(category.name)}}" href="#!recommendation/{{category.id}}">{{category.name}} <i class="share icon"></i></a>
 									</div>
 									<div ng-if="user().submitted">
 										{{category.name}}
