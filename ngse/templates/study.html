@@ -1,6 +1,10 @@
 <form role="category-submission" class="ui fluid form card" ng-controller="studyController">
 	<div class="content">
-		<div class="header">Program of Study</div>
+		<div class="ui breadcrumb">
+			<a href="#!application" class="section">Application</a>
+			<i class="right angle icon divider"></i>
+			<div class="active section">Program of Study</div>
+		</div>
 	</div>
 	<div class="content">
 		<div class="ui grid">
@@ -94,6 +98,7 @@
 				<input type="text" name="scholarship_name" ng-model="user.other_scholarship_name" ng-required="otherScholarship()">
 			</div>
 			<div class="sixteen wide column">
+				<a href="#!application" id="back" class="ui button">Back to Application Summary</a>
 				<div id="submit" class="ui primary button" ng-click="submit()">Submit</div>
 			</div>
 		</div>

@@ -24,10 +24,10 @@
 							</tr>
 							<tr ng-repeat="category in categories">
 								<td>
-									<div ng-if="user().answered_pos && (category.name != 'References' || (category.name == 'References' && status(category.id) == 'Unanswered'))">
-										<a id="{{convertToID(category.name)}}" href="#!application/category/{{category.id}}">{{category.name}} <i class="share icon"></i></a>
+									<div ng-if="user().answered_pos && (category.name != 'References' || (category.name == 'References' && status(category.id) == 'Unanswered')) && !(user().submitted)">
+										<a id="{{convertToID(category.name)}}" href="#!application/{{category.id}}">{{category.name}} <i class="share icon"></i></a>
 									</div>
-									<div ng-if="!(user().answered_pos) || (category.name == 'References' && status(category.id) == 'Answered')">
+									<div ng-if="user().submitted || !(user().answered_pos) || (category.name == 'References' && status(category.id) == 'Answered')">
 										{{category.name}}
 									</div>
 								</td>
@@ -107,7 +107,7 @@
 			<div class="ui grid">
 				<div class="row">
 					<div class="sixteen wide column">
-						<div class="ui primary button" ng-class="{disabled: !allAnswered()}" ng-click="debug()">
+						<div class="ui primary button" ng-class="{disabled: (!allAnswered() || user().submitted)}" ng-click="submit()">
 							Submit Application
 						</div>
 					</div>
@@ -115,7 +115,4 @@
 			</div>
 		</div>
 	</div>
-	<!-- <div class="row">
-		<div class="ui button" ng-click="debug()">debug</div>
-	</div> -->
 </div>

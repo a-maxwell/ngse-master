@@ -22,7 +22,7 @@ app.controller('authController', function($rootScope, $scope, $location, authSer
                 console.log(messageService.getMessages());
                 if (authService.getLevel() === 1 || authService.getLevel() === 2) $location.path('/admin');
                 else if (authService.getLevel() === 3) $location.path('/recommendation');
-                else $location.path('/');
+                else $location.path('/application');
             }
             else messageService.pushMessage({
                 text: data.message,
@@ -47,7 +47,7 @@ app.controller('authController', function($rootScope, $scope, $location, authSer
                     text: 'Successfully registered',
                     type: 'info'
                 });
-                $location.path('/');
+                $location.path('/application');
             }
             else messageService.pushMessage({
                 text: data.message,

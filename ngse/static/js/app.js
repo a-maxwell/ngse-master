@@ -198,7 +198,8 @@ app.config(function($routeProvider) {
         resolve: {auth: _user}
     })
     .when("/recommendation", {
-        templateUrl: "/templates/category-recommender.html",
+        templateUrl: "/templates/recommendation.html",
+        controller: "summaryController",
         resolve: {auth: _user}
     })
     .when("/recommendation/:id", {
@@ -210,7 +211,7 @@ app.config(function($routeProvider) {
         templateUrl: "/templates/category.html",
         resolve: {auth: _user, answered: _decided}
     })
-    .when("/application/category/:id", {
+    .when("/application/:id", {
         templateUrl: "/templates/form.html",
         controller: "formController",
         resolve: {auth: _user, answered: _decided}

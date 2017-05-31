@@ -11,41 +11,42 @@ Clear Database
     [Teardown]    Close Browser
 
 Invalid Login
-    [Setup]    Setup
+    [Setup]    Setup    ${HOST}
     [Template]    Login with invalid credentials should fail
-    mfmayol@up.edu.ph    password
-    yes    huhuhuhu
-    no    huhuhu
+    yes
+    no
     [Teardown]    Close Browser
 
 Succesful Non-ERDT Reg
-    [Setup]    Setup
+    [Setup]    Setup    ${HOST}
     [Template]    Non-ERDT Reg with valid info should pass
     Michael Pio    Fortuno    Mayol    mfmayol@up.edu.ph
-    Gerard    Borja    Montemayor    gbmontemayor@up.edu.ph
     [Teardown]    Close Browser
 
 Successful ERDT Reg
-    [Setup]    Setup
+    [Setup]    Setup    ${HOST}
     [Template]    ERDT Reg with valid info should pass
-    Je Marie    Alfaro    Apolinario    jaapolinario@up.edu.ph
-    Bernadette    Bitong    Misa    bbmisa@up.edu.ph
+    Je Marie    Alfaro    Apolinario    bmicons360@gmail.com
     [Teardown]    Close Browser
 
 Unsuccessful Reg
-    [Setup]    Setup
+    [Setup]    Setup    ${HOST}
     [Template]    Reg with invalid info should fail
     Michael Pio    Fortuno    Mayol    mfmayol@up.edu.ph
-    Gerard    Borja    Montemayor    gbmontemayor@up.edu.ph
     [Teardown]    Close Browser
 
+Check GMail
+    [Setup]
+    [Template]    Check GMail Account for confirmation E-mail
+    mfmayol@up.edu.ph
+    bmicons360@gmail.com
+    [Teardown]
+
 Valid Login
-    [Setup]    Setup
+    [Setup]    Setup    ${HOST}
     [Template]    Login with valid credentials should pass
-    mfmayol@up.edu.ph    ${DEFAULT PASSWORD}
-    gbmontemayor@up.edu.ph    ${DEFAULT PASSWORD}
-    jaapolinario@up.edu.ph    ${DEFAULT PASSWORD}
-    bbmisa@up.edu.ph    ${DEFAULT PASSWORD}
+    mfmayol@up.edu.ph
+    bmicons360@gmail.com
     [Teardown]    Close Browser
 
 Answer Program of Study
@@ -53,7 +54,7 @@ Answer Program of Study
     [Template]    Fill up Program of Study with valid info should pass
     mfmayol@up.edu.ph    Master of Science    CE    Non Thesis    Full Time    First Semester    2017-2018
     ...    Yes    Elif Scholarship
-    bbmisa@up.edu.ph    Doctor of Philosophy    ChE    Non Thesis    Part Time    Second Semester    2018-2019
+    bmicons360@gmail.com    Doctor of Philosophy    ChE    Non Thesis    Part Time    Second Semester    2018-2019
     ...    Yes    Else Scholarship
     [Teardown]    Close Browser
 
@@ -61,27 +62,27 @@ Check Program of Study
 
 *** Keywords ***
 Login with invalid credentials should fail
-    [Arguments]    ${username}    ${password}
-    Login    ${username}    ${password}
+    [Arguments]    ${username}
+    Login    ${username}
     Location Should Be    http://${HOST}/auth
 
 Non-ERDT Reg with valid info should pass
     [Arguments]    ${first}    ${middlemaiden}    ${last}    ${email}
     Register    ${first}    ${middlemaiden}    ${last}    ${email}
-    Location Should Be    http://${HOST}/
+    Location Should Be    http://${HOST}/application
     [Teardown]    Click Element    id=logout
 
 ERDT Reg with valid info should pass
     [Arguments]    ${first}    ${middlemaiden}    ${last}    ${email}
     Click Element    name=scholarship
     Register    ${first}    ${middlemaiden}    ${last}    ${email}
-    Location Should Be    http://${HOST}/
+    Location Should Be    http://${HOST}/application
     [Teardown]    Click Element    id=logout
 
 Login with valid credentials should pass
-    [Arguments]    ${username}    ${password}
-    Login    ${username}    ${password}
-    Location Should Be    http://${HOST}/
+    [Arguments]    ${username}
+    Login    ${username}
+    Location Should Be    http://${HOST}/application
     [Teardown]    Click Element    id=logout
 
 Reg with invalid info should fail
@@ -91,7 +92,7 @@ Reg with invalid info should fail
 
 Login and go to Program of Study
     [Arguments]    ${email}
-    Login    ${email}    ${DEFAULT PASSWORD}
+    Login    ${email}
     Click Element    id=application
     Click Element    id=program-of-study
 
@@ -111,3 +112,14 @@ Fill up Program of Study with valid info should pass
     Location Should Be    http://${HOST}/application
     ${result} =    Get Text    id=program-of-study-text
     Should Be Equal As String    ${result}    Answered
+
+Check GMail Account for confirmation E-mail
+    [Arguments]    ${email}
+    Setup    https://www.gmail.com/
+    Input Text    identifierId    ${email}
+    Click Element    identifierNext
+    ${password} =    Get Value From User    Input password    hidden=yes
+    Input Text    name=password    ${password}
+    Click Element    passwordNext
+    Wait Until Page Contains    upd.ngse.test
+    Close Browser

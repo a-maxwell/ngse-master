@@ -61,8 +61,7 @@ app.controller('formController', function($rootScope, $scope, $routeParams, $loc
                     // $(".ui.dropdown").dropdown();
                     $(".ui.calendar").calendar({
                         type: "date"
-                    });
-                    console.log("AYOKO NA");
+                    }); 
                 }, 0);
 
         	}, authService.getUserID(), $scope.id);

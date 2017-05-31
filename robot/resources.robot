@@ -5,6 +5,7 @@ Documentation     A resource file with reusable keywords and variables.
 ...               domain specific language. They utilize keywords provided
 ...               by the imported Selenium2Library.
 Library           ExtendedSelenium2Library
+Library           Dialogs
 
 *** Variables ***
 ${HOST}           localhost:6543/#!
@@ -16,8 +17,9 @@ ${DEFAULT PASSWORD}    password
 
 *** Keywords ***
 Login
-    [Arguments]    ${email}    ${password}
+    [Arguments]    ${email}
     Input Text    model=login.email    ${email}
+    ${password} =    Get Value From User    Input password    hidden=yes
     Input Text    model=login.password    ${password}
     Click Element    name=login
 
@@ -33,4 +35,5 @@ Reset Database
     Go To    http://${HOST}/v1/delete_all
 
 Setup
-    Open Browser    ${HOST}    ${BROWSER}
+    [Arguments]    ${url}
+    Open Browser    ${url}    ${BROWSER}

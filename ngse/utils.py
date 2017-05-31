@@ -7,6 +7,9 @@ log = logging.getLogger(__name__)
 import transaction
 from pyramid_mailer.message import Message
 
+import random
+import string
+
 JWT_SECRET = "NationalGraduateSchoolOfEng'g"
 
 URI = {
@@ -29,6 +32,9 @@ URI = {
 	'update': '/update',
 	'validate': '/validate'
 }
+
+def generate_password(length=8, chars=string.ascii_uppercase + string.ascii_lowercase + string.digits):
+	return ''.join(random.SystemRandom().choice(chars) for _ in range(length))
 
 def send_email(mailer, message):
 	message.sender = "upd.ngse.test@gmail.com"

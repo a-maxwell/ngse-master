@@ -1,0 +1,41 @@
+<div class="ui centered grid">
+	<div class="row">
+		<div class="eight wide column">
+			<div class="ui padded center aligned segment">
+				<div class="ui large header">Your Recommendation Summary</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="eight wide column">
+			<div class="ui fluid card">
+				<div class="content">
+					<table class="ui very basic celled table">
+						<thead>
+							<tr>
+								<th>Category</th>
+								<th>Status</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="category in categories">
+								<td>
+									<div ng-if="!(user().submitted)">
+										<a id="{{convertToID(category.name)}}" href="#!application/{{category.id}}">{{category.name}} <i class="share icon"></i></a>
+									</div>
+									<div ng-if="user().submitted">
+										{{category.name}}
+									</div>
+								</td>
+								<td id="{{convertToID(category.name)}}-text">{{status(category.id)}}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="ui fluid primary button" ng-class="{disabled: (!allAnswered() || user().submitted)}" ng-click="submit()">
+				Submit Recommendation
+			</div>
+		</div>
+	</div>
+</div>

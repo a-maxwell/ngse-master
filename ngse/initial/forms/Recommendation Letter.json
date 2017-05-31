@@ -2,7 +2,8 @@
 	"name": "Recommendation Letter",
 	"category_ids": [
 		12,
-		13
+		13,
+		14
 	],
 	"user_id": 3
 }

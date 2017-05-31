@@ -21,6 +21,8 @@ app.controller('summaryController', function($rootScope, $scope, $routeParams, $
 
     initController();
 
+    $scope.submit = submit;
+
     $scope.debug = debug;
     $scope.status = status;
 
@@ -44,7 +46,7 @@ app.controller('summaryController', function($rootScope, $scope, $routeParams, $
     }
 
     function allAnswered() {
-        if (!$scope.user().answered_pos) return false;
+        if ($scope.user().user_type_id > 3 && !$scope.user().answered_pos) return false;
         for (var i = 0; i < $scope.user().answered.length; i++) {
             if (!$scope.user().answered[i].status) return false;
         }
@@ -60,6 +62,14 @@ app.controller('summaryController', function($rootScope, $scope, $routeParams, $
     function debug() {
         console.log($scope.user());
         console.log($scope.categories);
+    }
+
+    function submit() {
+        console.log('amp anong nangyari');
+        formService.submitForm(function(data) {
+            console.log(data);
+        });
+        console.log('pumasok');
     }
 
 });

@@ -1,4 +1,4 @@
-app.factory('formService', function($rootScope, $http, $cookies, $location, authService) {
+app.factory('formService', function($rootScope, $http, $cookies, $location, authService, userService) {
     var methods = {};
 
     var form = undefined;
@@ -32,6 +32,19 @@ app.factory('formService', function($rootScope, $http, $cookies, $location, auth
 
     methods.getForm = function() {
         return form;
+    }
+
+    methods.submitForm = function(callback) {
+        return $http.post('/v1/users/update', {'submitted': true})
+        .then(function successCallback(response) {
+            userService.fetchUser(function(data) {
+                console.log(data);
+            });
+            var d = response.data;
+            callback(d);
+        }, function errorCallback(response) {
+            callback({success: false});
+        });
     }
 
     methods.getCategories = function() {
@@ -81,6 +94,11 @@ app.factory('formService', function($rootScope, $http, $cookies, $location, auth
         }, function errorCallback(response) {
             callback(false);
         });
+    }
+
+    methods.clear = function() {
+        form = undefined;
+        categories = undefined;
     }
 
     methods.debug = function() {

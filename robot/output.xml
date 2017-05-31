@@ -1,47 +1,795 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<robot generated="20170511 12:54:54.297" generator="Robot 3.0.2 (Python 2.7.12 on win32)">
+<robot generated="20170531 08:54:33.269" generator="Robot 3.0.2 (Python 2.7.12 on win32)">
 <suite source="C:\dev\NGSE\robot\NGSE.robot" id="s1" name="NGSE">
-<test id="s1-t1" name="Test Login">
-<kw name="Open Browser" library="Selenium2Library">
+<test id="s1-t1" name="Clear Database">
+<kw name="Open Browser" library="ExtendedSelenium2Library">
 <doc>Opens a new browser instance to given URL.</doc>
 <arguments>
-<arg>http://${HOST}</arg>
+<arg>http://localhost:6543/v1/delete_all</arg>
 <arg>${BROWSER}</arg>
 </arguments>
-<msg timestamp="20170511 12:54:54.674" level="INFO">Opening browser 'Chrome' to base url 'http://localhost:6543/#!/'</msg>
-<status status="PASS" endtime="20170511 12:55:02.863" starttime="20170511 12:54:54.673"></status>
+<msg timestamp="20170531 08:54:36.608" level="INFO">Opening browser 'Chrome' to base url 'http://localhost:6543/v1/delete_all'</msg>
+<status status="PASS" endtime="20170531 08:54:43.246" starttime="20170531 08:54:36.607"></status>
 </kw>
-<kw name="Wait For Angular" library="AngularJSLibrary">
-<status status="PASS" endtime="20170511 12:55:02.879" starttime="20170511 12:55:02.865"></status>
-</kw>
-<kw name="Input Text" library="Selenium2Library">
-<doc>Types the given `text` into text field identified by `locator`.</doc>
+<kw name="Reset Database" library="resources">
+<kw name="Go To" library="ExtendedSelenium2Library">
+<doc>Navigates the active browser instance to the provided URL.</doc>
 <arguments>
-<arg>binding={{login.email}}</arg>
+<arg>http://${HOST}/v1/delete_all</arg>
+</arguments>
+<msg timestamp="20170531 08:54:43.248" level="INFO">Opening url 'http://localhost:6543/#!/v1/delete_all'</msg>
+<status status="PASS" endtime="20170531 08:54:44.973" starttime="20170531 08:54:43.247"></status>
+</kw>
+<status status="PASS" endtime="20170531 08:54:44.974" starttime="20170531 08:54:43.247"></status>
+</kw>
+<kw type="teardown" name="Close Browser" library="ExtendedSelenium2Library">
+<doc>Closes the current browser.</doc>
+<status status="PASS" endtime="20170531 08:54:48.117" starttime="20170531 08:54:44.975"></status>
+</kw>
+<status status="PASS" endtime="20170531 08:54:48.117" critical="yes" starttime="20170531 08:54:36.606"></status>
+</test>
+<test id="s1-t2" name="Invalid Login">
+<kw type="setup" name="Setup" library="resources">
+<arguments>
+<arg>${HOST}</arg>
+</arguments>
+<kw name="Open Browser" library="ExtendedSelenium2Library">
+<doc>Opens a new browser instance to given URL.</doc>
+<arguments>
+<arg>${url}</arg>
+<arg>${BROWSER}</arg>
+</arguments>
+<msg timestamp="20170531 08:54:48.119" level="INFO">Opening browser 'Chrome' to base url 'localhost:6543/#!'</msg>
+<status status="PASS" endtime="20170531 08:54:57.790" starttime="20170531 08:54:48.119"></status>
+</kw>
+<status status="PASS" endtime="20170531 08:54:57.791" starttime="20170531 08:54:48.119"></status>
+</kw>
+<kw name="Login with invalid credentials should fail">
+<arguments>
 <arg>yes</arg>
 </arguments>
-<msg timestamp="20170511 12:55:02.881" level="INFO">Typing text 'yes' into text field 'binding={{login.email}}'</msg>
-<kw name="Capture Page Screenshot" library="Selenium2Library">
-<doc>Takes a screenshot of the current page and embeds it into the log.</doc>
-<msg timestamp="20170511 12:55:03.191" html="yes" level="INFO">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-1.png"&gt;&lt;img src="selenium-screenshot-1.png" width="800px"&gt;&lt;/a&gt;</msg>
-<status status="PASS" endtime="20170511 12:55:03.191" starttime="20170511 12:55:02.905"></status>
+<kw name="Login" library="resources">
+<arguments>
+<arg>${username}</arg>
+</arguments>
+<kw name="Input Text" library="ExtendedSelenium2Library">
+<doc>Types the given `text` into text field identified by `locator`.</doc>
+<arguments>
+<arg>model=login.email</arg>
+<arg>${email}</arg>
+</arguments>
+<msg timestamp="20170531 08:54:57.793" level="INFO">Typing text 'yes' into text field 'model=login.email'</msg>
+<status status="PASS" endtime="20170531 08:54:57.928" starttime="20170531 08:54:57.793"></status>
 </kw>
-<msg timestamp="20170511 12:55:03.195" level="FAIL">ValueError: Element locator 'binding={{login.email}}' did not match any elements.</msg>
-<status status="FAIL" endtime="20170511 12:55:03.196" starttime="20170511 12:55:02.880"></status>
+<kw name="Get Value From User" library="Dialogs">
+<doc>Pauses test execution and asks user to input a value.</doc>
+<arguments>
+<arg>Input password</arg>
+<arg>hidden=yes</arg>
+</arguments>
+<assign>
+<var>${password}</var>
+</assign>
+<msg timestamp="20170531 08:55:01.213" level="INFO">${password} = yes</msg>
+<status status="PASS" endtime="20170531 08:55:01.214" starttime="20170531 08:54:57.928"></status>
 </kw>
-<status status="FAIL" endtime="20170511 12:55:03.198" critical="yes" starttime="20170511 12:54:54.671">ValueError: Element locator 'binding={{login.email}}' did not match any elements.</status>
+<kw name="Input Text" library="ExtendedSelenium2Library">
+<doc>Types the given `text` into text field identified by `locator`.</doc>
+<arguments>
+<arg>model=login.password</arg>
+<arg>${password}</arg>
+</arguments>
+<msg timestamp="20170531 08:55:01.215" level="INFO">Typing text 'yes' into text field 'model=login.password'</msg>
+<status status="PASS" endtime="20170531 08:55:01.361" starttime="20170531 08:55:01.215"></status>
+</kw>
+<kw name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>name=login</arg>
+</arguments>
+<msg timestamp="20170531 08:55:01.362" level="INFO">Clicking element 'name=login'.</msg>
+<status status="PASS" endtime="20170531 08:55:04.639" starttime="20170531 08:55:01.362"></status>
+</kw>
+<status status="PASS" endtime="20170531 08:55:04.640" starttime="20170531 08:54:57.792"></status>
+</kw>
+<kw name="Location Should Be" library="ExtendedSelenium2Library">
+<doc>Verifies that current URL is exactly `url`.</doc>
+<arguments>
+<arg>http://${HOST}/auth</arg>
+</arguments>
+<msg timestamp="20170531 08:55:05.170" level="INFO">Current location is 'http://localhost:6543/#!/auth'.</msg>
+<status status="PASS" endtime="20170531 08:55:05.170" starttime="20170531 08:55:04.641"></status>
+</kw>
+<status status="PASS" endtime="20170531 08:55:05.171" starttime="20170531 08:54:57.791"></status>
+</kw>
+<kw name="Login with invalid credentials should fail">
+<arguments>
+<arg>no</arg>
+</arguments>
+<kw name="Login" library="resources">
+<arguments>
+<arg>${username}</arg>
+</arguments>
+<kw name="Input Text" library="ExtendedSelenium2Library">
+<doc>Types the given `text` into text field identified by `locator`.</doc>
+<arguments>
+<arg>model=login.email</arg>
+<arg>${email}</arg>
+</arguments>
+<msg timestamp="20170531 08:55:05.172" level="INFO">Typing text 'no' into text field 'model=login.email'</msg>
+<status status="PASS" endtime="20170531 08:55:05.261" starttime="20170531 08:55:05.172"></status>
+</kw>
+<kw name="Get Value From User" library="Dialogs">
+<doc>Pauses test execution and asks user to input a value.</doc>
+<arguments>
+<arg>Input password</arg>
+<arg>hidden=yes</arg>
+</arguments>
+<assign>
+<var>${password}</var>
+</assign>
+<msg timestamp="20170531 08:55:07.591" level="INFO">${password} = no</msg>
+<status status="PASS" endtime="20170531 08:55:07.591" starttime="20170531 08:55:05.262"></status>
+</kw>
+<kw name="Input Text" library="ExtendedSelenium2Library">
+<doc>Types the given `text` into text field identified by `locator`.</doc>
+<arguments>
+<arg>model=login.password</arg>
+<arg>${password}</arg>
+</arguments>
+<msg timestamp="20170531 08:55:07.593" level="INFO">Typing text 'no' into text field 'model=login.password'</msg>
+<status status="PASS" endtime="20170531 08:55:07.681" starttime="20170531 08:55:07.592"></status>
+</kw>
+<kw name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>name=login</arg>
+</arguments>
+<msg timestamp="20170531 08:55:07.682" level="INFO">Clicking element 'name=login'.</msg>
+<status status="PASS" endtime="20170531 08:55:10.906" starttime="20170531 08:55:07.682"></status>
+</kw>
+<status status="PASS" endtime="20170531 08:55:10.907" starttime="20170531 08:55:05.172"></status>
+</kw>
+<kw name="Location Should Be" library="ExtendedSelenium2Library">
+<doc>Verifies that current URL is exactly `url`.</doc>
+<arguments>
+<arg>http://${HOST}/auth</arg>
+</arguments>
+<msg timestamp="20170531 08:55:11.439" level="INFO">Current location is 'http://localhost:6543/#!/auth'.</msg>
+<status status="PASS" endtime="20170531 08:55:11.439" starttime="20170531 08:55:10.907"></status>
+</kw>
+<status status="PASS" endtime="20170531 08:55:11.440" starttime="20170531 08:55:05.171"></status>
+</kw>
+<kw type="teardown" name="Close Browser" library="ExtendedSelenium2Library">
+<doc>Closes the current browser.</doc>
+<status status="PASS" endtime="20170531 08:55:14.577" starttime="20170531 08:55:11.440"></status>
+</kw>
+<status status="PASS" endtime="20170531 08:55:14.578" critical="yes" starttime="20170531 08:54:48.118"></status>
 </test>
-<status status="FAIL" endtime="20170511 12:55:03.204" starttime="20170511 12:54:54.304"></status>
+<test id="s1-t3" name="Succesful Non-ERDT Reg">
+<kw type="setup" name="Setup" library="resources">
+<arguments>
+<arg>${HOST}</arg>
+</arguments>
+<kw name="Open Browser" library="ExtendedSelenium2Library">
+<doc>Opens a new browser instance to given URL.</doc>
+<arguments>
+<arg>${url}</arg>
+<arg>${BROWSER}</arg>
+</arguments>
+<msg timestamp="20170531 08:55:14.580" level="INFO">Opening browser 'Chrome' to base url 'localhost:6543/#!'</msg>
+<status status="PASS" endtime="20170531 08:55:33.138" starttime="20170531 08:55:14.580"></status>
+</kw>
+<status status="PASS" endtime="20170531 08:55:33.139" starttime="20170531 08:55:14.579"></status>
+</kw>
+<kw name="Non-ERDT Reg with valid info should pass">
+<arguments>
+<arg>Michael Pio</arg>
+<arg>Fortuno</arg>
+<arg>Mayol</arg>
+<arg>mfmayol@up.edu.ph</arg>
+</arguments>
+<kw name="Register" library="resources">
+<arguments>
+<arg>${first}</arg>
+<arg>${middlemaiden}</arg>
+<arg>${last}</arg>
+<arg>${email}</arg>
+</arguments>
+<kw name="Input Text" library="ExtendedSelenium2Library">
+<doc>Types the given `text` into text field identified by `locator`.</doc>
+<arguments>
+<arg>model=registration.last</arg>
+<arg>${last}</arg>
+</arguments>
+<msg timestamp="20170531 08:55:33.141" level="INFO">Typing text 'Mayol' into text field 'model=registration.last'</msg>
+<status status="PASS" endtime="20170531 08:55:33.297" starttime="20170531 08:55:33.140"></status>
+</kw>
+<kw name="Input Text" library="ExtendedSelenium2Library">
+<doc>Types the given `text` into text field identified by `locator`.</doc>
+<arguments>
+<arg>model=registration.given</arg>
+<arg>${first}</arg>
+</arguments>
+<msg timestamp="20170531 08:55:33.298" level="INFO">Typing text 'Michael Pio' into text field 'model=registration.given'</msg>
+<status status="PASS" endtime="20170531 08:55:33.477" starttime="20170531 08:55:33.297"></status>
+</kw>
+<kw name="Input Text" library="ExtendedSelenium2Library">
+<doc>Types the given `text` into text field identified by `locator`.</doc>
+<arguments>
+<arg>model=registration.middlemaiden</arg>
+<arg>${middlemaiden}</arg>
+</arguments>
+<msg timestamp="20170531 08:55:33.478" level="INFO">Typing text 'Fortuno' into text field 'model=registration.middlemaiden'</msg>
+<status status="PASS" endtime="20170531 08:55:33.630" starttime="20170531 08:55:33.478"></status>
+</kw>
+<kw name="Input Text" library="ExtendedSelenium2Library">
+<doc>Types the given `text` into text field identified by `locator`.</doc>
+<arguments>
+<arg>model=registration.email</arg>
+<arg>${email}</arg>
+</arguments>
+<msg timestamp="20170531 08:55:33.631" level="INFO">Typing text 'mfmayol@up.edu.ph' into text field 'model=registration.email'</msg>
+<status status="PASS" endtime="20170531 08:55:33.836" starttime="20170531 08:55:33.631"></status>
+</kw>
+<kw name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>name=register</arg>
+</arguments>
+<msg timestamp="20170531 08:55:33.837" level="INFO">Clicking element 'name=register'.</msg>
+<status status="PASS" endtime="20170531 08:55:39.467" starttime="20170531 08:55:33.837"></status>
+</kw>
+<status status="PASS" endtime="20170531 08:55:39.468" starttime="20170531 08:55:33.140"></status>
+</kw>
+<kw name="Location Should Be" library="ExtendedSelenium2Library">
+<doc>Verifies that current URL is exactly `url`.</doc>
+<arguments>
+<arg>http://${HOST}/application</arg>
+</arguments>
+<msg timestamp="20170531 08:55:41.345" level="INFO">Current location is 'http://localhost:6543/#!/application'.</msg>
+<status status="PASS" endtime="20170531 08:55:41.346" starttime="20170531 08:55:39.468"></status>
+</kw>
+<kw type="teardown" name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>id=logout</arg>
+</arguments>
+<msg timestamp="20170531 08:55:41.347" level="INFO">Clicking element 'id=logout'.</msg>
+<status status="PASS" endtime="20170531 08:55:44.537" starttime="20170531 08:55:41.346"></status>
+</kw>
+<status status="PASS" endtime="20170531 08:55:44.538" starttime="20170531 08:55:33.139"></status>
+</kw>
+<kw type="teardown" name="Close Browser" library="ExtendedSelenium2Library">
+<doc>Closes the current browser.</doc>
+<status status="PASS" endtime="20170531 08:55:47.644" starttime="20170531 08:55:44.538"></status>
+</kw>
+<status status="PASS" endtime="20170531 08:55:47.645" critical="yes" starttime="20170531 08:55:14.578"></status>
+</test>
+<test id="s1-t4" name="Successful ERDT Reg">
+<kw type="setup" name="Setup" library="resources">
+<arguments>
+<arg>${HOST}</arg>
+</arguments>
+<kw name="Open Browser" library="ExtendedSelenium2Library">
+<doc>Opens a new browser instance to given URL.</doc>
+<arguments>
+<arg>${url}</arg>
+<arg>${BROWSER}</arg>
+</arguments>
+<msg timestamp="20170531 08:55:47.647" level="INFO">Opening browser 'Chrome' to base url 'localhost:6543/#!'</msg>
+<status status="PASS" endtime="20170531 08:55:59.530" starttime="20170531 08:55:47.646"></status>
+</kw>
+<status status="PASS" endtime="20170531 08:55:59.531" starttime="20170531 08:55:47.646"></status>
+</kw>
+<kw name="ERDT Reg with valid info should pass">
+<arguments>
+<arg>Je Marie</arg>
+<arg>Alfaro</arg>
+<arg>Apolinario</arg>
+<arg>bmicons360@gmail.com</arg>
+</arguments>
+<kw name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>name=scholarship</arg>
+</arguments>
+<msg timestamp="20170531 08:55:59.532" level="INFO">Clicking element 'name=scholarship'.</msg>
+<status status="PASS" endtime="20170531 08:56:00.145" starttime="20170531 08:55:59.532"></status>
+</kw>
+<kw name="Register" library="resources">
+<arguments>
+<arg>${first}</arg>
+<arg>${middlemaiden}</arg>
+<arg>${last}</arg>
+<arg>${email}</arg>
+</arguments>
+<kw name="Input Text" library="ExtendedSelenium2Library">
+<doc>Types the given `text` into text field identified by `locator`.</doc>
+<arguments>
+<arg>model=registration.last</arg>
+<arg>${last}</arg>
+</arguments>
+<msg timestamp="20170531 08:56:00.146" level="INFO">Typing text 'Apolinario' into text field 'model=registration.last'</msg>
+<status status="PASS" endtime="20170531 08:56:00.344" starttime="20170531 08:56:00.146"></status>
+</kw>
+<kw name="Input Text" library="ExtendedSelenium2Library">
+<doc>Types the given `text` into text field identified by `locator`.</doc>
+<arguments>
+<arg>model=registration.given</arg>
+<arg>${first}</arg>
+</arguments>
+<msg timestamp="20170531 08:56:00.345" level="INFO">Typing text 'Je Marie' into text field 'model=registration.given'</msg>
+<status status="PASS" endtime="20170531 08:56:00.518" starttime="20170531 08:56:00.344"></status>
+</kw>
+<kw name="Input Text" library="ExtendedSelenium2Library">
+<doc>Types the given `text` into text field identified by `locator`.</doc>
+<arguments>
+<arg>model=registration.middlemaiden</arg>
+<arg>${middlemaiden}</arg>
+</arguments>
+<msg timestamp="20170531 08:56:00.520" level="INFO">Typing text 'Alfaro' into text field 'model=registration.middlemaiden'</msg>
+<status status="PASS" endtime="20170531 08:56:00.674" starttime="20170531 08:56:00.519"></status>
+</kw>
+<kw name="Input Text" library="ExtendedSelenium2Library">
+<doc>Types the given `text` into text field identified by `locator`.</doc>
+<arguments>
+<arg>model=registration.email</arg>
+<arg>${email}</arg>
+</arguments>
+<msg timestamp="20170531 08:56:00.675" level="INFO">Typing text 'bmicons360@gmail.com' into text field 'model=registration.email'</msg>
+<status status="PASS" endtime="20170531 08:56:00.897" starttime="20170531 08:56:00.675"></status>
+</kw>
+<kw name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>name=register</arg>
+</arguments>
+<msg timestamp="20170531 08:56:00.898" level="INFO">Clicking element 'name=register'.</msg>
+<status status="PASS" endtime="20170531 08:56:06.536" starttime="20170531 08:56:00.898"></status>
+</kw>
+<status status="PASS" endtime="20170531 08:56:06.536" starttime="20170531 08:56:00.145"></status>
+</kw>
+<kw name="Location Should Be" library="ExtendedSelenium2Library">
+<doc>Verifies that current URL is exactly `url`.</doc>
+<arguments>
+<arg>http://${HOST}/application</arg>
+</arguments>
+<msg timestamp="20170531 08:56:08.090" level="INFO">Current location is 'http://localhost:6543/#!/application'.</msg>
+<status status="PASS" endtime="20170531 08:56:08.090" starttime="20170531 08:56:06.537"></status>
+</kw>
+<kw type="teardown" name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>id=logout</arg>
+</arguments>
+<msg timestamp="20170531 08:56:08.091" level="INFO">Clicking element 'id=logout'.</msg>
+<status status="PASS" endtime="20170531 08:56:11.280" starttime="20170531 08:56:08.091"></status>
+</kw>
+<status status="PASS" endtime="20170531 08:56:11.280" starttime="20170531 08:55:59.531"></status>
+</kw>
+<kw type="teardown" name="Close Browser" library="ExtendedSelenium2Library">
+<doc>Closes the current browser.</doc>
+<status status="PASS" endtime="20170531 08:56:14.387" starttime="20170531 08:56:11.281"></status>
+</kw>
+<status status="PASS" endtime="20170531 08:56:14.388" critical="yes" starttime="20170531 08:55:47.645"></status>
+</test>
+<test id="s1-t5" name="Unsuccessful Reg">
+<kw type="setup" name="Setup" library="resources">
+<arguments>
+<arg>${HOST}</arg>
+</arguments>
+<kw name="Open Browser" library="ExtendedSelenium2Library">
+<doc>Opens a new browser instance to given URL.</doc>
+<arguments>
+<arg>${url}</arg>
+<arg>${BROWSER}</arg>
+</arguments>
+<msg timestamp="20170531 08:56:14.390" level="INFO">Opening browser 'Chrome' to base url 'localhost:6543/#!'</msg>
+<status status="PASS" endtime="20170531 08:56:25.823" starttime="20170531 08:56:14.389"></status>
+</kw>
+<status status="PASS" endtime="20170531 08:56:25.824" starttime="20170531 08:56:14.389"></status>
+</kw>
+<kw name="Reg with invalid info should fail">
+<arguments>
+<arg>Michael Pio</arg>
+<arg>Fortuno</arg>
+<arg>Mayol</arg>
+<arg>mfmayol@up.edu.ph</arg>
+</arguments>
+<kw name="Register" library="resources">
+<arguments>
+<arg>${first}</arg>
+<arg>${middlemaiden}</arg>
+<arg>${last}</arg>
+<arg>${email}</arg>
+</arguments>
+<kw name="Input Text" library="ExtendedSelenium2Library">
+<doc>Types the given `text` into text field identified by `locator`.</doc>
+<arguments>
+<arg>model=registration.last</arg>
+<arg>${last}</arg>
+</arguments>
+<msg timestamp="20170531 08:56:25.826" level="INFO">Typing text 'Mayol' into text field 'model=registration.last'</msg>
+<status status="PASS" endtime="20170531 08:56:25.980" starttime="20170531 08:56:25.825"></status>
+</kw>
+<kw name="Input Text" library="ExtendedSelenium2Library">
+<doc>Types the given `text` into text field identified by `locator`.</doc>
+<arguments>
+<arg>model=registration.given</arg>
+<arg>${first}</arg>
+</arguments>
+<msg timestamp="20170531 08:56:25.981" level="INFO">Typing text 'Michael Pio' into text field 'model=registration.given'</msg>
+<status status="PASS" endtime="20170531 08:56:26.159" starttime="20170531 08:56:25.981"></status>
+</kw>
+<kw name="Input Text" library="ExtendedSelenium2Library">
+<doc>Types the given `text` into text field identified by `locator`.</doc>
+<arguments>
+<arg>model=registration.middlemaiden</arg>
+<arg>${middlemaiden}</arg>
+</arguments>
+<msg timestamp="20170531 08:56:26.160" level="INFO">Typing text 'Fortuno' into text field 'model=registration.middlemaiden'</msg>
+<status status="PASS" endtime="20170531 08:56:26.310" starttime="20170531 08:56:26.159"></status>
+</kw>
+<kw name="Input Text" library="ExtendedSelenium2Library">
+<doc>Types the given `text` into text field identified by `locator`.</doc>
+<arguments>
+<arg>model=registration.email</arg>
+<arg>${email}</arg>
+</arguments>
+<msg timestamp="20170531 08:56:26.311" level="INFO">Typing text 'mfmayol@up.edu.ph' into text field 'model=registration.email'</msg>
+<status status="PASS" endtime="20170531 08:56:26.515" starttime="20170531 08:56:26.311"></status>
+</kw>
+<kw name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>name=register</arg>
+</arguments>
+<msg timestamp="20170531 08:56:26.516" level="INFO">Clicking element 'name=register'.</msg>
+<status status="PASS" endtime="20170531 08:56:30.093" starttime="20170531 08:56:26.516"></status>
+</kw>
+<status status="PASS" endtime="20170531 08:56:30.093" starttime="20170531 08:56:25.825"></status>
+</kw>
+<kw name="Location Should Be" library="ExtendedSelenium2Library">
+<doc>Verifies that current URL is exactly `url`.</doc>
+<arguments>
+<arg>http://${HOST}/auth</arg>
+</arguments>
+<msg timestamp="20170531 08:56:30.624" level="INFO">Current location is 'http://localhost:6543/#!/auth'.</msg>
+<status status="PASS" endtime="20170531 08:56:30.624" starttime="20170531 08:56:30.094"></status>
+</kw>
+<status status="PASS" endtime="20170531 08:56:30.625" starttime="20170531 08:56:25.824"></status>
+</kw>
+<kw type="teardown" name="Close Browser" library="ExtendedSelenium2Library">
+<doc>Closes the current browser.</doc>
+<status status="PASS" endtime="20170531 08:56:33.736" starttime="20170531 08:56:30.625"></status>
+</kw>
+<status status="PASS" endtime="20170531 08:56:33.736" critical="yes" starttime="20170531 08:56:14.388"></status>
+</test>
+<test id="s1-t6" name="Check GMail">
+<kw name="Check GMail Account for confirmation E-mail">
+<arguments>
+<arg>mfmayol@up.edu.ph</arg>
+</arguments>
+<kw name="Setup" library="resources">
+<arguments>
+<arg>https://www.gmail.com/</arg>
+</arguments>
+<kw name="Open Browser" library="ExtendedSelenium2Library">
+<doc>Opens a new browser instance to given URL.</doc>
+<arguments>
+<arg>${url}</arg>
+<arg>${BROWSER}</arg>
+</arguments>
+<msg timestamp="20170531 08:56:33.740" level="INFO">Opening browser 'Chrome' to base url 'https://www.gmail.com/'</msg>
+<status status="PASS" endtime="20170531 08:56:41.929" starttime="20170531 08:56:33.739"></status>
+</kw>
+<status status="PASS" endtime="20170531 08:56:41.929" starttime="20170531 08:56:33.739"></status>
+</kw>
+<kw name="Input Text" library="ExtendedSelenium2Library">
+<doc>Types the given `text` into text field identified by `locator`.</doc>
+<arguments>
+<arg>identifierId</arg>
+<arg>${email}</arg>
+</arguments>
+<msg timestamp="20170531 08:56:41.930" level="INFO">Typing text 'mfmayol@up.edu.ph' into text field 'identifierId'</msg>
+<status status="PASS" endtime="20170531 08:56:42.170" starttime="20170531 08:56:41.930"></status>
+</kw>
+<kw name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>identifierNext</arg>
+</arguments>
+<msg timestamp="20170531 08:56:42.171" level="INFO">Clicking element 'identifierNext'.</msg>
+<status status="PASS" endtime="20170531 08:56:42.857" starttime="20170531 08:56:42.171"></status>
+</kw>
+<kw name="Get Value From User" library="Dialogs">
+<doc>Pauses test execution and asks user to input a value.</doc>
+<arguments>
+<arg>Input password</arg>
+<arg>hidden=yes</arg>
+</arguments>
+<assign>
+<var>${password}</var>
+</assign>
+<msg timestamp="20170531 08:56:53.418" level="INFO">${password} = [REMOVED]</msg>
+<status status="PASS" endtime="20170531 08:56:53.418" starttime="20170531 08:56:42.857"></status>
+</kw>
+<kw name="Input Text" library="ExtendedSelenium2Library">
+<doc>Types the given `text` into text field identified by `locator`.</doc>
+<arguments>
+<arg>name=password</arg>
+<arg>${password}</arg>
+</arguments>
+<msg timestamp="20170531 08:56:53.419" level="INFO">Typing text '[REMOVED]' into text field 'name=password'</msg>
+<status status="PASS" endtime="20170531 08:56:53.618" starttime="20170531 08:56:53.418"></status>
+</kw>
+<kw name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>passwordNext</arg>
+</arguments>
+<msg timestamp="20170531 08:56:53.619" level="INFO">Clicking element 'passwordNext'.</msg>
+<status status="PASS" endtime="20170531 08:56:57.798" starttime="20170531 08:56:53.619"></status>
+</kw>
+<kw name="Wait Until Page Contains" library="ExtendedSelenium2Library">
+<doc>Waits until `text` appears on current page.</doc>
+<arguments>
+<arg>upd.ngse.test</arg>
+</arguments>
+<status status="PASS" endtime="20170531 08:56:57.851" starttime="20170531 08:56:57.799"></status>
+</kw>
+<kw name="Close Browser" library="ExtendedSelenium2Library">
+<doc>Closes the current browser.</doc>
+<status status="PASS" endtime="20170531 08:57:00.956" starttime="20170531 08:56:57.851"></status>
+</kw>
+<status status="PASS" endtime="20170531 08:57:00.956" starttime="20170531 08:56:33.738"></status>
+</kw>
+<kw name="Check GMail Account for confirmation E-mail">
+<arguments>
+<arg>bmicons360@gmail.com</arg>
+</arguments>
+<kw name="Setup" library="resources">
+<arguments>
+<arg>https://www.gmail.com/</arg>
+</arguments>
+<kw name="Open Browser" library="ExtendedSelenium2Library">
+<doc>Opens a new browser instance to given URL.</doc>
+<arguments>
+<arg>${url}</arg>
+<arg>${BROWSER}</arg>
+</arguments>
+<msg timestamp="20170531 08:57:00.958" level="INFO">Opening browser 'Chrome' to base url 'https://www.gmail.com/'</msg>
+<status status="PASS" endtime="20170531 08:57:09.061" starttime="20170531 08:57:00.958"></status>
+</kw>
+<status status="PASS" endtime="20170531 08:57:09.062" starttime="20170531 08:57:00.957"></status>
+</kw>
+<kw name="Input Text" library="ExtendedSelenium2Library">
+<doc>Types the given `text` into text field identified by `locator`.</doc>
+<arguments>
+<arg>identifierId</arg>
+<arg>${email}</arg>
+</arguments>
+<msg timestamp="20170531 08:57:09.063" level="INFO">Typing text 'bmicons360@gmail.com' into text field 'identifierId'</msg>
+<status status="PASS" endtime="20170531 08:57:09.314" starttime="20170531 08:57:09.062"></status>
+</kw>
+<kw name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>identifierNext</arg>
+</arguments>
+<msg timestamp="20170531 08:57:09.315" level="INFO">Clicking element 'identifierNext'.</msg>
+<status status="PASS" endtime="20170531 08:57:10.002" starttime="20170531 08:57:09.315"></status>
+</kw>
+<kw name="Get Value From User" library="Dialogs">
+<doc>Pauses test execution and asks user to input a value.</doc>
+<arguments>
+<arg>Input password</arg>
+<arg>hidden=yes</arg>
+</arguments>
+<assign>
+<var>${password}</var>
+</assign>
+<msg timestamp="20170531 08:57:15.013" level="INFO">${password} = [REMOVED]</msg>
+<status status="PASS" endtime="20170531 08:57:15.013" starttime="20170531 08:57:10.002"></status>
+</kw>
+<kw name="Input Text" library="ExtendedSelenium2Library">
+<doc>Types the given `text` into text field identified by `locator`.</doc>
+<arguments>
+<arg>name=password</arg>
+<arg>${password}</arg>
+</arguments>
+<msg timestamp="20170531 08:57:15.014" level="INFO">Typing text '[REMOVED]' into text field 'name=password'</msg>
+<status status="PASS" endtime="20170531 08:57:15.181" starttime="20170531 08:57:15.013"></status>
+</kw>
+<kw name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>passwordNext</arg>
+</arguments>
+<msg timestamp="20170531 08:57:15.182" level="INFO">Clicking element 'passwordNext'.</msg>
+<status status="PASS" endtime="20170531 08:57:19.967" starttime="20170531 08:57:15.182"></status>
+</kw>
+<kw name="Wait Until Page Contains" library="ExtendedSelenium2Library">
+<doc>Waits until `text` appears on current page.</doc>
+<arguments>
+<arg>upd.ngse.test</arg>
+</arguments>
+<status status="PASS" endtime="20170531 08:57:19.998" starttime="20170531 08:57:19.968"></status>
+</kw>
+<kw name="Close Browser" library="ExtendedSelenium2Library">
+<doc>Closes the current browser.</doc>
+<status status="PASS" endtime="20170531 08:57:23.100" starttime="20170531 08:57:19.999"></status>
+</kw>
+<status status="PASS" endtime="20170531 08:57:23.100" starttime="20170531 08:57:00.957"></status>
+</kw>
+<status status="PASS" endtime="20170531 08:57:23.101" critical="yes" starttime="20170531 08:56:33.737"></status>
+</test>
+<test id="s1-t7" name="Valid Login">
+<kw type="setup" name="Setup" library="resources">
+<arguments>
+<arg>${HOST}</arg>
+</arguments>
+<kw name="Open Browser" library="ExtendedSelenium2Library">
+<doc>Opens a new browser instance to given URL.</doc>
+<arguments>
+<arg>${url}</arg>
+<arg>${BROWSER}</arg>
+</arguments>
+<msg timestamp="20170531 08:57:23.103" level="INFO">Opening browser 'Chrome' to base url 'localhost:6543/#!'</msg>
+<status status="PASS" endtime="20170531 08:57:33.189" starttime="20170531 08:57:23.102"></status>
+</kw>
+<status status="PASS" endtime="20170531 08:57:33.190" starttime="20170531 08:57:23.102"></status>
+</kw>
+<kw name="Login with valid credentials should pass">
+<arguments>
+<arg>mfmayol@up.edu.ph</arg>
+</arguments>
+<kw name="Login" library="resources">
+<arguments>
+<arg>${username}</arg>
+</arguments>
+<kw name="Input Text" library="ExtendedSelenium2Library">
+<doc>Types the given `text` into text field identified by `locator`.</doc>
+<arguments>
+<arg>model=login.email</arg>
+<arg>${email}</arg>
+</arguments>
+<msg timestamp="20170531 08:57:33.192" level="INFO">Typing text 'mfmayol@up.edu.ph' into text field 'model=login.email'</msg>
+<status status="PASS" endtime="20170531 08:57:33.406" starttime="20170531 08:57:33.191"></status>
+</kw>
+<kw name="Get Value From User" library="Dialogs">
+<doc>Pauses test execution and asks user to input a value.</doc>
+<arguments>
+<arg>Input password</arg>
+<arg>hidden=yes</arg>
+</arguments>
+<assign>
+<var>${password}</var>
+</assign>
+<msg timestamp="20170531 08:57:48.700" level="INFO">${password} = LdCsg28Z</msg>
+<status status="PASS" endtime="20170531 08:57:48.700" starttime="20170531 08:57:33.406"></status>
+</kw>
+<kw name="Input Text" library="ExtendedSelenium2Library">
+<doc>Types the given `text` into text field identified by `locator`.</doc>
+<arguments>
+<arg>model=login.password</arg>
+<arg>${password}</arg>
+</arguments>
+<msg timestamp="20170531 08:57:48.701" level="INFO">Typing text 'LdCsg28Z' into text field 'model=login.password'</msg>
+<status status="PASS" endtime="20170531 08:57:48.883" starttime="20170531 08:57:48.700"></status>
+</kw>
+<kw name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>name=login</arg>
+</arguments>
+<msg timestamp="20170531 08:57:48.884" level="INFO">Clicking element 'name=login'.</msg>
+<status status="PASS" endtime="20170531 08:57:52.548" starttime="20170531 08:57:48.883"></status>
+</kw>
+<status status="PASS" endtime="20170531 08:57:52.548" starttime="20170531 08:57:33.191"></status>
+</kw>
+<kw name="Location Should Be" library="ExtendedSelenium2Library">
+<doc>Verifies that current URL is exactly `url`.</doc>
+<arguments>
+<arg>http://${HOST}/application</arg>
+</arguments>
+<msg timestamp="20170531 08:57:53.080" level="INFO">Current location is 'http://localhost:6543/#!/application'.</msg>
+<status status="PASS" endtime="20170531 08:57:53.080" starttime="20170531 08:57:52.548"></status>
+</kw>
+<kw type="teardown" name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>id=logout</arg>
+</arguments>
+<msg timestamp="20170531 08:57:53.082" level="INFO">Clicking element 'id=logout'.</msg>
+<status status="PASS" endtime="20170531 08:57:56.349" starttime="20170531 08:57:53.081"></status>
+</kw>
+<status status="PASS" endtime="20170531 08:57:56.349" starttime="20170531 08:57:33.190"></status>
+</kw>
+<kw name="Login with valid credentials should pass">
+<arguments>
+<arg>bmicons360@gmail.com</arg>
+</arguments>
+<kw name="Login" library="resources">
+<arguments>
+<arg>${username}</arg>
+</arguments>
+<kw name="Input Text" library="ExtendedSelenium2Library">
+<doc>Types the given `text` into text field identified by `locator`.</doc>
+<arguments>
+<arg>model=login.email</arg>
+<arg>${email}</arg>
+</arguments>
+<msg timestamp="20170531 08:57:56.351" level="INFO">Typing text 'bmicons360@gmail.com' into text field 'model=login.email'</msg>
+<status status="PASS" endtime="20170531 08:57:56.585" starttime="20170531 08:57:56.350"></status>
+</kw>
+<kw name="Get Value From User" library="Dialogs">
+<doc>Pauses test execution and asks user to input a value.</doc>
+<arguments>
+<arg>Input password</arg>
+<arg>hidden=yes</arg>
+</arguments>
+<assign>
+<var>${password}</var>
+</assign>
+<msg timestamp="20170531 08:58:04.995" level="INFO">${password} = LR3bZ4g1</msg>
+<status status="PASS" endtime="20170531 08:58:04.995" starttime="20170531 08:57:56.585"></status>
+</kw>
+<kw name="Input Text" library="ExtendedSelenium2Library">
+<doc>Types the given `text` into text field identified by `locator`.</doc>
+<arguments>
+<arg>model=login.password</arg>
+<arg>${password}</arg>
+</arguments>
+<msg timestamp="20170531 08:58:04.997" level="INFO">Typing text 'LR3bZ4g1' into text field 'model=login.password'</msg>
+<status status="PASS" endtime="20170531 08:58:05.193" starttime="20170531 08:58:04.996"></status>
+</kw>
+<kw name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>name=login</arg>
+</arguments>
+<msg timestamp="20170531 08:58:05.194" level="INFO">Clicking element 'name=login'.</msg>
+<status status="PASS" endtime="20170531 08:58:08.768" starttime="20170531 08:58:05.194"></status>
+</kw>
+<status status="PASS" endtime="20170531 08:58:08.769" starttime="20170531 08:57:56.350"></status>
+</kw>
+<kw name="Location Should Be" library="ExtendedSelenium2Library">
+<doc>Verifies that current URL is exactly `url`.</doc>
+<arguments>
+<arg>http://${HOST}/application</arg>
+</arguments>
+<msg timestamp="20170531 08:58:09.298" level="INFO">Current location is 'http://localhost:6543/#!/application'.</msg>
+<status status="PASS" endtime="20170531 08:58:09.299" starttime="20170531 08:58:08.769"></status>
+</kw>
+<kw type="teardown" name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>id=logout</arg>
+</arguments>
+<msg timestamp="20170531 08:58:09.300" level="INFO">Clicking element 'id=logout'.</msg>
+<status status="PASS" endtime="20170531 08:58:12.445" starttime="20170531 08:58:09.299"></status>
+</kw>
+<status status="PASS" endtime="20170531 08:58:12.446" starttime="20170531 08:57:56.349"></status>
+</kw>
+<kw type="teardown" name="Close Browser" library="ExtendedSelenium2Library">
+<doc>Closes the current browser.</doc>
+<status status="PASS" endtime="20170531 08:58:15.604" starttime="20170531 08:58:12.446"></status>
+</kw>
+<status status="PASS" endtime="20170531 08:58:15.605" critical="yes" starttime="20170531 08:57:23.101"></status>
+</test>
+<status status="PASS" endtime="20170531 08:58:15.606" starttime="20170531 08:54:34.380"></status>
 </suite>
 <statistics>
 <total>
-<stat fail="1" pass="0">Critical Tests</stat>
-<stat fail="1" pass="0">All Tests</stat>
+<stat fail="0" pass="7">Critical Tests</stat>
+<stat fail="0" pass="7">All Tests</stat>
 </total>
 <tag>
 </tag>
 <suite>
-<stat fail="1" id="s1" name="NGSE" pass="0">NGSE</stat>
+<stat fail="0" id="s1" name="NGSE" pass="7">NGSE</stat>
 </suite>
 </statistics>
 <errors>

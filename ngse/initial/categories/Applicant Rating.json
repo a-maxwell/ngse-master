@@ -1,0 +1,153 @@
+[
+	{
+		"name": "instructions",
+		"text": "Please rate the applicant on the following characteristics in comparison with other students in the same disciplines who are known to you and who have had more or less the same amount of training and experience.  Indicate size of the group with which applicant is being compared and its educational level.",
+		"klass": "decor",
+		"kind": "text",
+		"width": 16
+	},
+	{
+		"name": "groupSize",
+		"text": "Group Size",
+		"klass": "question",
+		"kind": "text",
+		"width": 8,
+		"required": true
+	},
+	{
+		"name": "educLevel",
+		"text": "Educational Level",
+		"klass": "question",
+		"kind": "text",
+		"width": 8,
+		"required": true
+	},
+	{
+		"name": "recommenderq1",
+		"text": "Intelectual ability",
+		"klass": "question",
+		"kind": "dropdown",
+		"choices": ["Excellent", "Above Average", "Average", "Below Average", "No Basis"],
+		"required": true
+	},
+	{
+		"name": "recommenderq2",
+		"text": "Academic preparation for proposed field of study",
+		"klass": "question",
+		"kind": "dropdown",
+		"choices": ["Excellent", "Above Average", "Average", "Below Average", "No Basis"],
+		"required": true
+	},
+	{
+		"name": "recommenderq3",
+		"text": "Motivation for proposed field of study",
+		"klass": "question",
+		"kind": "dropdown",
+		"choices": ["Excellent", "Above Average", "Average", "Below Average", "No Basis"],
+		"required": true
+	},
+	{
+		"name": "recommenderq4",
+		"text": "Originality, creativity and imagination",
+		"klass": "question",
+		"kind": "dropdown",
+		"choices": ["Excellent", "Above Average", "Average", "Below Average", "No Basis"],
+		"required": true
+	},
+	{
+		"name": "recommenderq5",
+		"text": "Analytical and problem-solving ability",
+		"klass": "question",
+		"kind": "dropdown",
+		"choices": ["Excellent", "Above Average", "Average", "Below Average", "No Basis"],
+		"required": true
+	},
+	{
+		"name": "recommenderq6",
+		"text": "Initiative and independence",
+		"klass": "question",
+		"kind": "dropdown",
+		"choices": ["Excellent", "Above Average", "Average", "Below Average", "No Basis"],
+		"required": true
+	},
+	{
+		"name": "recommenderq7",
+		"text": "Honesty and integrity",
+		"klass": "question",
+		"kind": "dropdown",
+		"choices": ["Excellent", "Above Average", "Average", "Below Average", "No Basis"],
+		"required": true
+	},
+	{
+		"name": "recommenderq8",
+		"text": "Conscientiousness and ability to work independently",
+		"klass": "question",
+		"kind": "dropdown",
+		"choices": ["Excellent", "Above Average", "Average", "Below Average", "No Basis"],
+		"required": true
+	},
+	{
+		"name": "recommenderq9",
+		"text": "Ability to work with others",
+		"klass": "question",
+		"kind": "dropdown",
+		"choices": ["Excellent", "Above Average", "Average", "Below Average", "No Basis"],
+		"required": true
+	},
+	{
+		"name": "recommenderq10",
+		"text": "Oral communication skills",
+		"klass": "question",
+		"kind": "dropdown",
+		"choices": ["Excellent", "Above Average", "Average", "Below Average", "No Basis"],
+		"required": true
+	},
+	{
+		"name": "recommenderq11",
+		"text": "Written communication skills",
+		"klass": "question",
+		"kind": "dropdown",
+		"choices": ["Excellent", "Above Average", "Average", "Below Average", "No Basis"],
+		"required": true
+	},
+	{
+		"name": "recommenderq12",
+		"text": "Emotional maturity",
+		"klass": "question",
+		"kind": "dropdown",
+		"choices": ["Excellent", "Above Average", "Average", "Below Average", "No Basis"],
+		"required": true
+	},
+	{
+		"name": "recommenderq13",
+		"text": "Potential as a researcher in the discipline",
+		"klass": "question",
+		"kind": "dropdown",
+		"choices": ["Excellent", "Above Average", "Average", "Below Average", "No Basis"],
+		"required": true
+	},
+	{
+		"name": "recommenderq14",
+		"text": "Potential as a teacher in the discipline",
+		"klass": "question",
+		"kind": "dropdown",
+		"choices": ["Excellent", "Above Average", "Average", "Below Average", "No Basis"],
+		"required": true
+	},
+	{
+		"name": "recommenderessay6",
+		"text": "Additional information and comments about the applicant.",
+		"klass": "question",
+		"kind": "textarea",
+		"width": 16,
+		"required": true
+	},
+	{
+		"name": "recommendation",
+		"text": "I therefore ____ the applicant for admission to the National Graduate School of Engineering in UP Diliman.",
+		"klass": "question",
+		"kind": "dropdown",
+		"choices": ["strongly recommend", "recommend", "recommend with reservations", "do not recommend"],
+		"required": true
+	}
+]

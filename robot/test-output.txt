@@ -1,0 +1,28 @@
+command: pybot.bat --argumentfile c:\users\bmico\appdata\local\temp\RIDE1vbrgh.d\argfile.txt --listener C:\Python27\lib\site-packages\robotide\contrib\testrunner\TestRunnerAgent.py:62773:False C:\dev\NGSE\robot\NGSE.robot
+unable to open socket to "localhost:62773" error: [Errno 10061] No connection could be made because the target machine actively refused it
+===========================================================================================
+NGSE                                                                                       
+===========================================================================================
+Clear Database                                                                     | PASS |
+-------------------------------------------------------------------------------------------
+Invalid Login                                                                      | PASS |
+-------------------------------------------------------------------------------------------
+Succesful Non-ERDT Reg                                                             | PASS |
+-------------------------------------------------------------------------------------------
+Successful ERDT Reg                                                                | PASS |
+-------------------------------------------------------------------------------------------
+Unsuccessful Reg                                                                   | PASS |
+-------------------------------------------------------------------------------------------
+Check GMail                                                                        | PASS |
+-------------------------------------------------------------------------------------------
+Valid Login                                                                        | PASS |
+-------------------------------------------------------------------------------------------
+NGSE                                                                               | PASS |
+7 critical tests, 7 passed, 0 failed
+7 tests total, 7 passed, 0 failed
+===========================================================================================
+Output:  c:\users\bmico\appdata\local\temp\RIDE1vbrgh.d\output.xml
+Log:     c:\users\bmico\appdata\local\temp\RIDE1vbrgh.d\log.html
+Report:  c:\users\bmico\appdata\local\temp\RIDE1vbrgh.d\report.html
+
+test finished 20170531 08:58:16

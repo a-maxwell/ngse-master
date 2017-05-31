@@ -27,6 +27,10 @@ app.factory('userService', function($rootScope, $http, $cookies, $location, auth
         return user;
     }
 
+    methods.clear = function() {
+        user = {};
+    }
+
     methods.saveAnswers = function(callback, user_controller) {
         var user_id = authService.getUserID();
 
