@@ -4,7 +4,7 @@ app.controller('studyController', function($rootScope, $scope, $routeParams, $lo
         "Master of Science": ["CE", "ChE", "CS", "EE", "EgyE", "EnE", "GmE", "IE", "ME", "MetE", "MSE"],
         "Doctor of Philosophy": ["CE", "ChE", "EEE", "EnE", "EgyE", "MSE"],
         "Master of Engineering": ["EE", "IE"],
-        "Doctor of Engineering": ["ChE", "EEE", "EgyE"]
+        "Doctor of Engineering": ["ChE", "EEE"]
     };
 
     $scope.fields = {
@@ -36,6 +36,10 @@ app.controller('studyController', function($rootScope, $scope, $routeParams, $lo
     def.other_scholarship = "no";
     def.other_scholarship_name = "";
 
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
     function initWatch() {
         $scope.$watch('user["program"]', function(newValue, oldValue, scope) {
             if (newValue != oldValue) {
@@ -46,21 +50,14 @@ app.controller('studyController', function($rootScope, $scope, $routeParams, $lo
         });
     }
 
-    function initController() {
-        if (userService.getUser() === {}) {
-            userService.fetchUser(function(data) {
-                console.log(data);
-                $scope.user = data;
-                filterUser();
-                console.log($scope.user);
-                initWatch();
-            });
-        } else {
-            $scope.user = userService.getUser();
+    async function initController() {
+        $scope.loading = true;
+        userService.fetchUser(function(data) {
+            $scope.user = data;
             filterUser();
-            console.log($scope.user);
             initWatch();
-        }
+            $scope.loading = false;
+        });
     };
 
 
@@ -84,21 +81,10 @@ app.controller('studyController', function($rootScope, $scope, $routeParams, $lo
 
     $scope.resetLabs = resetLabs;
 
-    $scope.always = true;
+    $scope.always = true; // what is this for
 
-    function submit() {
-        $scope.debug();
-        userService.saveAnswers(function(data) {
-            $scope.user = userService.getUser();
-            console.log(data);
-            if (data.success) {
-                messageService.pushMessage({
-                    text: 'Program of Study saved',
-                    type: 'info'
-                });
-                $location.path('/application');
-            }
-        }, $scope.user);
+    function check() {
+        return false;
     }
 
     function debug() {
@@ -164,6 +150,7 @@ app.controller('studyController', function($rootScope, $scope, $routeParams, $lo
     }
 
     function availableProgram(p) {
+        if ($scope.data[$scope.user.level] === undefined) return false;
         var change = true;
         for (var i = 0; i < $scope.data[$scope.user.level].length; i++) if ($scope.data[$scope.user.level][i] === p) return true;
         for (var i = 0; i < $scope.data[$scope.user.level].length; i++) if ($scope.data[$scope.user.level][i] === $scope.user.program) change = false;
@@ -177,6 +164,72 @@ app.controller('studyController', function($rootScope, $scope, $routeParams, $lo
 
         for (var i = 0; i < keys.length; i++) {
             if ($scope.user[keys[i]] === null) $scope.user[keys[i]] = def[keys[i]];
+            if ($scope.user[keys[i]] === "") $scope.user[keys[i]] = def[keys[i]];
+        }
+    }
+
+    function checkAnswers() {
+        /* check the following:
+        1. choices
+        2. program
+        3. program type
+        4. student type
+        5. start of study
+        6. other scholarship */
+        var u = $scope.user;
+
+        console.log('woop');
+        if (thesisOption() && (u.choice_1 === "" || u.choice_2 === "" || u.choice_2 === "")) {
+            messageService.pushMessage({
+                text: 'Please complete research field choices.',
+                type: 'error'
+            });
+            return false; // thesis option but no choices
+        }
+
+        console.log('dee');
+        if (u.year === "") {
+            messageService.pushMessage({
+                text: 'Please type in academic year.',
+                type: 'error'
+            });
+            return false; // no year input
+        }
+
+        console.log('doo');
+        if (u.other_scholarship === "yes" && u.other_scholarship_name === "") {
+            messageService.pushMessage({
+                text: 'Please type in the name of your scholarship.',
+                type: 'error'
+            });
+            return false; // other scholarship name is blank but has other scholarship
+        }
+
+        return true;
+    }
+
+    function submit() {
+        $scope.loading = true;
+        if (checkAnswers()) {
+            userService.saveAnswers(function(data) {
+                $scope.loading = false;
+                $scope.user = userService.getUser();
+                console.log(data);
+                if (data.success) {
+                    messageService.pushMessage({
+                        text: 'Program of Study saved',
+                        type: 'info'
+                    });
+                    $location.path('/application');
+                } else {
+                    messageService.pushMessage({
+                        text: 'Something happened. Please try submitting again.',
+                        type: 'warning'
+                    });
+                }
+            }, $scope.user);
+        } else {
+            $scope.loading = false;
         }
     }
 

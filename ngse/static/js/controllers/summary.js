@@ -46,7 +46,7 @@ app.controller('summaryController', function($rootScope, $scope, $routeParams, $
     }
 
     function allAnswered() {
-        if ($scope.user().user_type_id > 3 && !$scope.user().answered_pos) return false;
+        if (($scope.user().user_type_id > 3 && !$scope.user().answered_pos) || $scope.user().answered === undefined) return false;
         for (var i = 0; i < $scope.user().answered.length; i++) {
             if (!$scope.user().answered[i].status) return false;
         }
@@ -54,6 +54,7 @@ app.controller('summaryController', function($rootScope, $scope, $routeParams, $
     }
 
     function status(category_id) {
+        if ($scope.user().answered === undefined) return;
         for (var i = 0; i < $scope.user().answered.length; i++) {
             if ($scope.user().answered[i].category_id == category_id) return ($scope.user().answered[i].status) ? "Answered" : "Unanswered";
         }

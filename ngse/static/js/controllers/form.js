@@ -15,11 +15,21 @@ app.controller('formController', function($rootScope, $scope, $routeParams, $loc
     }
 
     function save() {
+        $scope.loading = true;
         answers = [];
 
         for (var i = 0; i < $scope.elements.length; i++) {
             if ($scope.elements[i].klass != 'question') continue;
-            answers.push($scope.elements[i].answer);
+            answer = $scope.elements[i].answer;
+            if (answer.text === "") if ($scope.elements[i].required) {
+                // messageService.pushMessage({
+                //     text: "A required field is missing",
+                //     type: "error"
+                // });
+                $scope.loading = false;
+                return false;
+            }
+            answers.push(answer);
         }
 
         formService.saveAnswers(function(d) {
