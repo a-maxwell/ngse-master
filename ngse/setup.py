@@ -40,19 +40,19 @@ def setup(session):
 		{
 			'name': 'Non-ERDT Application Form',
 			'date_start': '2017-03-01 01:00:00',
-			'date_end': '2017-06-01 01:00:00',
+			'date_end': '2017-07-01 01:00:00',
 			'form_type_id': 2
 		},
 		{
 			'name': 'ERDT Application Form',
 			'date_start': '2017-03-01 01:00:00',
-			'date_end': '2017-06-01 01:00:00',
+			'date_end': '2017-07-01 01:00:00',
 			'form_type_id': 3
 		},
 		{
 			'name': 'Recommendation Letter',
 			'date_start': '2017-03-01 01:00:00',
-			'date_end': '2017-06-01 01:00:00',
+			'date_end': '2017-07-01 01:00:00',
 			'form_type_id': 1
 		}
 	]
