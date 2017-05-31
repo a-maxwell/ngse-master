@@ -38,7 +38,7 @@ URI = {
 }
 
 def send_email(mailer, message):
-	message.sender = "upd.ngse.test@gmail.com"
+	message.sender = "ngse@coe.upd.edu.ph"
 	mailer.send(message)
 	transaction.commit()
 
