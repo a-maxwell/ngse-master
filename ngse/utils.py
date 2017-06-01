@@ -9,6 +9,7 @@ import random
 log = logging.getLogger(__name__)
 
 import transaction
+
 from pyramid_mailer.message import Message
 
 import random
@@ -37,6 +38,44 @@ URI = {
 	'validate': '/validate'
 }
 
+email_template = '<table>\
+	<tr>\
+		<td rowspan="4"><img src="http://35.184.104.115/static/images/email-logo.png"/></td>\
+		<td>\
+			<strong>National Graduate School of Engineering</strong><br>\
+			College of Engineering<br>\
+			UNIVERSITY OF THE PHILIPPINES<br>\
+			Diliman, Quezon City 1101 Philippines\
+		</td>\
+	</tr>\
+</table>\
+<hr>\
+\
+{}\
+\
+<hr>\
+<table>\
+	<tr><td>ADDRESS</td><td>: Rm. 119-121, Melchor Hall, Osmena Avenue, University of the Philippines, Diliman, Quezon City 1101 Philippines</td></tr>\
+	<tr><td>TELEFAX</td><td>: +632-926-0703</td></tr>\
+	<tr><td>TRUNKLINE</td><td>: +632-981-8500 local 3105/3106</td></tr>\
+	<tr><td>EMAIL</td><td>: ngse@coe.upd.edu.ph</td></tr>\
+</table>'
+
+applicant_message = 'Hello, {}.\n\
+\n\
+Thank you for signing up on our online application form! If you wish to continue with your online application, you may do so anytime. Just login back to our site (http://35.184.104.115/) using the following credentials:\n\
+\n\
+E-mail: {}\n\
+Passcode: {}\n\
+\n\
+We hope to see you submit your application soon.'
+
+applicant_message_html = 'Hello, {}.<br><br>\
+Thank you for signing up on our online application form! If you wish to continue with your online application, you may do so anytime. Just login back to our site (http://35.184.104.115/) using the following credentials:<br><br>\
+E-mail: {}<br>\
+Passcode: {}<br><br>\
+We hope to see you submit your application soon.'
+
 def send_email(mailer, message):
 	message.sender = "ngse@coe.upd.edu.ph"
 	mailer.send(message)
@@ -50,10 +89,14 @@ def send_recommender_email(mailer, applicant_name, recipient, password):
 
 	send_email(mailer, message)
 
-def send_credentials_email(mailer, recipient, password):
-	message = Message(subject="NGSE Application Credentials",
+def send_credentials_email(mailer, name, recipient, password):
+	body = applicant_message.format(name, recipient, password)
+	html = applicant_message_html.format(name, recipient, password)
+	print html
+	message = Message(subject="NGSE Online Application",
 		recipients=[recipient],
-		body="Your generated password is: {}".format(password)
+		body=body,
+		html=email_template.format(html)
 		)
 
 	send_email(mailer, message)

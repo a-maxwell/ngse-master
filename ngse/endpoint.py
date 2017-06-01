@@ -1078,7 +1078,7 @@ def update_answer(request):
 					session.commit()
 					success = True
 				if(success):
-					send_recommender_email(request.mailer, user.name, text, generated_password)
+					send_recommender_email(request.mailer, text, generated_password)
 					form_type = session.query(FormType).filter(FormType.user_type_id == rec.user_type_id).one()
 					category_ids = form_type.page_sequence
 					questions = []
@@ -1296,7 +1296,7 @@ def create_user(request):
 	except:
 		return generateError('Something weird happened!')
 
-	send_credentials_email(request.mailer, email, generated_password)
+	send_credentials_email(request.mailer, given, email, generated_password)
 
 	session.add(u)
 	session.commit()
