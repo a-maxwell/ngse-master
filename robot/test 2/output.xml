@@ -1,0 +1,781 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generated="20170601 09:04:02.875" generator="Robot 3.0.2 (Python 2.7.12 on win32)">
+<suite source="C:\dev\NGSE\robot\NGSE.robot" id="s1" name="NGSE">
+<test id="s1-t1" name="Clear Database">
+<kw name="Open Browser" library="ExtendedSelenium2Library">
+<doc>Opens a new browser instance to given URL.</doc>
+<arguments>
+<arg>http://localhost:6543/v1/delete_all</arg>
+<arg>${BROWSER}</arg>
+</arguments>
+<msg timestamp="20170601 09:04:03.258" level="INFO">Opening browser 'Chrome' to base url 'http://localhost:6543/v1/delete_all'</msg>
+<status status="PASS" endtime="20170601 09:04:10.647" starttime="20170601 09:04:03.256"></status>
+</kw>
+<kw name="Reset Database" library="resources">
+<kw name="Go To" library="ExtendedSelenium2Library">
+<doc>Navigates the active browser instance to the provided URL.</doc>
+<arguments>
+<arg>http://${HOST}/v1/delete_all</arg>
+</arguments>
+<msg timestamp="20170601 09:04:10.653" level="INFO">Opening url 'http://localhost:6543/#!/v1/delete_all'</msg>
+<status status="PASS" endtime="20170601 09:04:15.079" starttime="20170601 09:04:10.651"></status>
+</kw>
+<status status="PASS" endtime="20170601 09:04:15.080" starttime="20170601 09:04:10.649"></status>
+</kw>
+<kw type="teardown" name="Close Browser" library="ExtendedSelenium2Library">
+<doc>Closes the current browser.</doc>
+<status status="PASS" endtime="20170601 09:04:18.341" starttime="20170601 09:04:15.082"></status>
+</kw>
+<status status="PASS" endtime="20170601 09:04:18.342" critical="yes" starttime="20170601 09:04:03.254"></status>
+</test>
+<test id="s1-t2" name="Succesful Non-ERDT Reg">
+<kw type="setup" name="Setup" library="resources">
+<arguments>
+<arg>${HOST}</arg>
+</arguments>
+<kw name="Open Browser" library="ExtendedSelenium2Library">
+<doc>Opens a new browser instance to given URL.</doc>
+<arguments>
+<arg>${url}</arg>
+<arg>${BROWSER}</arg>
+</arguments>
+<msg timestamp="20170601 09:04:18.351" level="INFO">Opening browser 'Chrome' to base url 'localhost:6543/#!'</msg>
+<status status="PASS" endtime="20170601 09:04:29.983" starttime="20170601 09:04:18.349"></status>
+</kw>
+<status status="PASS" endtime="20170601 09:04:29.985" starttime="20170601 09:04:18.347"></status>
+</kw>
+<kw name="Non-ERDT Reg with valid info should pass">
+<arguments>
+<arg>Michael Pio</arg>
+<arg>Fortuno</arg>
+<arg>Mayol</arg>
+<arg>mfmayol@up.edu.ph</arg>
+</arguments>
+<kw name="Register" library="resources">
+<arguments>
+<arg>${first}</arg>
+<arg>${middlemaiden}</arg>
+<arg>${last}</arg>
+<arg>${email}</arg>
+</arguments>
+<kw name="Input Text" library="ExtendedSelenium2Library">
+<doc>Types the given `text` into text field identified by `locator`.</doc>
+<arguments>
+<arg>model=registration.last</arg>
+<arg>${last}</arg>
+</arguments>
+<msg timestamp="20170601 09:04:29.993" level="INFO">Typing text 'Mayol' into text field 'model=registration.last'</msg>
+<status status="PASS" endtime="20170601 09:04:30.324" starttime="20170601 09:04:29.991"></status>
+</kw>
+<kw name="Input Text" library="ExtendedSelenium2Library">
+<doc>Types the given `text` into text field identified by `locator`.</doc>
+<arguments>
+<arg>model=registration.given</arg>
+<arg>${first}</arg>
+</arguments>
+<msg timestamp="20170601 09:04:30.327" level="INFO">Typing text 'Michael Pio' into text field 'model=registration.given'</msg>
+<status status="PASS" endtime="20170601 09:04:30.796" starttime="20170601 09:04:30.325"></status>
+</kw>
+<kw name="Input Text" library="ExtendedSelenium2Library">
+<doc>Types the given `text` into text field identified by `locator`.</doc>
+<arguments>
+<arg>model=registration.middlemaiden</arg>
+<arg>${middlemaiden}</arg>
+</arguments>
+<msg timestamp="20170601 09:04:30.799" level="INFO">Typing text 'Fortuno' into text field 'model=registration.middlemaiden'</msg>
+<status status="PASS" endtime="20170601 09:04:31.171" starttime="20170601 09:04:30.797"></status>
+</kw>
+<kw name="Input Text" library="ExtendedSelenium2Library">
+<doc>Types the given `text` into text field identified by `locator`.</doc>
+<arguments>
+<arg>model=registration.email</arg>
+<arg>${email}</arg>
+</arguments>
+<msg timestamp="20170601 09:04:31.174" level="INFO">Typing text 'mfmayol@up.edu.ph' into text field 'model=registration.email'</msg>
+<status status="PASS" endtime="20170601 09:04:31.735" starttime="20170601 09:04:31.173"></status>
+</kw>
+<kw name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>name=register</arg>
+</arguments>
+<msg timestamp="20170601 09:04:31.739" level="INFO">Clicking element 'name=register'.</msg>
+<status status="PASS" endtime="20170601 09:04:37.611" starttime="20170601 09:04:31.737"></status>
+</kw>
+<status status="PASS" endtime="20170601 09:04:37.612" starttime="20170601 09:04:29.989"></status>
+</kw>
+<kw name="Location Should Be" library="ExtendedSelenium2Library">
+<doc>Verifies that current URL is exactly `url`.</doc>
+<arguments>
+<arg>http://${HOST}/application</arg>
+</arguments>
+<msg timestamp="20170601 09:04:43.776" level="INFO">Current location is 'http://localhost:6543/#!/application'.</msg>
+<status status="PASS" endtime="20170601 09:04:43.777" starttime="20170601 09:04:37.614"></status>
+</kw>
+<kw type="teardown" name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>id=logout</arg>
+</arguments>
+<msg timestamp="20170601 09:04:43.780" level="INFO">Clicking element 'id=logout'.</msg>
+<status status="PASS" endtime="20170601 09:04:47.213" starttime="20170601 09:04:43.779"></status>
+</kw>
+<status status="PASS" endtime="20170601 09:04:47.220" starttime="20170601 09:04:29.987"></status>
+</kw>
+<kw type="teardown" name="Close Browser" library="ExtendedSelenium2Library">
+<doc>Closes the current browser.</doc>
+<status status="PASS" endtime="20170601 09:04:50.546" starttime="20170601 09:04:47.223"></status>
+</kw>
+<status status="PASS" endtime="20170601 09:04:50.548" critical="yes" starttime="20170601 09:04:18.345"></status>
+</test>
+<test id="s1-t3" name="Successful ERDT Reg">
+<kw type="setup" name="Setup" library="resources">
+<arguments>
+<arg>${HOST}</arg>
+</arguments>
+<kw name="Open Browser" library="ExtendedSelenium2Library">
+<doc>Opens a new browser instance to given URL.</doc>
+<arguments>
+<arg>${url}</arg>
+<arg>${BROWSER}</arg>
+</arguments>
+<msg timestamp="20170601 09:04:50.561" level="INFO">Opening browser 'Chrome' to base url 'localhost:6543/#!'</msg>
+<status status="PASS" endtime="20170601 09:05:02.642" starttime="20170601 09:04:50.557"></status>
+</kw>
+<status status="PASS" endtime="20170601 09:05:02.645" starttime="20170601 09:04:50.554"></status>
+</kw>
+<kw name="ERDT Reg with valid info should pass">
+<arguments>
+<arg>Je Marie</arg>
+<arg>Alfaro</arg>
+<arg>Apolinario</arg>
+<arg>bmicons360@gmail.com</arg>
+</arguments>
+<kw name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>name=scholarship</arg>
+</arguments>
+<msg timestamp="20170601 09:05:02.654" level="INFO">Clicking element 'name=scholarship'.</msg>
+<status status="PASS" endtime="20170601 09:05:03.454" starttime="20170601 09:05:02.652"></status>
+</kw>
+<kw name="Register" library="resources">
+<arguments>
+<arg>${first}</arg>
+<arg>${middlemaiden}</arg>
+<arg>${last}</arg>
+<arg>${email}</arg>
+</arguments>
+<kw name="Input Text" library="ExtendedSelenium2Library">
+<doc>Types the given `text` into text field identified by `locator`.</doc>
+<arguments>
+<arg>model=registration.last</arg>
+<arg>${last}</arg>
+</arguments>
+<msg timestamp="20170601 09:05:03.459" level="INFO">Typing text 'Apolinario' into text field 'model=registration.last'</msg>
+<status status="PASS" endtime="20170601 09:05:03.851" starttime="20170601 09:05:03.458"></status>
+</kw>
+<kw name="Input Text" library="ExtendedSelenium2Library">
+<doc>Types the given `text` into text field identified by `locator`.</doc>
+<arguments>
+<arg>model=registration.given</arg>
+<arg>${first}</arg>
+</arguments>
+<msg timestamp="20170601 09:05:03.854" level="INFO">Typing text 'Je Marie' into text field 'model=registration.given'</msg>
+<status status="PASS" endtime="20170601 09:05:04.231" starttime="20170601 09:05:03.852"></status>
+</kw>
+<kw name="Input Text" library="ExtendedSelenium2Library">
+<doc>Types the given `text` into text field identified by `locator`.</doc>
+<arguments>
+<arg>model=registration.middlemaiden</arg>
+<arg>${middlemaiden}</arg>
+</arguments>
+<msg timestamp="20170601 09:05:04.234" level="INFO">Typing text 'Alfaro' into text field 'model=registration.middlemaiden'</msg>
+<status status="PASS" endtime="20170601 09:05:04.597" starttime="20170601 09:05:04.233"></status>
+</kw>
+<kw name="Input Text" library="ExtendedSelenium2Library">
+<doc>Types the given `text` into text field identified by `locator`.</doc>
+<arguments>
+<arg>model=registration.email</arg>
+<arg>${email}</arg>
+</arguments>
+<msg timestamp="20170601 09:05:04.600" level="INFO">Typing text 'bmicons360@gmail.com' into text field 'model=registration.email'</msg>
+<status status="PASS" endtime="20170601 09:05:05.143" starttime="20170601 09:05:04.598"></status>
+</kw>
+<kw name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>name=register</arg>
+</arguments>
+<msg timestamp="20170601 09:05:05.146" level="INFO">Clicking element 'name=register'.</msg>
+<status status="PASS" endtime="20170601 09:05:11.042" starttime="20170601 09:05:05.145"></status>
+</kw>
+<status status="PASS" endtime="20170601 09:05:11.044" starttime="20170601 09:05:03.455"></status>
+</kw>
+<kw name="Location Should Be" library="ExtendedSelenium2Library">
+<doc>Verifies that current URL is exactly `url`.</doc>
+<arguments>
+<arg>http://${HOST}/application</arg>
+</arguments>
+<msg timestamp="20170601 09:05:16.596" level="INFO">Current location is 'http://localhost:6543/#!/application'.</msg>
+<status status="PASS" endtime="20170601 09:05:16.597" starttime="20170601 09:05:11.045"></status>
+</kw>
+<kw type="teardown" name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>id=logout</arg>
+</arguments>
+<msg timestamp="20170601 09:05:16.601" level="INFO">Clicking element 'id=logout'.</msg>
+<status status="PASS" endtime="20170601 09:05:19.952" starttime="20170601 09:05:16.599"></status>
+</kw>
+<status status="PASS" endtime="20170601 09:05:19.953" starttime="20170601 09:05:02.648"></status>
+</kw>
+<kw type="teardown" name="Close Browser" library="ExtendedSelenium2Library">
+<doc>Closes the current browser.</doc>
+<status status="PASS" endtime="20170601 09:05:23.220" starttime="20170601 09:05:19.955"></status>
+</kw>
+<status status="PASS" endtime="20170601 09:05:23.222" critical="yes" starttime="20170601 09:04:50.551"></status>
+</test>
+<test id="s1-t4" name="Answer Program of Study Non-Thesis Other Scholarship">
+<kw type="setup" name="Setup" library="resources">
+<arguments>
+<arg>${HOST}</arg>
+</arguments>
+<kw name="Open Browser" library="ExtendedSelenium2Library">
+<doc>Opens a new browser instance to given URL.</doc>
+<arguments>
+<arg>${url}</arg>
+<arg>${BROWSER}</arg>
+</arguments>
+<msg timestamp="20170601 09:05:23.230" level="INFO">Opening browser 'Chrome' to base url 'localhost:6543/#!'</msg>
+<status status="PASS" endtime="20170601 09:05:41.750" starttime="20170601 09:05:23.229"></status>
+</kw>
+<status status="PASS" endtime="20170601 09:05:41.751" starttime="20170601 09:05:23.227"></status>
+</kw>
+<kw name="Fill up Program of Study Non-Thesis Other Scholarship">
+<arguments>
+<arg>mfmayol@up.edu.ph</arg>
+<arg>Master of Science</arg>
+<arg>MSE</arg>
+<arg>Non Thesis</arg>
+<arg>Full Time</arg>
+<arg>First Semester</arg>
+<arg>2017-2018</arg>
+<arg>Yes</arg>
+<arg>Other Scholarship</arg>
+</arguments>
+<kw name="Login and go to Program of Study">
+<arguments>
+<arg>${email}</arg>
+</arguments>
+<kw name="Login" library="resources">
+<arguments>
+<arg>${email}</arg>
+</arguments>
+<kw name="Input Text" library="ExtendedSelenium2Library">
+<doc>Types the given `text` into text field identified by `locator`.</doc>
+<arguments>
+<arg>model=login.email</arg>
+<arg>${email}</arg>
+</arguments>
+<msg timestamp="20170601 09:05:41.761" level="INFO">Typing text 'mfmayol@up.edu.ph' into text field 'model=login.email'</msg>
+<status status="PASS" endtime="20170601 09:05:42.547" starttime="20170601 09:05:41.760"></status>
+</kw>
+<kw name="Get Value From User" library="Dialogs">
+<doc>Pauses test execution and asks user to input a value.</doc>
+<arguments>
+<arg>Input password</arg>
+<arg>hidden=yes</arg>
+</arguments>
+<assign>
+<var>${password}</var>
+</assign>
+<msg timestamp="20170601 09:06:15.463" level="INFO">${password} = kz2xjiAm</msg>
+<status status="PASS" endtime="20170601 09:06:15.465" starttime="20170601 09:05:42.549"></status>
+</kw>
+<kw name="Input Text" library="ExtendedSelenium2Library">
+<doc>Types the given `text` into text field identified by `locator`.</doc>
+<arguments>
+<arg>model=login.password</arg>
+<arg>${password}</arg>
+</arguments>
+<msg timestamp="20170601 09:06:15.471" level="INFO">Typing text 'kz2xjiAm' into text field 'model=login.password'</msg>
+<status status="PASS" endtime="20170601 09:06:15.868" starttime="20170601 09:06:15.468"></status>
+</kw>
+<kw name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>name=login</arg>
+</arguments>
+<msg timestamp="20170601 09:06:15.871" level="INFO">Clicking element 'name=login'.</msg>
+<status status="PASS" endtime="20170601 09:06:20.208" starttime="20170601 09:06:15.869"></status>
+</kw>
+<status status="PASS" endtime="20170601 09:06:20.211" starttime="20170601 09:05:41.757"></status>
+</kw>
+<kw name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>id=application</arg>
+</arguments>
+<msg timestamp="20170601 09:06:20.216" level="INFO">Clicking element 'id=application'.</msg>
+<status status="PASS" endtime="20170601 09:06:21.070" starttime="20170601 09:06:20.214"></status>
+</kw>
+<kw name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>id=program-of-study</arg>
+</arguments>
+<msg timestamp="20170601 09:06:21.076" level="INFO">Clicking element 'id=program-of-study'.</msg>
+<status status="PASS" endtime="20170601 09:06:22.134" starttime="20170601 09:06:21.073"></status>
+</kw>
+<status status="PASS" endtime="20170601 09:06:22.146" starttime="20170601 09:05:41.755"></status>
+</kw>
+<kw name="Sleep" library="BuiltIn">
+<doc>Pauses the test executed for the given time.</doc>
+<arguments>
+<arg>5</arg>
+</arguments>
+<msg timestamp="20170601 09:06:27.148" level="INFO">Slept 5 seconds</msg>
+<status status="PASS" endtime="20170601 09:06:27.149" starttime="20170601 09:06:22.147"></status>
+</kw>
+<kw name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>xpath=(//div[text() = '${1}'])</arg>
+</arguments>
+<msg timestamp="20170601 09:06:27.153" level="INFO">Clicking element 'xpath=(//div[text() = 'Master of Science'])'.</msg>
+<status status="PASS" endtime="20170601 09:06:28.119" starttime="20170601 09:06:27.151"></status>
+</kw>
+<kw name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>xpath=(//div[text() = '${2}'])</arg>
+</arguments>
+<msg timestamp="20170601 09:06:28.122" level="INFO">Clicking element 'xpath=(//div[text() = 'MSE'])'.</msg>
+<status status="PASS" endtime="20170601 09:06:28.912" starttime="20170601 09:06:28.121"></status>
+</kw>
+<kw name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>xpath=(//div[text() = '${3}'])</arg>
+</arguments>
+<msg timestamp="20170601 09:06:28.918" level="INFO">Clicking element 'xpath=(//div[text() = 'Non Thesis'])'.</msg>
+<status status="PASS" endtime="20170601 09:06:29.710" starttime="20170601 09:06:28.916"></status>
+</kw>
+<kw name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>xpath=(//div[text() = '${4}'])</arg>
+</arguments>
+<msg timestamp="20170601 09:06:29.717" level="INFO">Clicking element 'xpath=(//div[text() = 'Full Time'])'.</msg>
+<status status="PASS" endtime="20170601 09:06:30.531" starttime="20170601 09:06:29.713"></status>
+</kw>
+<kw name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>xpath=(//div[text() = '${5}'])</arg>
+</arguments>
+<msg timestamp="20170601 09:06:30.538" level="INFO">Clicking element 'xpath=(//div[text() = 'First Semester'])'.</msg>
+<status status="PASS" endtime="20170601 09:06:31.340" starttime="20170601 09:06:30.534"></status>
+</kw>
+<kw name="Input Text" library="ExtendedSelenium2Library">
+<doc>Types the given `text` into text field identified by `locator`.</doc>
+<arguments>
+<arg>name=year</arg>
+<arg>${6}</arg>
+</arguments>
+<msg timestamp="20170601 09:06:31.348" level="INFO">Typing text '2017-2018' into text field 'name=year'</msg>
+<status status="PASS" endtime="20170601 09:06:31.756" starttime="20170601 09:06:31.344"></status>
+</kw>
+<kw name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>xpath=(//div[text() = '${7}'])</arg>
+</arguments>
+<msg timestamp="20170601 09:06:31.758" level="INFO">Clicking element 'xpath=(//div[text() = 'Yes'])'.</msg>
+<status status="PASS" endtime="20170601 09:06:32.556" starttime="20170601 09:06:31.757"></status>
+</kw>
+<kw name="Input Text" library="ExtendedSelenium2Library">
+<doc>Types the given `text` into text field identified by `locator`.</doc>
+<arguments>
+<arg>name=scholarship_name</arg>
+<arg>${8}</arg>
+</arguments>
+<msg timestamp="20170601 09:06:32.560" level="INFO">Typing text 'Other Scholarship' into text field 'name=scholarship_name'</msg>
+<status status="PASS" endtime="20170601 09:06:33.079" starttime="20170601 09:06:32.558"></status>
+</kw>
+<kw name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>id=submit</arg>
+</arguments>
+<msg timestamp="20170601 09:06:33.082" level="INFO">Clicking element 'id=submit'.</msg>
+<status status="PASS" endtime="20170601 09:06:36.535" starttime="20170601 09:06:33.080"></status>
+</kw>
+<kw name="Location Should Be" library="ExtendedSelenium2Library">
+<doc>Verifies that current URL is exactly `url`.</doc>
+<arguments>
+<arg>http://${HOST}/application</arg>
+</arguments>
+<msg timestamp="20170601 09:06:37.157" level="INFO">Current location is 'http://localhost:6543/#!/application'.</msg>
+<status status="PASS" endtime="20170601 09:06:37.159" starttime="20170601 09:06:36.538"></status>
+</kw>
+<kw name="Get Text" library="ExtendedSelenium2Library">
+<doc>Returns the text value of element identified by `locator`.</doc>
+<arguments>
+<arg>id=program-of-study-text</arg>
+</arguments>
+<assign>
+<var>${result}</var>
+</assign>
+<msg timestamp="20170601 09:06:37.276" level="INFO">${result} = Answered</msg>
+<status status="PASS" endtime="20170601 09:06:37.276" starttime="20170601 09:06:37.162"></status>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<arguments>
+<arg>${result}</arg>
+<arg>Answered</arg>
+</arguments>
+<status status="PASS" endtime="20170601 09:06:37.280" starttime="20170601 09:06:37.278"></status>
+</kw>
+<kw name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>id=logout</arg>
+</arguments>
+<msg timestamp="20170601 09:06:37.282" level="INFO">Clicking element 'id=logout'.</msg>
+<status status="PASS" endtime="20170601 09:06:40.693" starttime="20170601 09:06:37.281"></status>
+</kw>
+<status status="PASS" endtime="20170601 09:06:40.695" starttime="20170601 09:05:41.753"></status>
+</kw>
+<kw type="teardown" name="Close Browser" library="ExtendedSelenium2Library">
+<doc>Closes the current browser.</doc>
+<status status="PASS" endtime="20170601 09:06:43.944" starttime="20170601 09:06:40.697"></status>
+</kw>
+<status status="PASS" endtime="20170601 09:06:43.946" critical="yes" starttime="20170601 09:05:23.224"></status>
+</test>
+<test id="s1-t5" name="Answer Program of Study Thesis ERDT">
+<kw type="setup" name="Setup" library="resources">
+<arguments>
+<arg>${HOST}</arg>
+</arguments>
+<kw name="Open Browser" library="ExtendedSelenium2Library">
+<doc>Opens a new browser instance to given URL.</doc>
+<arguments>
+<arg>${url}</arg>
+<arg>${BROWSER}</arg>
+</arguments>
+<msg timestamp="20170601 09:06:43.955" level="INFO">Opening browser 'Chrome' to base url 'localhost:6543/#!'</msg>
+<status status="PASS" endtime="20170601 09:07:01.700" starttime="20170601 09:06:43.953"></status>
+</kw>
+<status status="PASS" endtime="20170601 09:07:01.702" starttime="20170601 09:06:43.951"></status>
+</kw>
+<kw name="Fill up Program of Study Thesis ERDT">
+<arguments>
+<arg>bmicons360@gmail.com</arg>
+<arg>Doctor of Philosophy</arg>
+<arg>CE</arg>
+<arg>Thesis</arg>
+<arg>Part Time</arg>
+<arg>Water Resources</arg>
+<arg>Geotechnical</arg>
+<arg>Transportation</arg>
+<arg>Second Semester</arg>
+<arg>2018-2019</arg>
+<arg>No</arg>
+</arguments>
+<kw name="Login and go to Program of Study">
+<arguments>
+<arg>${email}</arg>
+</arguments>
+<kw name="Login" library="resources">
+<arguments>
+<arg>${email}</arg>
+</arguments>
+<kw name="Input Text" library="ExtendedSelenium2Library">
+<doc>Types the given `text` into text field identified by `locator`.</doc>
+<arguments>
+<arg>model=login.email</arg>
+<arg>${email}</arg>
+</arguments>
+<msg timestamp="20170601 09:07:01.710" level="INFO">Typing text 'bmicons360@gmail.com' into text field 'model=login.email'</msg>
+<status status="PASS" endtime="20170601 09:07:02.276" starttime="20170601 09:07:01.709"></status>
+</kw>
+<kw name="Get Value From User" library="Dialogs">
+<doc>Pauses test execution and asks user to input a value.</doc>
+<arguments>
+<arg>Input password</arg>
+<arg>hidden=yes</arg>
+</arguments>
+<assign>
+<var>${password}</var>
+</assign>
+<msg timestamp="20170601 09:07:04.490" level="INFO">${password} = QFmy5jWg</msg>
+<status status="PASS" endtime="20170601 09:07:04.491" starttime="20170601 09:07:02.277"></status>
+</kw>
+<kw name="Input Text" library="ExtendedSelenium2Library">
+<doc>Types the given `text` into text field identified by `locator`.</doc>
+<arguments>
+<arg>model=login.password</arg>
+<arg>${password}</arg>
+</arguments>
+<msg timestamp="20170601 09:07:04.499" level="INFO">Typing text 'QFmy5jWg' into text field 'model=login.password'</msg>
+<status status="PASS" endtime="20170601 09:07:04.913" starttime="20170601 09:07:04.496"></status>
+</kw>
+<kw name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>name=login</arg>
+</arguments>
+<msg timestamp="20170601 09:07:04.915" level="INFO">Clicking element 'name=login'.</msg>
+<status status="PASS" endtime="20170601 09:07:09.158" starttime="20170601 09:07:04.914"></status>
+</kw>
+<status status="PASS" endtime="20170601 09:07:09.161" starttime="20170601 09:07:01.707"></status>
+</kw>
+<kw name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>id=application</arg>
+</arguments>
+<msg timestamp="20170601 09:07:09.167" level="INFO">Clicking element 'id=application'.</msg>
+<status status="PASS" endtime="20170601 09:07:10.077" starttime="20170601 09:07:09.164"></status>
+</kw>
+<kw name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>id=program-of-study</arg>
+</arguments>
+<msg timestamp="20170601 09:07:10.081" level="INFO">Clicking element 'id=program-of-study'.</msg>
+<status status="PASS" endtime="20170601 09:07:11.123" starttime="20170601 09:07:10.079"></status>
+</kw>
+<status status="PASS" endtime="20170601 09:07:11.125" starttime="20170601 09:07:01.705"></status>
+</kw>
+<kw name="Sleep" library="BuiltIn">
+<doc>Pauses the test executed for the given time.</doc>
+<arguments>
+<arg>5</arg>
+</arguments>
+<msg timestamp="20170601 09:07:16.127" level="INFO">Slept 5 seconds</msg>
+<status status="PASS" endtime="20170601 09:07:16.131" starttime="20170601 09:07:11.126"></status>
+</kw>
+<kw name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>xpath=(//div[text() = '${1}'])</arg>
+</arguments>
+<msg timestamp="20170601 09:07:16.137" level="INFO">Clicking element 'xpath=(//div[text() = 'Doctor of Philosophy'])'.</msg>
+<status status="PASS" endtime="20170601 09:07:16.943" starttime="20170601 09:07:16.134"></status>
+</kw>
+<kw name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>xpath=(//div[text() = '${2}'])</arg>
+</arguments>
+<msg timestamp="20170601 09:07:16.946" level="INFO">Clicking element 'xpath=(//div[text() = 'CE'])'.</msg>
+<status status="PASS" endtime="20170601 09:07:17.705" starttime="20170601 09:07:16.945"></status>
+</kw>
+<kw name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>xpath=(//div[text() = '${3}'])</arg>
+</arguments>
+<msg timestamp="20170601 09:07:17.712" level="INFO">Clicking element 'xpath=(//div[text() = 'Thesis'])'.</msg>
+<status status="PASS" endtime="20170601 09:07:18.498" starttime="20170601 09:07:17.708"></status>
+</kw>
+<kw name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>xpath=(//div[text() = '${4}'])</arg>
+</arguments>
+<msg timestamp="20170601 09:07:18.503" level="INFO">Clicking element 'xpath=(//div[text() = 'Part Time'])'.</msg>
+<status status="PASS" endtime="20170601 09:07:19.303" starttime="20170601 09:07:18.501"></status>
+</kw>
+<kw name="Sleep" library="BuiltIn">
+<doc>Pauses the test executed for the given time.</doc>
+<arguments>
+<arg>0.5</arg>
+</arguments>
+<msg timestamp="20170601 09:07:19.809" level="INFO">Slept 500 milliseconds</msg>
+<status status="PASS" endtime="20170601 09:07:19.809" starttime="20170601 09:07:19.306"></status>
+</kw>
+<kw name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>xpath=(//div[text() = '1st Choice'])</arg>
+</arguments>
+<msg timestamp="20170601 09:07:19.812" level="INFO">Clicking element 'xpath=(//div[text() = '1st Choice'])'.</msg>
+<status status="PASS" endtime="20170601 09:07:20.589" starttime="20170601 09:07:19.810"></status>
+</kw>
+<kw name="Sleep" library="BuiltIn">
+<doc>Pauses the test executed for the given time.</doc>
+<arguments>
+<arg>0.5</arg>
+</arguments>
+<msg timestamp="20170601 09:07:21.095" level="INFO">Slept 500 milliseconds</msg>
+<status status="PASS" endtime="20170601 09:07:21.096" starttime="20170601 09:07:20.592"></status>
+</kw>
+<kw name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>xpath=(//div[text() = '${5}'])[1]</arg>
+</arguments>
+<msg timestamp="20170601 09:07:21.099" level="INFO">Clicking element 'xpath=(//div[text() = 'Water Resources'])[1]'.</msg>
+<status status="PASS" endtime="20170601 09:07:21.912" starttime="20170601 09:07:21.098"></status>
+</kw>
+<kw name="Sleep" library="BuiltIn">
+<doc>Pauses the test executed for the given time.</doc>
+<arguments>
+<arg>0.5</arg>
+</arguments>
+<msg timestamp="20170601 09:07:22.418" level="INFO">Slept 500 milliseconds</msg>
+<status status="PASS" endtime="20170601 09:07:22.419" starttime="20170601 09:07:21.915"></status>
+</kw>
+<kw name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>xpath=(//div[text() = '2nd Choice'])</arg>
+</arguments>
+<msg timestamp="20170601 09:07:22.423" level="INFO">Clicking element 'xpath=(//div[text() = '2nd Choice'])'.</msg>
+<status status="PASS" endtime="20170601 09:07:23.256" starttime="20170601 09:07:22.421"></status>
+</kw>
+<kw name="Sleep" library="BuiltIn">
+<doc>Pauses the test executed for the given time.</doc>
+<arguments>
+<arg>0.5</arg>
+</arguments>
+<msg timestamp="20170601 09:07:23.762" level="INFO">Slept 500 milliseconds</msg>
+<status status="PASS" endtime="20170601 09:07:23.764" starttime="20170601 09:07:23.259"></status>
+</kw>
+<kw name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>xpath=(//div[text() = '${6}'])[2]</arg>
+</arguments>
+<msg timestamp="20170601 09:07:23.770" level="INFO">Clicking element 'xpath=(//div[text() = 'Geotechnical'])[2]'.</msg>
+<status status="PASS" endtime="20170601 09:07:24.623" starttime="20170601 09:07:23.766"></status>
+</kw>
+<kw name="Sleep" library="BuiltIn">
+<doc>Pauses the test executed for the given time.</doc>
+<arguments>
+<arg>0.5</arg>
+</arguments>
+<msg timestamp="20170601 09:07:25.128" level="INFO">Slept 500 milliseconds</msg>
+<status status="PASS" endtime="20170601 09:07:25.130" starttime="20170601 09:07:24.626"></status>
+</kw>
+<kw name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>xpath=(//div[text() = '3rd Choice'])</arg>
+</arguments>
+<msg timestamp="20170601 09:07:25.134" level="INFO">Clicking element 'xpath=(//div[text() = '3rd Choice'])'.</msg>
+<status status="PASS" endtime="20170601 09:07:26.031" starttime="20170601 09:07:25.132"></status>
+</kw>
+<kw name="Sleep" library="BuiltIn">
+<doc>Pauses the test executed for the given time.</doc>
+<arguments>
+<arg>0.5</arg>
+</arguments>
+<msg timestamp="20170601 09:07:26.537" level="INFO">Slept 500 milliseconds</msg>
+<status status="PASS" endtime="20170601 09:07:26.538" starttime="20170601 09:07:26.035"></status>
+</kw>
+<kw name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>xpath=(//div[text() = '${7}'])[3]</arg>
+</arguments>
+<msg timestamp="20170601 09:07:26.542" level="INFO">Clicking element 'xpath=(//div[text() = 'Transportation'])[3]'.</msg>
+<status status="PASS" endtime="20170601 09:07:27.364" starttime="20170601 09:07:26.539"></status>
+</kw>
+<kw name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>xpath=(//div[text() = '${8}'])</arg>
+</arguments>
+<msg timestamp="20170601 09:07:27.370" level="INFO">Clicking element 'xpath=(//div[text() = 'Second Semester'])'.</msg>
+<status status="PASS" endtime="20170601 09:07:28.208" starttime="20170601 09:07:27.367"></status>
+</kw>
+<kw name="Input Text" library="ExtendedSelenium2Library">
+<doc>Types the given `text` into text field identified by `locator`.</doc>
+<arguments>
+<arg>name=year</arg>
+<arg>${9}</arg>
+</arguments>
+<msg timestamp="20170601 09:07:28.216" level="INFO">Typing text '2018-2019' into text field 'name=year'</msg>
+<status status="PASS" endtime="20170601 09:07:28.616" starttime="20170601 09:07:28.212"></status>
+</kw>
+<kw name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>xpath=(//div[text() = '${10}'])</arg>
+</arguments>
+<msg timestamp="20170601 09:07:28.620" level="INFO">Clicking element 'xpath=(//div[text() = 'No'])'.</msg>
+<status status="PASS" endtime="20170601 09:07:29.366" starttime="20170601 09:07:28.618"></status>
+</kw>
+<kw name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>id=submit</arg>
+</arguments>
+<msg timestamp="20170601 09:07:29.371" level="INFO">Clicking element 'id=submit'.</msg>
+<status status="PASS" endtime="20170601 09:07:32.833" starttime="20170601 09:07:29.369"></status>
+</kw>
+<kw name="Location Should Be" library="ExtendedSelenium2Library">
+<doc>Verifies that current URL is exactly `url`.</doc>
+<arguments>
+<arg>http://${HOST}/application</arg>
+</arguments>
+<msg timestamp="20170601 09:07:33.392" level="INFO">Current location is 'http://localhost:6543/#!/application'.</msg>
+<status status="PASS" endtime="20170601 09:07:33.393" starttime="20170601 09:07:32.835"></status>
+</kw>
+<kw name="Get Text" library="ExtendedSelenium2Library">
+<doc>Returns the text value of element identified by `locator`.</doc>
+<arguments>
+<arg>id=program-of-study-text</arg>
+</arguments>
+<assign>
+<var>${result}</var>
+</assign>
+<msg timestamp="20170601 09:07:33.492" level="INFO">${result} = Answered</msg>
+<status status="PASS" endtime="20170601 09:07:33.493" starttime="20170601 09:07:33.394"></status>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<arguments>
+<arg>${result}</arg>
+<arg>Answered</arg>
+</arguments>
+<status status="PASS" endtime="20170601 09:07:33.495" starttime="20170601 09:07:33.494"></status>
+</kw>
+<kw name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>id=logout</arg>
+</arguments>
+<msg timestamp="20170601 09:07:33.497" level="INFO">Clicking element 'id=logout'.</msg>
+<status status="PASS" endtime="20170601 09:07:36.862" starttime="20170601 09:07:33.496"></status>
+</kw>
+<status status="PASS" endtime="20170601 09:07:36.864" starttime="20170601 09:07:01.703"></status>
+</kw>
+<kw type="teardown" name="Close Browser" library="ExtendedSelenium2Library">
+<doc>Closes the current browser.</doc>
+<status status="PASS" endtime="20170601 09:07:40.235" starttime="20170601 09:07:36.866"></status>
+</kw>
+<status status="PASS" endtime="20170601 09:07:40.238" critical="yes" starttime="20170601 09:06:43.949"></status>
+</test>
+<status status="PASS" endtime="20170601 09:07:40.245" starttime="20170601 09:04:02.903"></status>
+</suite>
+<statistics>
+<total>
+<stat fail="0" pass="5">Critical Tests</stat>
+<stat fail="0" pass="5">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat fail="0" id="s1" name="NGSE" pass="5">NGSE</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>

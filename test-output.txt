@@ -1,0 +1,46 @@
+
+
+
+.[{u'name': u'admin', u'user_type': u'Admin', u'email': u'ngse@coe.upd.edu.ph', u'last_modified': u'2017-06-01 08:33:14.191333', u'date_created': u'2017-06-01 08:33:14.191333', u'id': 1}, {u'name': u'Michael Pio Mayol', u'recommender2': u'acc 2', u'user_type': u'Non-ERDT Applicant', u'email': u'mfmayol@up.edu.ph', u'recommender1': u'acc 1', u'recommender3': u'acc 3', u'last_modified': u'2017-06-01 09:04:32.862540', u'application_status': u'None', u'date_created': u'2017-06-01 09:04:32.862540', u'validation_status': u'None', u'id': 2}, {u'name': u'Je Marie Apolinario', u'recommender2': u'None', u'user_type': u'ERDT Applicant', u'email': u'bmicons360@gmail.com', u'recommender1': u'None', u'recommender3': u'None', u'last_modified': u'2017-06-01 09:04:40.556536', u'application_status': u'None', u'date_created': u'2017-06-01 09:04:40.556536', u'validation_status': u'None', u'id': 3}, {u'name': u'acc 1', u'user_type': u'Recommender', u'email': u'bmicons360@gmail.com', u'last_modified': u'2017-06-01 09:24:39.369666', u'date_created': u'2017-06-01 09:24:39.369666', u'id': 4}, {u'name': u'acc 2', u'user_type': u'Recommender', u'email': u'bmicons360@gmail.com', u'last_modified': u'2017-06-01 09:24:42.680708', u'date_created': u'2017-06-01 09:24:42.680708', u'id': 5}, {u'name': u'acc 3', u'user_type': u'Recommender', u'email': u'bmicons360@gmail.com', u'last_modified': u'2017-06-01 09:24:46.257553', u'date_created': u'2017-06-01 09:24:46.257553', u'id': 6}]
+.
+
+
+.
+
+
+True, True
+True, True
+True, True
+True, True
+True, True
+True, True
+False, False
+False, False
+False, False
+.
+
+
+{u'name': u'Non-ERDT Application Form', u'date_end': u'2017-07-01 01:00:00', u'date_start': u'2017-03-01 01:00:00', u'form_type_id': 2, u'last_modified': u'2017-06-01 08:33:15.972836', u'page_sequence': [2, 4, 5, 6, 7, 8, 9], u'user_type_id': 4, u'date_created': u'2017-06-01 08:33:15.972836'}
+{u'message': u'Invalid form id', u'success': False}
+.
+
+
+Token is valid
+Token is valid
+Token is valid
+Token is valid
+Token is valid
+Token is valid
+.
+
+
+.
+
+
+{u'message': u'user id is invalid', u'success': False}
+{u'message': u'user id is invalid', u'success': False}
+.
+----------------------------------------------------------------------
+Ran 8 tests in 10.084s
+
+OK

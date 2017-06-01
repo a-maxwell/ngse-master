@@ -589,10 +589,12 @@ def forms(request):
 from sqlalchemy import func
 def show_user(request):
 	user_id = request.params['user_id']
-
-	user = session.query(User)\
+	try:
+		user = session.query(User)\
 		.filter(User.id == user_id)\
 		.one()
+	except:
+		return generateError('user id is invalid')
 
 	d = {
 		'name': user.name,
@@ -690,11 +692,29 @@ def update_user(request):
 		.one()
 
 	submitted = request.params.get('submitted', None)
+	password = request.params.get('password', None)
+	appstat = request.params.get('application_status', None)
+	valstat = request.params.get('validation_status', None)
 
 	if not submitted is None:
 		user.submitted = submitted
 		session.commit()
-		return {'success': True}
+		return generateSuccess('user submission successful')
+
+	if not password is None:
+		user.password = bcrypt.hashpw(password, bcrypt.gensalt())
+		session.commit()
+		return generateSuccess('password successfully changed')
+
+	if not appstat is None:
+		user.application_status = appstat
+		session.commit()
+		return generateSuccess('application status successfully changed')
+
+	if not valstat is None:
+		user.validation_status = valstat
+		session.commit()
+		return generateSuccess('validation status successfully changed')
 
 	user_attribs = session.query(ApplicantAttribute)\
 		.filter(ApplicantAttribute.applicant_id == user_id)\
@@ -808,7 +828,10 @@ def delete_form(request):
 	return {'success': True}
 
 def show_form(request):
-	form_id = request.params['form_id']
+	form_id = request.params.get('form_id')
+
+	if form_id is None:
+		return generateError('invalid form id')
 
 	try:
 		form = session.query(Form)\
@@ -1112,12 +1135,27 @@ def update_answer(request):
 
 # def view_answer(request):
 def show_answer(request):
-	user_id = request.params['user_id']
-	category_id = request.params['category_id']
+	user_id = request.params.get('user_id')
+	category_id = request.params.get('category_id')
+
+	if user_id is None or category_id is None:
+		return generateError('invalid user id or category id')
+
+	try:
+		u = session.query(User).filter(User.id == user_id).one()
+	except:
+		return generateError('invalid user id')
+
+	try:
+		c = session.query(Category).filter(Category.id == category_id).one()
+	except:
+		return generateError('invalid category id')
 
 	result = []
 
-	for answer in session.query(Answer).filter(Answer.user_id == user_id).join(Answer.element, aliased=True).filter_by(category_id=category_id):
+	answers = session.query(Answer).filter(Answer.user_id == user_id).join(Answer.element, aliased=True).filter_by(category_id=category_id)
+
+	for answer in answers:
 		result.append({
 			'id': answer.id,
 			'text': answer.text,
@@ -1131,7 +1169,6 @@ def show_answer(request):
 def get_users(request):
 	d = []
 	for u in session.query(User):
-		print u.name
 		if u.user_type.name == "ERDT Applicant" or u.user_type.name == "Non-ERDT Applicant":
 			_u = session.query(ApplicantAttribute).filter(ApplicantAttribute.applicant_id == u.id).first()
 			rec_a = session.query(User).filter(User.id == _u.recommender_a).all()
@@ -1213,6 +1250,7 @@ def login_user(request):
 
 	return generateSuccess('Welcome, {}!'.format(user.name), {'token': generateToken(user)})
 
+from email.utils import parseaddr
 
 def create_user(request):
 	# check for required params, return error if incomplete
@@ -1223,6 +1261,11 @@ def create_user(request):
 	middlemaiden = request.params.get('middlemaiden', None)
 	level = request.params.get('level', None)
 	fullname = '{} {}'.format(given, last)
+
+	parsed = parseaddr(email)
+
+	if parsed[1] == "":
+		return generateError('Invalid email')
 	########## 
 	#EDIT: may 31 - daisy
 	# generated_password = 'password'
