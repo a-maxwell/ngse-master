@@ -76,15 +76,40 @@ E-mail: {}<br>\
 Passcode: {}<br><br>\
 We hope to see you submit your application soon.'
 
+recommender_message = 'Hello, {}.\n\
+\n\
+{} is applying for the National Graduate School of Engineering and has assigned you to be one of their references of recommendation.\n\
+\n\
+You may submit your recommendation here via our online form over at our site (http://35.184.104.115/) using the following credentials:\n\
+\n\
+E-mail: {}\n\
+Passcode: {}\n\
+\n\
+If you have any questions, you may send us an e-mail.\n\
+\n\
+We hope to see you submit your recommendation soon!'
+
+recommender_message_html = 'Hello, {}.<br><br>\
+{} is applying for the National Graduate School of Engineering and has assigned you to be one of their references of recommendation.<br><br>\
+You may submit your recommendation here via our online form over at our site (http://35.184.104.115/) using the following credentials:<br><br>\
+E-mail: {}<br>\
+Passcode: {}<br><br>\
+If you have any questions, you may send us an e-mail.<br><br>\
+We hope to see you submit your recommendation soon!'
+
 def send_email(mailer, message):
 	message.sender = "ngse@coe.upd.edu.ph"
 	mailer.send(message)
 	transaction.commit()
 
-def send_recommender_email(mailer, applicant_name, recipient, password):
-	message = Message(subject="NGSE Recommender Credentials",
+def send_recommender_email(mailer, name, applicant_name, recipient, password):
+	body = recommender_message.format(name, applicant_name, recipient, password)
+	html = recommender_message_html.format(name, applicant_name, recipient, password)
+	print body
+	message = Message(subject="NGSE Online Recommendation",
 		recipients=[recipient],
-		body="Good day!\n\n{} has started filling up an application form for the National Graduate School of Engineering and has chosen you to be one of their references. Kindly fill up the form at http://104.198.143.20\n\nThe e-mail to be used when logging in is this e-mail and your generated password is {}".format(applicant_name, password)
+		body=body,
+		html=email_template.format(html)
 		)
 
 	send_email(mailer, message)
@@ -92,7 +117,7 @@ def send_recommender_email(mailer, applicant_name, recipient, password):
 def send_credentials_email(mailer, name, recipient, password):
 	body = applicant_message.format(name, recipient, password)
 	html = applicant_message_html.format(name, recipient, password)
-	print html
+	print body
 	message = Message(subject="NGSE Online Application",
 		recipients=[recipient],
 		body=body,
