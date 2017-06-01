@@ -24,14 +24,17 @@ app.controller('formController', function($rootScope, $scope, $routeParams, $loc
             var e = $scope.elements[i]
             if (e.klass != 'question') continue;
             var a = e.answer;
-            if (a.text === "") if (e.required) {
-                if (e.kind === "date") continue;
-                // messageService.pushMessage({
-                //     text: "A required field is missing",
-                //     type: "error"
-                // });
-                $scope.loading = false;
-                return false;
+            if (a.text === "") {
+                if (e.required) {
+                    if (e.kind === "date") continue;
+                    console.log(e);
+                    // messageService.pushMessage({
+                    //     text: "A required field is missing",
+                    //     type: "error"
+                    // });
+                    $scope.loading = false;
+                    return false;
+                }
             }
             answers.push(a);
         }
