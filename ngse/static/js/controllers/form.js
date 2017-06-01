@@ -18,10 +18,14 @@ app.controller('formController', function($rootScope, $scope, $routeParams, $loc
         $scope.loading = true;
         answers = [];
 
+        console.log('initialized save()')
+
         for (var i = 0; i < $scope.elements.length; i++) {
-            if ($scope.elements[i].klass != 'question') continue;
-            answer = $scope.elements[i].answer;
-            if (answer.text === "") if ($scope.elements[i].required) {
+            var e = $scope.elements[i]
+            if (e.klass != 'question') continue;
+            var a = e.answer;
+            if (a.text === "") if (e.required) {
+                if (e.kind === "date") continue;
                 // messageService.pushMessage({
                 //     text: "A required field is missing",
                 //     type: "error"
@@ -29,7 +33,7 @@ app.controller('formController', function($rootScope, $scope, $routeParams, $loc
                 $scope.loading = false;
                 return false;
             }
-            answers.push(answer);
+            answers.push(a);
         }
 
         formService.saveAnswers(function(d) {

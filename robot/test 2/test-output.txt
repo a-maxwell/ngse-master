@@ -1,0 +1,17 @@
+command: pybot.bat --argumentfile c:\users\bmico\appdata\local\temp\RIDEwwbpls.d\argfile.txt --listener C:\Python27\lib\site-packages\robotide\contrib\testrunner\TestRunnerAgent.py:58230:False C:\dev\NGSE\robot\NGSE.robot
+===========================================================================================
+NGSE                                                                                       
+===========================================================================================
+Answer Program of Study Non-Thesis Other Scholarship                               | PASS |
+-------------------------------------------------------------------------------------------
+Answer Program of Study Thesis ERDT                                                | PASS |
+-------------------------------------------------------------------------------------------
+NGSE                                                                               | PASS |
+2 critical tests, 2 passed, 0 failed
+2 tests total, 2 passed, 0 failed
+===========================================================================================
+Output:  c:\users\bmico\appdata\local\temp\RIDEwwbpls.d\output.xml
+Log:     c:\users\bmico\appdata\local\temp\RIDEwwbpls.d\log.html
+Report:  c:\users\bmico\appdata\local\temp\RIDEwwbpls.d\report.html
+
+test finished 20170601 00:09:49

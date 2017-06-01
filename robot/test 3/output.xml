@@ -1,0 +1,451 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generated="20170601 08:27:25.325" generator="Robot 3.0.2 (Python 2.7.12 on win32)">
+<suite source="C:\dev\NGSE\robot\NGSE.robot" id="s1" name="NGSE">
+<test id="s1-t1" name="Fill Up Application Form">
+<kw type="setup" name="Setup" library="resources">
+<arguments>
+<arg>${HOST}</arg>
+</arguments>
+<kw name="Open Browser" library="ExtendedSelenium2Library">
+<doc>Opens a new browser instance to given URL.</doc>
+<arguments>
+<arg>${url}</arg>
+<arg>${BROWSER}</arg>
+</arguments>
+<msg timestamp="20170601 08:27:25.705" level="INFO">Opening browser 'Chrome' to base url 'localhost:6543/#!'</msg>
+<status status="PASS" endtime="20170601 08:27:37.983" starttime="20170601 08:27:25.703"></status>
+</kw>
+<status status="PASS" endtime="20170601 08:27:37.985" starttime="20170601 08:27:25.702"></status>
+</kw>
+<kw name="Login" library="resources">
+<arguments>
+<arg>mfmayol@up.edu.ph</arg>
+</arguments>
+<kw name="Input Text" library="ExtendedSelenium2Library">
+<doc>Types the given `text` into text field identified by `locator`.</doc>
+<arguments>
+<arg>model=login.email</arg>
+<arg>${email}</arg>
+</arguments>
+<msg timestamp="20170601 08:27:37.992" level="INFO">Typing text 'mfmayol@up.edu.ph' into text field 'model=login.email'</msg>
+<status status="PASS" endtime="20170601 08:27:38.503" starttime="20170601 08:27:37.991"></status>
+</kw>
+<kw name="Get Value From User" library="Dialogs">
+<doc>Pauses test execution and asks user to input a value.</doc>
+<arguments>
+<arg>Input password</arg>
+<arg>hidden=yes</arg>
+</arguments>
+<assign>
+<var>${password}</var>
+</assign>
+<msg timestamp="20170601 08:27:39.872" level="INFO">${password} = QjnIKPNc</msg>
+<status status="PASS" endtime="20170601 08:27:39.874" starttime="20170601 08:27:38.504"></status>
+</kw>
+<kw name="Input Text" library="ExtendedSelenium2Library">
+<doc>Types the given `text` into text field identified by `locator`.</doc>
+<arguments>
+<arg>model=login.password</arg>
+<arg>${password}</arg>
+</arguments>
+<msg timestamp="20170601 08:27:39.883" level="INFO">Typing text 'QjnIKPNc' into text field 'model=login.password'</msg>
+<status status="PASS" endtime="20170601 08:27:40.369" starttime="20170601 08:27:39.877"></status>
+</kw>
+<kw name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>name=login</arg>
+</arguments>
+<msg timestamp="20170601 08:27:40.371" level="INFO">Clicking element 'name=login'.</msg>
+<status status="PASS" endtime="20170601 08:27:44.594" starttime="20170601 08:27:40.370"></status>
+</kw>
+<status status="PASS" endtime="20170601 08:27:44.597" starttime="20170601 08:27:37.987"></status>
+</kw>
+<kw name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>id=application</arg>
+</arguments>
+<msg timestamp="20170601 08:27:44.604" level="INFO">Clicking element 'id=application'.</msg>
+<status status="PASS" endtime="20170601 08:27:45.362" starttime="20170601 08:27:44.601"></status>
+</kw>
+<kw name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>id=personal-information</arg>
+</arguments>
+<msg timestamp="20170601 08:27:45.365" level="INFO">Clicking element 'id=personal-information'.</msg>
+<status status="PASS" endtime="20170601 08:27:46.120" starttime="20170601 08:27:45.364"></status>
+</kw>
+<kw name="Input Text" library="ExtendedSelenium2Library">
+<doc>Types the given `text` into text field identified by `locator`.</doc>
+<arguments>
+<arg>name=lastname</arg>
+<arg>Mayol</arg>
+</arguments>
+<msg timestamp="20170601 08:27:46.123" level="INFO">Typing text 'Mayol' into text field 'name=lastname'</msg>
+<status status="PASS" endtime="20170601 08:27:46.554" starttime="20170601 08:27:46.121"></status>
+</kw>
+<kw name="Input Text" library="ExtendedSelenium2Library">
+<doc>Types the given `text` into text field identified by `locator`.</doc>
+<arguments>
+<arg>name=givenname</arg>
+<arg>Michael Pio</arg>
+</arguments>
+<msg timestamp="20170601 08:27:46.557" level="INFO">Typing text 'Michael Pio' into text field 'name=givenname'</msg>
+<status status="PASS" endtime="20170601 08:27:47.075" starttime="20170601 08:27:46.555"></status>
+</kw>
+<kw name="Input Text" library="ExtendedSelenium2Library">
+<doc>Types the given `text` into text field identified by `locator`.</doc>
+<arguments>
+<arg>name=middlename</arg>
+<arg>Fortuno</arg>
+</arguments>
+<msg timestamp="20170601 08:27:47.078" level="INFO">Typing text 'Fortuno' into text field 'name=middlename'</msg>
+<status status="PASS" endtime="20170601 08:27:47.462" starttime="20170601 08:27:47.076"></status>
+</kw>
+<kw name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>xpath=(//div[contains(concat(' ', @class, ' '), ' dropdown ')])[1]</arg>
+</arguments>
+<msg timestamp="20170601 08:27:47.465" level="INFO">Clicking element 'xpath=(//div[contains(concat(' ', @class, ' '), ' dropdown ')])[1]'.</msg>
+<status status="PASS" endtime="20170601 08:27:48.246" starttime="20170601 08:27:47.463"></status>
+</kw>
+<kw name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>xpath=(//div[text() = 'Male'])</arg>
+</arguments>
+<msg timestamp="20170601 08:27:48.251" level="INFO">Clicking element 'xpath=(//div[text() = 'Male'])'.</msg>
+<status status="PASS" endtime="20170601 08:27:49.077" starttime="20170601 08:27:48.249"></status>
+</kw>
+<kw name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>name=birthdate</arg>
+</arguments>
+<msg timestamp="20170601 08:27:49.082" level="INFO">Clicking element 'name=birthdate'.</msg>
+<status status="PASS" endtime="20170601 08:27:50.080" starttime="20170601 08:27:49.080"></status>
+</kw>
+<kw name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>xpath=(//span[text() = 'June 2017'])</arg>
+</arguments>
+<msg timestamp="20170601 08:27:50.083" level="INFO">Clicking element 'xpath=(//span[text() = 'June 2017'])'.</msg>
+<status status="PASS" endtime="20170601 08:27:50.863" starttime="20170601 08:27:50.082"></status>
+</kw>
+<kw name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>xpath=(//span[text() = '2017'])</arg>
+</arguments>
+<msg timestamp="20170601 08:27:50.866" level="INFO">Clicking element 'xpath=(//span[text() = '2017'])'.</msg>
+<status status="PASS" endtime="20170601 08:27:51.655" starttime="20170601 08:27:50.865"></status>
+</kw>
+<kw name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>xpath=(//span[contains(concat(' ', @class, ' '), ' prev ')])[1]</arg>
+</arguments>
+<msg timestamp="20170601 08:27:51.661" level="INFO">Clicking element 'xpath=(//span[contains(concat(' ', @class, ' '), ' prev ')])[1]'.</msg>
+<status status="PASS" endtime="20170601 08:27:52.435" starttime="20170601 08:27:51.658"></status>
+</kw>
+<kw name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>xpath=(//span[contains(concat(' ', @class, ' '), ' prev ')])[1]</arg>
+</arguments>
+<msg timestamp="20170601 08:27:52.441" level="INFO">Clicking element 'xpath=(//span[contains(concat(' ', @class, ' '), ' prev ')])[1]'.</msg>
+<status status="PASS" endtime="20170601 08:27:53.240" starttime="20170601 08:27:52.438"></status>
+</kw>
+<kw name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>xpath=(//td[text() = '1997'])</arg>
+</arguments>
+<msg timestamp="20170601 08:27:53.243" level="INFO">Clicking element 'xpath=(//td[text() = '1997'])'.</msg>
+<status status="PASS" endtime="20170601 08:27:54.033" starttime="20170601 08:27:53.242"></status>
+</kw>
+<kw name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>xpath=(//td[text() = 'May'])</arg>
+</arguments>
+<msg timestamp="20170601 08:27:54.040" level="INFO">Clicking element 'xpath=(//td[text() = 'May'])'.</msg>
+<status status="PASS" endtime="20170601 08:27:54.843" starttime="20170601 08:27:54.037"></status>
+</kw>
+<kw name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>xpath=(//td[text() = '22'])</arg>
+</arguments>
+<msg timestamp="20170601 08:27:54.846" level="INFO">Clicking element 'xpath=(//td[text() = '22'])'.</msg>
+<status status="PASS" endtime="20170601 08:27:55.675" starttime="20170601 08:27:54.845"></status>
+</kw>
+<kw name="Input Text" library="ExtendedSelenium2Library">
+<doc>Types the given `text` into text field identified by `locator`.</doc>
+<arguments>
+<arg>name=birthplace</arg>
+<arg>Cebu</arg>
+</arguments>
+<msg timestamp="20170601 08:27:55.682" level="INFO">Typing text 'Cebu' into text field 'name=birthplace'</msg>
+<status status="PASS" endtime="20170601 08:27:56.200" starttime="20170601 08:27:55.678"></status>
+</kw>
+<kw name="Input Text" library="ExtendedSelenium2Library">
+<doc>Types the given `text` into text field identified by `locator`.</doc>
+<arguments>
+<arg>name=civilstatus</arg>
+<arg>Single</arg>
+</arguments>
+<msg timestamp="20170601 08:27:56.203" level="INFO">Typing text 'Single' into text field 'name=civilstatus'</msg>
+<status status="PASS" endtime="20170601 08:27:56.565" starttime="20170601 08:27:56.202"></status>
+</kw>
+<kw name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>xpath=(//div[contains(concat(' ', @class, ' '), ' dropdown ')])[2]</arg>
+</arguments>
+<msg timestamp="20170601 08:27:56.568" level="INFO">Clicking element 'xpath=(//div[contains(concat(' ', @class, ' '), ' dropdown ')])[2]'.</msg>
+<status status="PASS" endtime="20170601 08:27:57.305" starttime="20170601 08:27:56.566"></status>
+</kw>
+<kw name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>xpath=(//div[contains(concat(' ', @class, ' '), ' item ') and text() = 'Philippines'])[1]</arg>
+</arguments>
+<msg timestamp="20170601 08:27:57.308" level="INFO">Clicking element 'xpath=(//div[contains(concat(' ', @class, ' '), ' item ') and text() = 'Philippines'])[1]'.</msg>
+<status status="PASS" endtime="20170601 08:27:58.062" starttime="20170601 08:27:57.306"></status>
+</kw>
+<kw name="Input Text" library="ExtendedSelenium2Library">
+<doc>Types the given `text` into text field identified by `locator`.</doc>
+<arguments>
+<arg>name=citizenship</arg>
+<arg>Filipino</arg>
+</arguments>
+<msg timestamp="20170601 08:27:58.067" level="INFO">Typing text 'Filipino' into text field 'name=citizenship'</msg>
+<status status="PASS" endtime="20170601 08:27:58.534" starttime="20170601 08:27:58.064"></status>
+</kw>
+<kw name="Input Text" library="ExtendedSelenium2Library">
+<doc>Types the given `text` into text field identified by `locator`.</doc>
+<arguments>
+<arg>xpath=(//textarea[contains(concat(' ', @title, ' '), ' currentaddress ')])[1]</arg>
+<arg>Visayas Avenue, VASRA, Quezon City</arg>
+</arguments>
+<msg timestamp="20170601 08:27:58.537" level="INFO">Typing text 'Visayas Avenue, VASRA, Quezon City' into text field 'xpath=(//textarea[contains(concat(' ', @title, ' '), ' currentaddress ')])[1]'</msg>
+<status status="PASS" endtime="20170601 08:27:59.389" starttime="20170601 08:27:58.535"></status>
+</kw>
+<kw name="Input Text" library="ExtendedSelenium2Library">
+<doc>Types the given `text` into text field identified by `locator`.</doc>
+<arguments>
+<arg>name=currentpostal</arg>
+<arg>1128</arg>
+</arguments>
+<msg timestamp="20170601 08:27:59.392" level="INFO">Typing text '1128' into text field 'name=currentpostal'</msg>
+<status status="PASS" endtime="20170601 08:27:59.739" starttime="20170601 08:27:59.391"></status>
+</kw>
+<kw name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>xpath=(//div[contains(concat(' ', @class, ' '), ' dropdown ')])[3]</arg>
+</arguments>
+<msg timestamp="20170601 08:27:59.742" level="INFO">Clicking element 'xpath=(//div[contains(concat(' ', @class, ' '), ' dropdown ')])[3]'.</msg>
+<status status="PASS" endtime="20170601 08:28:00.534" starttime="20170601 08:27:59.740"></status>
+</kw>
+<kw name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>xpath=(//div[contains(concat(' ', @class, ' '), ' item ') and text() = 'Philippines'])[2]</arg>
+</arguments>
+<msg timestamp="20170601 08:28:00.540" level="INFO">Clicking element 'xpath=(//div[contains(concat(' ', @class, ' '), ' item ') and text() = 'Philippines'])[2]'.</msg>
+<status status="PASS" endtime="20170601 08:28:01.346" starttime="20170601 08:28:00.537"></status>
+</kw>
+<kw name="Input Text" library="ExtendedSelenium2Library">
+<doc>Types the given `text` into text field identified by `locator`.</doc>
+<arguments>
+<arg>xpath=(//textarea[contains(concat(' ', @title, ' '), ' permanentaddress ')])[1]</arg>
+<arg>Visayas Avenue, VASRA, Quezon City</arg>
+</arguments>
+<msg timestamp="20170601 08:28:01.352" level="INFO">Typing text 'Visayas Avenue, VASRA, Quezon City' into text field 'xpath=(//textarea[contains(concat(' ', @title, ' '), ' permanentaddress ')])[1]'</msg>
+<status status="PASS" endtime="20170601 08:28:02.189" starttime="20170601 08:28:01.349"></status>
+</kw>
+<kw name="Input Text" library="ExtendedSelenium2Library">
+<doc>Types the given `text` into text field identified by `locator`.</doc>
+<arguments>
+<arg>name=permanentpostal</arg>
+<arg>1128</arg>
+</arguments>
+<msg timestamp="20170601 08:28:02.192" level="INFO">Typing text '1128' into text field 'name=permanentpostal'</msg>
+<status status="PASS" endtime="20170601 08:28:02.574" starttime="20170601 08:28:02.191"></status>
+</kw>
+<kw name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>xpath=(//div[contains(concat(' ', @class, ' '), ' dropdown ')])[4]</arg>
+</arguments>
+<msg timestamp="20170601 08:28:02.576" level="INFO">Clicking element 'xpath=(//div[contains(concat(' ', @class, ' '), ' dropdown ')])[4]'.</msg>
+<status status="PASS" endtime="20170601 08:28:03.366" starttime="20170601 08:28:02.575"></status>
+</kw>
+<kw name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>xpath=(//div[contains(concat(' ', @class, ' '), ' item ') and text() = 'Philippines'])[3]</arg>
+</arguments>
+<msg timestamp="20170601 08:28:03.372" level="INFO">Clicking element 'xpath=(//div[contains(concat(' ', @class, ' '), ' item ') and text() = 'Philippines'])[3]'.</msg>
+<status status="PASS" endtime="20170601 08:28:04.142" starttime="20170601 08:28:03.369"></status>
+</kw>
+<kw name="Input Text" library="ExtendedSelenium2Library">
+<doc>Types the given `text` into text field identified by `locator`.</doc>
+<arguments>
+<arg>name=telephonenumber</arg>
+<arg>9274122</arg>
+</arguments>
+<msg timestamp="20170601 08:28:04.149" level="INFO">Typing text '9274122' into text field 'name=telephonenumber'</msg>
+<status status="PASS" endtime="20170601 08:28:04.611" starttime="20170601 08:28:04.146"></status>
+</kw>
+<kw name="Input Text" library="ExtendedSelenium2Library">
+<doc>Types the given `text` into text field identified by `locator`.</doc>
+<arguments>
+<arg>name=faxnumber</arg>
+<arg>9274122</arg>
+</arguments>
+<msg timestamp="20170601 08:28:04.614" level="INFO">Typing text '9274122' into text field 'name=faxnumber'</msg>
+<status status="PASS" endtime="20170601 08:28:04.975" starttime="20170601 08:28:04.612"></status>
+</kw>
+<kw name="Input Text" library="ExtendedSelenium2Library">
+<doc>Types the given `text` into text field identified by `locator`.</doc>
+<arguments>
+<arg>name=emailaddress</arg>
+<arg>mfmayol@up.edu.ph</arg>
+</arguments>
+<msg timestamp="20170601 08:28:04.978" level="INFO">Typing text 'mfmayol@up.edu.ph' into text field 'name=emailaddress'</msg>
+<status status="PASS" endtime="20170601 08:28:05.520" starttime="20170601 08:28:04.976"></status>
+</kw>
+<kw name="Input Text" library="ExtendedSelenium2Library">
+<doc>Types the given `text` into text field identified by `locator`.</doc>
+<arguments>
+<arg>name=fathersname</arg>
+<arg>Bernabe Mayol</arg>
+</arguments>
+<msg timestamp="20170601 08:28:05.523" level="INFO">Typing text 'Bernabe Mayol' into text field 'name=fathersname'</msg>
+<status status="PASS" endtime="20170601 08:28:06.030" starttime="20170601 08:28:05.521"></status>
+</kw>
+<kw name="Input Text" library="ExtendedSelenium2Library">
+<doc>Types the given `text` into text field identified by `locator`.</doc>
+<arguments>
+<arg>name=mothersname</arg>
+<arg>Gia Maria Mayol</arg>
+</arguments>
+<msg timestamp="20170601 08:28:06.033" level="INFO">Typing text 'Gia Maria Mayol' into text field 'name=mothersname'</msg>
+<status status="PASS" endtime="20170601 08:28:06.543" starttime="20170601 08:28:06.032"></status>
+</kw>
+<kw name="Input Text" library="ExtendedSelenium2Library">
+<doc>Types the given `text` into text field identified by `locator`.</doc>
+<arguments>
+<arg>name=emergencyname</arg>
+<arg>Gia Maria Mayol</arg>
+</arguments>
+<msg timestamp="20170601 08:28:06.546" level="INFO">Typing text 'Gia Maria Mayol' into text field 'name=emergencyname'</msg>
+<status status="PASS" endtime="20170601 08:28:07.042" starttime="20170601 08:28:06.545"></status>
+</kw>
+<kw name="Input Text" library="ExtendedSelenium2Library">
+<doc>Types the given `text` into text field identified by `locator`.</doc>
+<arguments>
+<arg>xpath=(//textarea[contains(concat(' ', @title, ' '), ' emergencyaddress ')])[1]</arg>
+<arg>Visayas Avenue, VASRA, Quezon City</arg>
+</arguments>
+<msg timestamp="20170601 08:28:07.044" level="INFO">Typing text 'Visayas Avenue, VASRA, Quezon City' into text field 'xpath=(//textarea[contains(concat(' ', @title, ' '), ' emergencyaddress ')])[1]'</msg>
+<status status="PASS" endtime="20170601 08:28:07.889" starttime="20170601 08:28:07.043"></status>
+</kw>
+<kw name="Input Text" library="ExtendedSelenium2Library">
+<doc>Types the given `text` into text field identified by `locator`.</doc>
+<arguments>
+<arg>name=emergencyrelationship</arg>
+<arg>Mother</arg>
+</arguments>
+<msg timestamp="20170601 08:28:07.892" level="INFO">Typing text 'Mother' into text field 'name=emergencyrelationship'</msg>
+<status status="PASS" endtime="20170601 08:28:08.243" starttime="20170601 08:28:07.890"></status>
+</kw>
+<kw name="Input Text" library="ExtendedSelenium2Library">
+<doc>Types the given `text` into text field identified by `locator`.</doc>
+<arguments>
+<arg>name=emergencynumber</arg>
+<arg>9274122</arg>
+</arguments>
+<msg timestamp="20170601 08:28:08.245" level="INFO">Typing text '9274122' into text field 'name=emergencynumber'</msg>
+<status status="PASS" endtime="20170601 08:28:08.608" starttime="20170601 08:28:08.244"></status>
+</kw>
+<kw name="Click Element" library="ExtendedSelenium2Library">
+<doc>Clicks an element identified by ``locator``.</doc>
+<arguments>
+<arg>xpath=(//button)[1]</arg>
+</arguments>
+<msg timestamp="20170601 08:28:08.610" level="INFO">Clicking element 'xpath=(//button)[1]'.</msg>
+<status status="PASS" endtime="20170601 08:28:12.264" starttime="20170601 08:28:08.609"></status>
+</kw>
+<kw name="Sleep" library="BuiltIn">
+<doc>Pauses the test executed for the given time.</doc>
+<arguments>
+<arg>10</arg>
+</arguments>
+<msg timestamp="20170601 08:28:22.266" level="INFO">Slept 10 seconds</msg>
+<status status="PASS" endtime="20170601 08:28:22.268" starttime="20170601 08:28:12.265"></status>
+</kw>
+<kw name="Location Should Be" library="ExtendedSelenium2Library">
+<doc>Verifies that current URL is exactly `url`.</doc>
+<arguments>
+<arg>http://${HOST}/application</arg>
+</arguments>
+<msg timestamp="20170601 08:28:22.844" level="INFO">Current location is 'http://localhost:6543/#!/application'.</msg>
+<status status="PASS" endtime="20170601 08:28:22.845" starttime="20170601 08:28:22.270"></status>
+</kw>
+<kw name="Get Text" library="ExtendedSelenium2Library">
+<doc>Returns the text value of element identified by `locator`.</doc>
+<arguments>
+<arg>id=personal-information-text</arg>
+</arguments>
+<assign>
+<var>${result}</var>
+</assign>
+<msg timestamp="20170601 08:28:22.959" level="INFO">${result} = Answered</msg>
+<status status="PASS" endtime="20170601 08:28:22.960" starttime="20170601 08:28:22.847"></status>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<arguments>
+<arg>${result}</arg>
+<arg>Answered</arg>
+</arguments>
+<status status="PASS" endtime="20170601 08:28:22.964" starttime="20170601 08:28:22.962"></status>
+</kw>
+<kw name="Sleep" library="BuiltIn">
+<doc>Pauses the test executed for the given time.</doc>
+<arguments>
+<arg>10</arg>
+</arguments>
+<msg timestamp="20170601 08:28:32.966" level="INFO">Slept 10 seconds</msg>
+<status status="PASS" endtime="20170601 08:28:32.968" starttime="20170601 08:28:22.965"></status>
+</kw>
+<kw type="teardown" name="Close Browser" library="ExtendedSelenium2Library">
+<doc>Closes the current browser.</doc>
+<status status="PASS" endtime="20170601 08:28:36.307" starttime="20170601 08:28:32.971"></status>
+</kw>
+<status status="PASS" endtime="20170601 08:28:36.309" critical="yes" starttime="20170601 08:27:25.700"></status>
+</test>
+<status status="PASS" endtime="20170601 08:28:36.315" starttime="20170601 08:27:25.352"></status>
+</suite>
+<statistics>
+<total>
+<stat fail="0" pass="1">Critical Tests</stat>
+<stat fail="0" pass="1">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat fail="0" id="s1" name="NGSE" pass="1">NGSE</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>

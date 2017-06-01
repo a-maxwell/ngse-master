@@ -1,0 +1,15 @@
+command: pybot.bat --argumentfile c:\users\bmico\appdata\local\temp\RIDEnjiqht.d\argfile.txt --listener C:\Python27\lib\site-packages\robotide\contrib\testrunner\TestRunnerAgent.py:64036:False C:\dev\NGSE\robot\NGSE.robot
+===========================================================================================
+NGSE                                                                                       
+===========================================================================================
+Fill Up Application Form                                                           | PASS |
+-------------------------------------------------------------------------------------------
+NGSE                                                                               | PASS |
+1 critical test, 1 passed, 0 failed
+1 test total, 1 passed, 0 failed
+===========================================================================================
+Output:  c:\users\bmico\appdata\local\temp\RIDEnjiqht.d\output.xml
+Log:     c:\users\bmico\appdata\local\temp\RIDEnjiqht.d\log.html
+Report:  c:\users\bmico\appdata\local\temp\RIDEnjiqht.d\report.html
+
+test finished 20170601 08:28:38

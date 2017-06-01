@@ -49,16 +49,66 @@ Valid Login
     bmicons360@gmail.com
     [Teardown]    Close Browser
 
-Answer Program of Study
-    [Setup]    Setup
-    [Template]    Fill up Program of Study with valid info should pass
-    mfmayol@up.edu.ph    Master of Science    CE    Non Thesis    Full Time    First Semester    2017-2018
-    ...    Yes    Elif Scholarship
-    bmicons360@gmail.com    Doctor of Philosophy    ChE    Non Thesis    Part Time    Second Semester    2018-2019
-    ...    Yes    Else Scholarship
+Answer Program of Study Non-Thesis Other Scholarship
+    [Setup]    Setup    ${HOST}
+    [Template]    Fill up Program of Study Non-Thesis Other Scholarship
+    mfmayol@up.edu.ph    Master of Science    MSE    Non Thesis    Full Time    First Semester    2017-2018
+    ...    Yes    Other Scholarship
     [Teardown]    Close Browser
 
-Check Program of Study
+Answer Program of Study Thesis ERDT
+    [Setup]    Setup    ${HOST}
+    [Template]    Fill up Program of Study Thesis ERDT
+    bmicons360@gmail.com    Doctor of Philosophy    CE    Thesis    Part Time    Water Resources    Geotechnical
+    ...    Transportation    Second Semester    2018-2019    No
+    [Teardown]    Close Browser
+
+Fill Up Application Form
+    [Setup]    Setup    ${HOST}
+    Login    mfmayol@up.edu.ph
+    Click Element    id=application
+    Click Element    id=personal-information
+    Input Text    name=lastname    Mayol
+    Input Text    name=givenname    Michael Pio
+    Input Text    name=middlename    Fortuno
+    Click Element    xpath=(//div[contains(concat(' ', @class, ' '), ' dropdown ')])[1]
+    Click Element    xpath=(//div[text() = 'Male'])
+    Click Element    name=birthdate
+    Click Element    xpath=(//span[text() = 'June 2017'])
+    Click Element    xpath=(//span[text() = '2017'])
+    Click Element    xpath=(//span[contains(concat(' ', @class, ' '), ' prev ')])[1]
+    Click Element    xpath=(//span[contains(concat(' ', @class, ' '), ' prev ')])[1]
+    Click Element    xpath=(//td[text() = '1997'])
+    Click Element    xpath=(//td[text() = 'May'])
+    Click Element    xpath=(//td[text() = '22'])
+    Input Text    name=birthplace    Cebu
+    Input Text    name=civilstatus    Single
+    Click Element    xpath=(//div[contains(concat(' ', @class, ' '), ' dropdown ')])[2]
+    Click Element    xpath=(//div[contains(concat(' ', @class, ' '), ' item ') and text() = 'Philippines'])[1]
+    Input Text    name=citizenship    Filipino
+    Input Text    xpath=(//textarea[contains(concat(' ', @title, ' '), ' currentaddress ')])[1]    Visayas Avenue, VASRA, Quezon City
+    Input Text    name=currentpostal    1128
+    Click Element    xpath=(//div[contains(concat(' ', @class, ' '), ' dropdown ')])[3]
+    Click Element    xpath=(//div[contains(concat(' ', @class, ' '), ' item ') and text() = 'Philippines'])[2]
+    Input Text    xpath=(//textarea[contains(concat(' ', @title, ' '), ' permanentaddress ')])[1]    Visayas Avenue, VASRA, Quezon City
+    Input Text    name=permanentpostal    1128
+    Click Element    xpath=(//div[contains(concat(' ', @class, ' '), ' dropdown ')])[4]
+    Click Element    xpath=(//div[contains(concat(' ', @class, ' '), ' item ') and text() = 'Philippines'])[3]
+    Input Text    name=telephonenumber    9274122
+    Input Text    name=faxnumber    9274122
+    Input Text    name=emailaddress    mfmayol@up.edu.ph
+    Input Text    name=fathersname    Bernabe Mayol
+    Input Text    name=mothersname    Gia Maria Mayol
+    Input Text    name=emergencyname    Gia Maria Mayol
+    Input Text    xpath=(//textarea[contains(concat(' ', @title, ' '), ' emergencyaddress ')])[1]    Visayas Avenue, VASRA, Quezon City
+    Input Text    name=emergencyrelationship    Mother
+    Input Text    name=emergencynumber    9274122
+    Click Element    xpath=(//button)[1]
+    Sleep    2
+    Location Should Be    http://${HOST}/application
+    ${result} =    Get Text    id=personal-information-text
+    Should Be Equal As Strings    ${result}    Answered
+    [Teardown]    Close Browser
 
 *** Keywords ***
 Login with invalid credentials should fail
@@ -96,22 +146,54 @@ Login and go to Program of Study
     Click Element    id=application
     Click Element    id=program-of-study
 
-Fill up Program of Study with valid info should pass
+Fill up Program of Study Non-Thesis Other Scholarship
     [Arguments]    ${email}    ${1}    ${2}    ${3}    ${4}    ${5}
     ...    ${6}    ${7}    ${8}
     Login and go to Program of Study    ${email}
-    Click Element    xpath=(//div[contains(@class, 'button') and text() = '${1}'])
-    Click Element    xpath=(//div[contains(@class, 'button') and text() = '${2}'])
-    Click Element    xpath=(//div[contains(@class, 'button') and text() = '${3}'])
-    Click Element    xpath=(//div[contains(@class, 'button') and text() = '${4}'])
-    Click Element    xpath=(//div[contains(@class, 'button') and text() = '${5}'])
+    Sleep    5
+    Click Element    xpath=(//div[text() = '${1}'])
+    Click Element    xpath=(//div[text() = '${2}'])
+    Click Element    xpath=(//div[text() = '${3}'])
+    Click Element    xpath=(//div[text() = '${4}'])
+    Click Element    xpath=(//div[text() = '${5}'])
     Input Text    name=year    ${6}
-    Click Element    xpath=(//div[contains(@class, 'button') and text() = '${7}'])
-    Input Text    model=user.other_scholarship_name    ${8}
+    Click Element    xpath=(//div[text() = '${7}'])
+    Input Text    name=scholarship_name    ${8}
     Click Element    id=submit
     Location Should Be    http://${HOST}/application
     ${result} =    Get Text    id=program-of-study-text
-    Should Be Equal As String    ${result}    Answered
+    Should Be Equal As Strings    ${result}    Answered
+    Click Element    id=logout
+
+Fill up Program of Study Thesis ERDT
+    [Arguments]    ${email}    ${1}    ${2}    ${3}    ${4}    ${5}
+    ...    ${6}    ${7}    ${8}    ${9}    ${10}
+    Login and go to Program of Study    ${email}
+    Sleep    5
+    Click Element    xpath=(//div[text() = '${1}'])
+    Click Element    xpath=(//div[text() = '${2}'])
+    Click Element    xpath=(//div[text() = '${3}'])
+    Click Element    xpath=(//div[text() = '${4}'])
+    Sleep    0.5
+    Click Element    xpath=(//div[text() = '1st Choice'])
+    Sleep    0.5
+    Click Element    xpath=(//div[text() = '${5}'])[1]
+    Sleep    0.5
+    Click Element    xpath=(//div[text() = '2nd Choice'])
+    Sleep    0.5
+    Click Element    xpath=(//div[text() = '${6}'])[2]
+    Sleep    0.5
+    Click Element    xpath=(//div[text() = '3rd Choice'])
+    Sleep    0.5
+    Click Element    xpath=(//div[text() = '${7}'])[3]
+    Click Element    xpath=(//div[text() = '${8}'])
+    Input Text    name=year    ${9}
+    Click Element    xpath=(//div[text() = '${10}'])
+    Click Element    id=submit
+    Location Should Be    http://${HOST}/application
+    ${result} =    Get Text    id=program-of-study-text
+    Should Be Equal As Strings    ${result}    Answered
+    Click Element    id=logout
 
 Check GMail Account for confirmation E-mail
     [Arguments]    ${email}

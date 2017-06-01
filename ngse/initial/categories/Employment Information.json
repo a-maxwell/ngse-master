@@ -27,7 +27,7 @@
 		"klass": "question",
 		"kind": "text",
 		"width": 8,
-		"required": true
+		"required": false
 	},
 	{
 		"name": "curremployedlengthofservice",
@@ -35,7 +35,7 @@
 		"klass": "question",
 		"kind": "text",
 		"width": 8,
-		"required": true
+		"required": false
 	},
 	{
 		"name": "curremployedcompanyname",
@@ -43,7 +43,7 @@
 		"klass": "question",
 		"kind": "text",
 		"width": 8,
-		"required": true
+		"required": false
 	},
 	{
 		"name": "curremployedcompanytelenum",
@@ -51,7 +51,7 @@
 		"klass": "question",
 		"kind": "text",
 		"width": 8,
-		"required": true
+		"required": false
 	},
 	{
 		"name": "curremployedofficeaddr",
@@ -59,7 +59,7 @@
 		"klass": "question",
 		"kind": "text",
 		"width": 8,
-		"required": true
+		"required": false
 	},
 	{
 		"name": "curremployedfaxnum",
@@ -67,7 +67,7 @@
 		"klass": "question",
 		"kind": "text",
 		"width": 8,
-		"required": true
+		"required": false
 	},
 	{
 		"name": "curremployedcompanyemail",
@@ -75,7 +75,7 @@
 		"klass": "question",
 		"kind": "text",
 		"width": 8,
-		"required": true
+		"required": false
 	},
 	{
 		"name": "curremployedcompanywebsite",
@@ -83,7 +83,7 @@
 		"klass": "question",
 		"kind": "text",
 		"width": 8,
-		"required": true
+		"required": false
 	},
 	{
 		"name": "rule-2",
@@ -105,7 +105,7 @@
 		"klass": "question",
 		"kind": "text",
 		"width": 16,
-		"required": true
+		"required": false
 	},
 	{
 		"name": "selfemployedbusinessaddress",
@@ -113,7 +113,7 @@
 		"klass": "question",
 		"kind": "text",
 		"width": 16,
-		"required": true
+		"required": false
 	},
 	{
 		"name": "selfemployedbusinessemail",
@@ -121,7 +121,7 @@
 		"klass": "question",
 		"kind": "text",
 		"width": 8,
-		"required": true
+		"required": false
 	},
 	{
 		"name": "selfemployedbusinesswebsite",
@@ -129,7 +129,7 @@
 		"klass": "question",
 		"kind": "text",
 		"width": 8,
-		"required": true
+		"required": false
 	},
 	{
 		"name": "selfemployedbusinesstype",
@@ -137,7 +137,7 @@
 		"klass": "question",
 		"kind": "text",
 		"width": 8,
-		"required": true
+		"required": false
 	},
 	{
 		"name": "selfemployedyearsofoper",
@@ -145,7 +145,7 @@
 		"klass": "question",
 		"kind": "text",
 		"width": 8,
-		"required": true
+		"required": false
 	},
 	{
 		"name": "selfemployedbusinesstelnum",
@@ -153,7 +153,7 @@
 		"klass": "question",
 		"kind": "text",
 		"width": 16,
-		"required": true
+		"required": false
 	},
 	{
 		"name": "rule-3",
@@ -175,7 +175,7 @@
 		"klass": "question",
 		"kind": "text",
 		"width": 2,
-		"required": true
+		"required": false
 	},
 	{
 		"name": "employmenthistoryperiodto1",
@@ -183,7 +183,7 @@
 		"klass": "question",
 		"kind": "text",
 		"width": 2,
-		"required": true
+		"required": false
 	},
 	{
 		"name": "employmenthistoryfullorparttime1",
@@ -191,7 +191,7 @@
 		"klass": "question",
 		"kind": "text",
 		"width": 2,
-		"required": true
+		"required": false
 	},
 	{
 		"name": "employmenthistorynameofemployer1",
@@ -199,7 +199,7 @@
 		"klass": "question",
 		"kind": "text",
 		"width": 5,
-		"required": true
+		"required": false
 	},
 	{
 		"name": "employmenthistorytitleorposition1",
@@ -207,7 +207,7 @@
 		"klass": "question",
 		"kind": "text",
 		"width": 5,
-		"required": true
+		"required": false
 	},
 	{
 		"name": "employmenthistoryperiodfrom2",
@@ -215,7 +215,7 @@
 		"klass": "question",
 		"kind": "text",
 		"width": 2,
-		"required": true
+		"required": false
 	},
 	{
 		"name": "employmenthistoryperiodto2",
@@ -223,7 +223,7 @@
 		"klass": "question",
 		"kind": "text",
 		"width": 2,
-		"required": true
+		"required": false
 	},
 	{
 		"name": "employmenthistoryfullorparttime2",
@@ -231,7 +231,7 @@
 		"klass": "question",
 		"kind": "text",
 		"width": 2,
-		"required": true
+		"required": false
 	},
 	{
 		"name": "employmenthistorynameofemployer2",
@@ -239,7 +239,7 @@
 		"klass": "question",
 		"kind": "text",
 		"width": 5,
-		"required": true
+		"required": false
 	},
 	{
 		"name": "employmenthistorytitleorposition2",
@@ -247,7 +247,7 @@
 		"klass": "question",
 		"kind": "text",
 		"width": 5,
-		"required": true
+		"required": false
 	},
 	{
 		"name": "employmenthistoryperiodfrom3",
@@ -255,7 +255,7 @@
 		"klass": "question",
 		"kind": "text",
 		"width": 2,
-		"required": true
+		"required": false
 	},
 	{
 		"name": "employmenthistoryperiodto3",
@@ -263,7 +263,7 @@
 		"klass": "question",
 		"kind": "text",
 		"width": 2,
-		"required": true
+		"required": false
 	},
 	{
 		"name": "employmenthistoryfullorparttime3",
@@ -271,7 +271,7 @@
 		"klass": "question",
 		"kind": "text",
 		"width": 2,
-		"required": true
+		"required": false
 	},
 	{
 		"name": "employmenthistorynameofemployer3",
@@ -279,7 +279,7 @@
 		"klass": "question",
 		"kind": "text",
 		"width": 5,
-		"required": true
+		"required": false
 	},
 	{
 		"name": "employmenthistorytitleorposition3",
@@ -287,7 +287,7 @@
 		"klass": "question",
 		"kind": "text",
 		"width": 5,
-		"required": true
+		"required": false
 	},
 	{
 		"name": "employmenthistoryperiodfrom4",
@@ -295,7 +295,7 @@
 		"klass": "question",
 		"kind": "text",
 		"width": 2,
-		"required": true
+		"required": false
 	},
 	{
 		"name": "employmenthistoryperiodto4",
@@ -303,7 +303,7 @@
 		"klass": "question",
 		"kind": "text",
 		"width": 2,
-		"required": true
+		"required": false
 	},
 	{
 		"name": "employmenthistoryfullorparttime4",
@@ -311,7 +311,7 @@
 		"klass": "question",
 		"kind": "text",
 		"width": 2,
-		"required": true
+		"required": false
 	},
 	{
 		"name": "employmenthistorynameofemployer4",
@@ -319,7 +319,7 @@
 		"klass": "question",
 		"kind": "text",
 		"width": 5,
-		"required": true
+		"required": false
 	},
 	{
 		"name": "employmenthistorytitleorposition4",
@@ -327,7 +327,7 @@
 		"klass": "question",
 		"kind": "text",
 		"width": 5,
-		"required": true
+		"required": false
 	},
 	{
 		"name": "employmenthistoryperiodfrom5",
@@ -335,7 +335,7 @@
 		"klass": "question",
 		"kind": "text",
 		"width": 2,
-		"required": true
+		"required": false
 	},
 	{
 		"name": "employmenthistoryperiodto5",
@@ -343,7 +343,7 @@
 		"klass": "question",
 		"kind": "text",
 		"width": 2,
-		"required": true
+		"required": false
 	},
 	{
 		"name": "employmenthistoryfullorparttime5",
@@ -351,7 +351,7 @@
 		"klass": "question",
 		"kind": "text",
 		"width": 2,
-		"required": true
+		"required": false
 	},
 	{
 		"name": "employmenthistorynameofemployer5",
@@ -359,7 +359,7 @@
 		"klass": "question",
 		"kind": "text",
 		"width": 5,
-		"required": true
+		"required": false
 	},
 	{
 		"name": "employmenthistorytitleorposition5",
@@ -367,7 +367,7 @@
 		"klass": "question",
 		"kind": "text",
 		"width": 5,
-		"required": true
+		"required": false
 	}
 	
 ]
